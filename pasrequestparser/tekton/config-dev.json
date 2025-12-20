@@ -1,0 +1,14 @@
+{
+  "app_code": "pagw",
+  "service_name": "pasrequestparser",
+  "type": "docker",
+  "app_name": "priorauthgateway",
+  "image": "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pasrequestparser",
+  "dockerfile": "pasrequestparser/Dockerfile",
+  "context": "pasrequestparser",
+  "argoapp_name": "pasrequestparser-dev",
+  "wiz_scan": "true",
+  "sonar_project": "ncr_aedleks_pagw_pasrequestparser",
+  "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+  "repo_name": "ncr_aedleks_pagw_deploy"
+}

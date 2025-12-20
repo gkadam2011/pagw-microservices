@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pasorchestrator
+  datasource:
+    url: jdbc:postgresql://${PAGW_AURORA_ENDPOINT:localhost}:5432/${PAGW_AURORA_DATABASE:pagw}
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+pagw:
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    secrets:
+      aurora-arn: ${PAGW_AURORA_SECRET_ARN:}
+  s3:
+    bucket: ${PAGW_S3_BUCKET:pagw-dev-bucket}
+  queues:
+    request-parser: ${PAGW_QUEUE_REQUEST_PARSER:pagw-queue-request-parser}
+
+logging:
+  level:
+    com.anthem.pagw: DEBUG
+    root: INFO

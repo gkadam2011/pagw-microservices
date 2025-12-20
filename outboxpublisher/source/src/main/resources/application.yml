@@ -1,0 +1,29 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: outboxpublisher
+  datasource:
+    url: jdbc:postgresql://${PAGW_AURORA_ENDPOINT:localhost}:5432/${PAGW_AURORA_DATABASE:pagw}
+    driver-class-name: org.postgresql.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+pagw:
+  outbox:
+    poll-interval-ms: ${OUTBOX_POLL_INTERVAL_MS:10000}
+    batch-size: ${OUTBOX_BATCH_SIZE:50}
+    max-retries: ${OUTBOX_MAX_RETRIES:5}
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    secrets:
+      aurora-arn: ${PAGW_AURORA_SECRET_ARN:}
+
+logging:
+  level:
+    com.anthem.pagw: DEBUG

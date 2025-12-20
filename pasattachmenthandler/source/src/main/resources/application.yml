@@ -1,0 +1,10 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: pasattachmenthandler
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

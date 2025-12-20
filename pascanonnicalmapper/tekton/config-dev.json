@@ -1,0 +1,14 @@
+{
+  "app_code": "pagw",
+  "service_name": "pascanonnicalmapper",
+  "type": "docker",
+  "app_name": "priorauthgateway",
+  "image": "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pascanonnicalmapper",
+  "dockerfile": "pascanonnicalmapper/Dockerfile",
+  "context": "pascanonnicalmapper",
+  "argoapp_name": "pascanonnicalmapper-dev",
+  "wiz_scan": "true",
+  "sonar_project": "ncr_aedleks_pagw_pascanonnicalmapper",
+  "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+  "repo_name": "ncr_aedleks_pagw_deploy"
+}

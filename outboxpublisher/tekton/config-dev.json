@@ -1,0 +1,14 @@
+{
+  "app_code": "pagw",
+  "service_name": "outboxpublisher",
+  "type": "docker",
+  "app_name": "priorauthgateway",
+  "image": "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-outboxpublisher",
+  "dockerfile": "outboxpublisher/Dockerfile",
+  "context": "outboxpublisher",
+  "argoapp_name": "outboxpublisher-dev",
+  "wiz_scan": "true",
+  "sonar_project": "ncr_aedleks_pagw_outboxpublisher",
+  "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+  "repo_name": "ncr_aedleks_pagw_deploy"
+}
