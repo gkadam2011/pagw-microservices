@@ -1,0 +1,15 @@
+{
+  "service_name": "pasbusinessvalidator",
+  "type": "docker",
+  "app_name": "priorauthgateway",
+  "image": "quay.elevancehealth.com/pagw/crln-shared-prod-img-pasbusinessvalidator",
+  "dockerfile": "pasbusinessvalidator/Dockerfile",
+  "context": "pasbusinessvalidator",
+  "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+  "repo_name": "ncr_aedleks_pagw_deploy",
+  "build_args": {
+    "JAVA_VERSION": "17",
+    "SPRING_BOOT_VERSION": "3.3.0",
+    "BASE_REGISTRY": "quay.elevancehealth.com/multiarchitecture-golden-base-images"
+  }
+}

@@ -5,8 +5,14 @@ spring:
   application:
     name: outboxpublisher
   datasource:
-    url: jdbc:postgresql://${PAGW_AURORA_ENDPOINT:localhost}:5432/${PAGW_AURORA_DATABASE:pagw}
+    # Aligned with Helm template: PAGW_AURORA_WRITER_ENDPOINT, PAGW_AURORA_PORT, PAGW_AURORA_DATABASE
+    url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT:localhost}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagw}?currentSchema=pagw
+    username: ${PAGW_AURORA_USERNAME:}
+    password: ${PAGW_AURORA_PASSWORD:}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${PAGW_AURORA_MAX_POOL_SIZE:10}
+      minimum-idle: ${PAGW_AURORA_MIN_IDLE:2}
 
 management:
   endpoints:
@@ -14,15 +20,34 @@ management:
       exposure:
         include: health,info,metrics
 
+# PAGW Configuration - aligned with Helm deployment templates
 pagw:
+  application-id: ${PAGW_APPLICATION_ID:outboxpublisher}
   outbox:
     poll-interval-ms: ${OUTBOX_POLL_INTERVAL_MS:10000}
     batch-size: ${OUTBOX_BATCH_SIZE:50}
     max-retries: ${OUTBOX_MAX_RETRIES:5}
   aws:
     region: ${AWS_REGION:us-east-1}
+    endpoint: ${PAGW_AWS_ENDPOINT:http://localhost:4566}
+    account-id: ${AWS_ACCOUNT_ID:}
+    aurora:
+      writer-endpoint: ${PAGW_AURORA_WRITER_ENDPOINT:localhost}
+      reader-endpoint: ${PAGW_AURORA_READER_ENDPOINT:}
+      database: ${PAGW_AURORA_DATABASE:pagw}
+      port: ${PAGW_AURORA_PORT:5432}
+      secret-arn: ${PAGW_AURORA_SECRET_ARN:}
+    sqs:
+      enabled: true
+      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
+      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      dlq: ${PAGW_SQS_DLQ:}
+    elasticache:
+      endpoint: ${PAGW_ELASTICACHE_ENDPOINT:}
+      port: ${PAGW_ELASTICACHE_PORT:6379}
+      ssl-enabled: ${PAGW_ELASTICACHE_SSL_ENABLED:true}
     secrets:
-      aurora-arn: ${PAGW_AURORA_SECRET_ARN:}
+      aurora-secret-arn: ${PAGW_AURORA_SECRET_ARN:}
 
 logging:
   level:

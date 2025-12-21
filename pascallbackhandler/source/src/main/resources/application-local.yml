@@ -1,0 +1,72 @@
+# PAGW Callback Handler - Local Development Configuration
+spring:
+  application:
+    name: pascallbackhandler
+  profiles:
+    active: local
+
+  datasource:
+    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
+    username: ${PAGW_DATABASE_USERNAME:pagw}
+    password: ${PAGW_DATABASE_PASSWORD:pagw123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+server:
+  port: 8088
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+pagw:
+  service:
+    name: pascallbackhandler
+    version: 1.0.0
+
+  database:
+    host: ${PAGW_DATABASE_HOST:localhost}
+    port: ${PAGW_DATABASE_PORT:5432}
+    name: ${PAGW_DATABASE_NAME:pagw}
+    schema: pagw
+
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+
+  storage:
+    bucket: ${PAGW_STORAGE_BUCKET:pagw-storage-local}
+
+  queues:
+    dlq: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-dlq
+
+  callback:
+    retry:
+      max-attempts: 5
+      initial-interval-ms: 1000
+      multiplier: 2.0
+      max-interval-ms: 60000
+    
+    webhook:
+      enabled: true
+      default-timeout-seconds: 30
+      signature-algorithm: HMAC-SHA256
+      
+    async-notification:
+      enabled: true
+      include-full-response: false
+
+logging:
+  level:
+    root: INFO
+    com.anthem.pagw: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] [%X{correlationId}] [%X{pagwId}] %-5level %logger{36} - %msg%n"

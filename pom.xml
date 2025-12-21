@@ -19,27 +19,32 @@
         <module>pasbusinessvalidator/source</module>
         <module>pasrequestenricher/source</module>
         <module>pasattachmenthandler/source</module>
-        <module>pascanonnicalmapper/source</module>
-        <module>pasapiorchestrator/source</module>
+        <module>pasrequestconverter/source</module>
+        <module>pasapiconnector/source</module>
         <module>pasresponsebuilder/source</module>
         <module>pascallbackhandler/source</module>
         <module>outboxpublisher/source</module>
+        <module>pasproviderauth/source</module>
     </modules>
 
     <properties>
+        <!-- ================================================================
+             Version Properties - Override via: mvn -Djava.version=21 -Dspring-boot.version=3.4.0
+             These can be set in CI/CD pipeline as environment variables
+             ================================================================ -->
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         
-        <!-- Spring Boot -->
+        <!-- Spring Boot - Override: mvn -Dspring-boot.version=3.4.0 -->
         <spring-boot.version>3.3.0</spring-boot.version>
         
-        <!-- AWS SDK -->
+        <!-- AWS SDK - Override: mvn -Daws-sdk.version=2.26.0 -->
         <aws-sdk.version>2.25.0</aws-sdk.version>
         
-        <!-- PAGW Core - pulled from JFrog -->
+        <!-- PAGW Core - pulled from JFrog. Override: mvn -Dpagwcore.version=1.0.1 -->
         <pagwcore.version>1.0.0-SNAPSHOT</pagwcore.version>
         
         <!-- Testing -->

@@ -1,0 +1,397 @@
+{
+  "resourceType": "Bundle",
+  "id": "PASRequestBundle-Professional-01",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-pas-request-bundle"
+    ]
+  },
+  "identifier": {
+    "system": "https://pagw.anthem.com/fhir/Bundle",
+    "value": "PAGW-TEST-001"
+  },
+  "type": "collection",
+  "timestamp": "2025-12-20T10:00:00-05:00",
+  "entry": [
+    {
+      "fullUrl": "http://example.org/fhir/Claim/PASClaim001",
+      "resource": {
+        "resourceType": "Claim",
+        "id": "PASClaim001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-claim"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://pagw.anthem.com/fhir/Claim",
+            "value": "CLM-2025-001"
+          }
+        ],
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+              "code": "professional",
+              "display": "Professional"
+            }
+          ]
+        },
+        "use": "preauthorization",
+        "patient": {
+          "reference": "Patient/Patient001"
+        },
+        "created": "2025-12-20",
+        "insurer": {
+          "reference": "Organization/Insurer001"
+        },
+        "provider": {
+          "reference": "Organization/Provider001"
+        },
+        "priority": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/processpriority",
+              "code": "normal"
+            }
+          ]
+        },
+        "insurance": [
+          {
+            "sequence": 1,
+            "focal": true,
+            "coverage": {
+              "reference": "Coverage/Coverage001"
+            }
+          }
+        ],
+        "item": [
+          {
+            "sequence": 1,
+            "productOrService": {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "27447",
+                  "display": "Total Knee Arthroplasty"
+                }
+              ]
+            },
+            "servicedDate": "2026-01-15",
+            "locationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set",
+                  "code": "22",
+                  "display": "On Campus-Outpatient Hospital"
+                }
+              ]
+            },
+            "quantity": {
+              "value": 1
+            },
+            "unitPrice": {
+              "value": 35000.00,
+              "currency": "USD"
+            },
+            "net": {
+              "value": 35000.00,
+              "currency": "USD"
+            }
+          }
+        ],
+        "diagnosis": [
+          {
+            "sequence": 1,
+            "diagnosisCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                  "code": "M17.11",
+                  "display": "Primary osteoarthritis, right knee"
+                }
+              ]
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+                    "code": "principal"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "supportingInfo": [
+          {
+            "sequence": 1,
+            "category": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-pas/CodeSystem/PASSupportingInfoType",
+                  "code": "patientEvent",
+                  "display": "Patient Event"
+                }
+              ]
+            },
+            "timingDate": "2025-12-01"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-serviceType",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://codesystem.x12.org/005010/1365",
+                  "code": "2",
+                  "display": "Surgical"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-levelOfServiceCode",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://codesystem.x12.org/005010/1338",
+                  "code": "U",
+                  "display": "Urgent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Patient/Patient001",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "Patient001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ]
+        },
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MB",
+                  "display": "Member Number"
+                }
+              ]
+            },
+            "system": "https://anthem.com/member-id",
+            "value": "ABC123456789"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Smith",
+            "given": ["John", "Robert"]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1965-03-15",
+        "address": [
+          {
+            "use": "home",
+            "line": ["123 Main Street"],
+            "city": "Indianapolis",
+            "state": "IN",
+            "postalCode": "46204"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Organization/Provider001",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "Provider001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1234567893"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.4",
+            "value": "123456789"
+          }
+        ],
+        "active": true,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov",
+                "display": "Healthcare Provider"
+              }
+            ]
+          }
+        ],
+        "name": "Indianapolis Orthopedic Associates",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "317-555-1234"
+          }
+        ],
+        "address": [
+          {
+            "line": ["456 Medical Center Drive"],
+            "city": "Indianapolis",
+            "state": "IN",
+            "postalCode": "46240"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Practitioner/Practitioner001",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "Practitioner001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9876543210"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "family": "Williams",
+            "given": ["Sarah"],
+            "prefix": ["Dr."]
+          }
+        ],
+        "qualification": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0360",
+                  "code": "MD",
+                  "display": "Doctor of Medicine"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Organization/Insurer001",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "Insurer001",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.300",
+            "value": "12345"
+          }
+        ],
+        "active": true,
+        "name": "Anthem Blue Cross Blue Shield"
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Coverage/Coverage001",
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "Coverage001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-coverage"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://anthem.com/coverage",
+            "value": "COV-001-2025"
+          }
+        ],
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "PPO",
+              "display": "Preferred Provider Organization Policy"
+            }
+          ]
+        },
+        "subscriber": {
+          "reference": "Patient/Patient001"
+        },
+        "subscriberId": "ABC123456789",
+        "beneficiary": {
+          "reference": "Patient/Patient001"
+        },
+        "relationship": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+              "code": "self"
+            }
+          ]
+        },
+        "period": {
+          "start": "2025-01-01",
+          "end": "2025-12-31"
+        },
+        "payor": [
+          {
+            "reference": "Organization/Insurer001"
+          }
+        ],
+        "class": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                  "code": "group"
+                }
+              ]
+            },
+            "value": "GRP123456"
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+                  "code": "plan"
+                }
+              ]
+            },
+            "value": "PPO-GOLD-2025"
+          }
+        ]
+      }
+    }
+  ]
+}

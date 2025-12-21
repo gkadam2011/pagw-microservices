@@ -1,0 +1,276 @@
+{
+  "resourceType": "Bundle",
+  "id": "PASRequestBundle-Urgent-01",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-pas-request-bundle"
+    ]
+  },
+  "identifier": {
+    "system": "https://pagw.anthem.com/fhir/Bundle",
+    "value": "PAGW-TEST-URGENT-001"
+  },
+  "type": "collection",
+  "timestamp": "2025-12-20T14:30:00-05:00",
+  "entry": [
+    {
+      "fullUrl": "http://example.org/fhir/Claim/PASClaimUrgent001",
+      "resource": {
+        "resourceType": "Claim",
+        "id": "PASClaimUrgent001",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-claim"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://pagw.anthem.com/fhir/Claim",
+            "value": "CLM-2025-URGENT-001"
+          }
+        ],
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+              "code": "institutional",
+              "display": "Institutional"
+            }
+          ]
+        },
+        "subType": {
+          "coding": [
+            {
+              "system": "https://codesystem.x12.org/005010/1525",
+              "code": "HS",
+              "display": "Hospice"
+            }
+          ]
+        },
+        "use": "preauthorization",
+        "patient": {
+          "reference": "Patient/PatientUrgent001"
+        },
+        "created": "2025-12-20",
+        "insurer": {
+          "reference": "Organization/Insurer001"
+        },
+        "provider": {
+          "reference": "Organization/HospitalProvider001"
+        },
+        "priority": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/processpriority",
+              "code": "stat",
+              "display": "Immediate"
+            }
+          ]
+        },
+        "insurance": [
+          {
+            "sequence": 1,
+            "focal": true,
+            "coverage": {
+              "reference": "Coverage/CoverageUrgent001"
+            }
+          }
+        ],
+        "item": [
+          {
+            "sequence": 1,
+            "productOrService": {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "99291",
+                  "display": "Critical care, first 30-74 minutes"
+                }
+              ]
+            },
+            "servicedPeriod": {
+              "start": "2025-12-20",
+              "end": "2025-12-25"
+            },
+            "locationCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set",
+                  "code": "21",
+                  "display": "Inpatient Hospital"
+                }
+              ]
+            },
+            "quantity": {
+              "value": 5,
+              "unit": "day"
+            }
+          },
+          {
+            "sequence": 2,
+            "productOrService": {
+              "coding": [
+                {
+                  "system": "http://www.ama-assn.org/go/cpt",
+                  "code": "99292",
+                  "display": "Critical care, each additional 30 minutes"
+                }
+              ]
+            },
+            "servicedPeriod": {
+              "start": "2025-12-20",
+              "end": "2025-12-25"
+            },
+            "quantity": {
+              "value": 10,
+              "unit": "unit"
+            }
+          }
+        ],
+        "diagnosis": [
+          {
+            "sequence": 1,
+            "diagnosisCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                  "code": "I21.3",
+                  "display": "ST elevation (STEMI) myocardial infarction of unspecified site"
+                }
+              ]
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+                    "code": "principal"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-serviceType",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://codesystem.x12.org/005010/1365",
+                  "code": "4",
+                  "display": "Emergency Services"
+                }
+              ]
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-levelOfServiceCode",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://codesystem.x12.org/005010/1338",
+                  "code": "U",
+                  "display": "Urgent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Patient/PatientUrgent001",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "PatientUrgent001",
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MB"
+                }
+              ]
+            },
+            "system": "https://anthem.com/member-id",
+            "value": "MBR987654321"
+          }
+        ],
+        "name": [
+          {
+            "family": "Johnson",
+            "given": ["Mary", "Elizabeth"]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1958-08-22"
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Organization/HospitalProvider001",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "HospitalProvider001",
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1122334455"
+          }
+        ],
+        "name": "St. Vincent Hospital - Emergency Department",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code": "prov"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Organization/Insurer001",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "Insurer001",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.300",
+            "value": "12345"
+          }
+        ],
+        "name": "Anthem Blue Cross Blue Shield"
+      }
+    },
+    {
+      "fullUrl": "http://example.org/fhir/Coverage/CoverageUrgent001",
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "CoverageUrgent001",
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "HMO"
+            }
+          ]
+        },
+        "subscriberId": "MBR987654321",
+        "beneficiary": {
+          "reference": "Patient/PatientUrgent001"
+        },
+        "payor": [
+          {
+            "reference": "Organization/Insurer001"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+# PAGW Request Parser - Local Development Configuration
+spring:
+  application:
+    name: pasrequestparser
+
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
+    username: ${PAGW_DATABASE_USERNAME:pagw}
+    password: ${PAGW_DATABASE_PASSWORD:pagw123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-exception: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+pagw:
+  service:
+    name: pasrequestparser
+    version: 1.0.0
+
+  database:
+    host: ${PAGW_DATABASE_HOST:localhost}
+    port: ${PAGW_DATABASE_PORT:5432}
+    name: ${PAGW_DATABASE_NAME:pagw}
+    schema: pagw
+
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+    s3:
+      enabled: true
+      raw-bucket: pagw-storage-local
+    sqs:
+      enabled: true
+      request-parser-queue: pagw-request-parser-queue
+    kms:
+      enabled: false
+    secrets:
+      enabled: false
+
+  storage:
+    bucket: ${PAGW_STORAGE_BUCKET:pagw-storage-local}
+
+  queues:
+    businessValidator: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-business-validator-queue
+    callbackHandler: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-callback-handler-queue
+
+logging:
+  level:
+    root: INFO
+    com.anthem.pagw: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] [%X{correlationId}] [%X{pagwId}] %-5level %logger{36} - %msg%n"
+

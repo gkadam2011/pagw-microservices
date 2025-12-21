@@ -1,0 +1,73 @@
+# PAGW Request Enricher - Local Development Configuration
+spring:
+  application:
+    name: pasrequestenricher
+
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
+    username: ${PAGW_DATABASE_USERNAME:pagw}
+    password: ${PAGW_DATABASE_PASSWORD:pagw123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+pagw:
+  service:
+    name: pasrequestenricher
+    version: 1.0.0
+
+  database:
+    host: ${PAGW_DATABASE_HOST:localhost}
+    port: ${PAGW_DATABASE_PORT:5432}
+    name: ${PAGW_DATABASE_NAME:pagw}
+    schema: pagw
+
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+
+  storage:
+    bucket: ${PAGW_STORAGE_BUCKET:pagw-storage-local}
+
+  queues:
+    attachment: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-attachment-handler-queue
+    callback: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-callback-handler-queue
+    dlq: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-dlq
+
+  enricher:
+    provider-lookup-enabled: true
+    member-lookup-enabled: true
+    benefit-lookup-enabled: true
+    gold-card-check-enabled: true
+    
+  external-services:
+    provider-registry:
+      url: ${PROVIDER_REGISTRY_URL:http://localhost:8090/provider-registry}
+      timeout: 5000
+    member-services:
+      url: ${MEMBER_SERVICES_URL:http://localhost:8091/member-services}
+      timeout: 5000
+
+logging:
+  level:
+    root: INFO
+    com.anthem.pagw: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] [%X{correlationId}] [%X{pagwId}] %-5level %logger{36} - %msg%n"

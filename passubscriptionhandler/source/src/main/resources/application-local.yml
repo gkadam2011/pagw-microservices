@@ -1,0 +1,42 @@
+# PAS Subscription Handler - Local Development Configuration
+spring:
+  application:
+    name: passubscriptionhandler
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pagw
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+
+server:
+  port: 8090
+
+pagw:
+  aws:
+    region: us-east-1
+    endpoint: http://localhost:4566
+    sqs:
+      enabled: true
+      subscription-handler-queue: http://localhost:4566/000000000000/pagw-subscription-handler-queue
+    s3:
+      request-bucket: pagw-request-local
+      attachments-bucket: pagw-request-local
+      audit-bucket: pagw-audit-local
+  encryption:
+    kms-enabled: true
+    kms-key-id: alias/pagw-s3-key
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+logging:
+  level:
+    com.anthem.pagw: DEBUG
+    org.springframework.web: DEBUG

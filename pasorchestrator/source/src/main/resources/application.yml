@@ -5,8 +5,15 @@ spring:
   application:
     name: pasorchestrator
   datasource:
-    url: jdbc:postgresql://${PAGW_AURORA_ENDPOINT:localhost}:5432/${PAGW_AURORA_DATABASE:pagw}
+    # Aligned with Helm template: PAGW_AURORA_WRITER_ENDPOINT, PAGW_AURORA_PORT, PAGW_AURORA_DATABASE
+    url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT:localhost}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagw}
+    username: ${PAGW_AURORA_USERNAME:pagw_admin}
+    password: ${PAGW_AURORA_PASSWORD:}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${PAGW_AURORA_MAX_POOL_SIZE:10}
+      minimum-idle: ${PAGW_AURORA_MIN_IDLE:2}
+      connection-timeout: 30000
   jackson:
     default-property-inclusion: non_null
 
@@ -14,22 +21,75 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
   endpoint:
     health:
-      show-details: always
+      show-details: when_authorized
 
+# PAGW Configuration - aligned with Helm deployment templates
 pagw:
+  application-id: ${PAGW_APPLICATION_ID:pasorchestrator}
   aws:
-    region: ${AWS_REGION:us-east-1}
+    region: ${AWS_REGION:us-east-2}
+    account-id: ${AWS_ACCOUNT_ID:}
+    aurora:
+      writer-endpoint: ${PAGW_AURORA_WRITER_ENDPOINT:localhost}
+      reader-endpoint: ${PAGW_AURORA_READER_ENDPOINT:}
+      database: ${PAGW_AURORA_DATABASE:pagw}
+      port: ${PAGW_AURORA_PORT:5432}
+      secret-arn: ${PAGW_AURORA_SECRET_ARN:}
+      max-pool-size: ${PAGW_AURORA_MAX_POOL_SIZE:10}
+      min-idle: ${PAGW_AURORA_MIN_IDLE:2}
+      iam-auth-enabled: ${PAGW_AURORA_IAM_AUTH_ENABLED:false}
+    sqs:
+      enabled: true
+      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
+      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      dlq: ${PAGW_SQS_DLQ:}
+    s3:
+      enabled: true
+      request-bucket: ${PAGW_S3_REQUEST_BUCKET:pagw-request-dev}
+      attachments-bucket: ${PAGW_S3_ATTACHMENTS_BUCKET:pagw-attachments-dev}
+      audit-bucket: ${PAGW_S3_AUDIT_BUCKET:pagw-audit-dev}
+    elasticache:
+      endpoint: ${PAGW_ELASTICACHE_ENDPOINT:}
+      port: ${PAGW_ELASTICACHE_PORT:6379}
+      ssl-enabled: ${PAGW_ELASTICACHE_SSL_ENABLED:true}
+      auth-secret-arn: ${PAGW_REDIS_AUTH_SECRET_ARN:}
     secrets:
-      aurora-arn: ${PAGW_AURORA_SECRET_ARN:}
-  s3:
-    bucket: ${PAGW_S3_BUCKET:pagw-dev-bucket}
+      enabled: true
+      aurora-secret-arn: ${PAGW_AURORA_SECRET_ARN:}
+    kms:
+      enabled: true
+      phi-key-alias: ${KMS_PHI_KEY_ALIAS:alias/pagw-phi-field-dev}
+    dynamodb:
+      enabled: true
+      idempotency-table: ${IDEMPOTENCY_TABLE:pagw-idempotency-dev}
+  # Legacy queue names - mapped to Helm template PAGW_SQS_* vars
   queues:
-    request-parser: ${PAGW_QUEUE_REQUEST_PARSER:pagw-queue-request-parser}
+    request-parser: ${PAGW_SQS_RESPONSE_QUEUE:}
+    attachment-handler: ${PAGW_SQS_RESPONSE_QUEUE:}
+    business-validator: ${PAGW_SQS_RESPONSE_QUEUE:}
+    request-enricher: ${PAGW_SQS_RESPONSE_QUEUE:}
+    canonical-mapper: ${PAGW_SQS_RESPONSE_QUEUE:}
+    api-orchestrator: ${PAGW_SQS_RESPONSE_QUEUE:}
+    callback-handler: ${PAGW_SQS_RESPONSE_QUEUE:}
+    response-builder: ${PAGW_SQS_RESPONSE_QUEUE:}
+  encryption:
+    enabled: true
+    encrypt-phi-fields: true
+    kms-enabled: ${PAGW_ENCRYPTION_KMS_ENABLED:false}
+    kms-key-id: ${KMS_KEY_ID:}
+  outbox:
+    enabled: true
+    batch-size: 50
+    max-retries: 5
 
+# Logging
 logging:
   level:
-    com.anthem.pagw: DEBUG
+    com.anthem.pagw: INFO
+    org.springframework: WARN
     root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{pagwId}] [%X{correlationId}] %-5level %logger{36} - %msg%n"

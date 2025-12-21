@@ -1,4 +1,16 @@
-FROM quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images/ubi8-openjdk:openjdk-17 AS builder
+# ========================================================================
+# Build Arguments - Override at build time:
+#   docker build --build-arg JAVA_VERSION=21 --build-arg SPRING_BOOT_VERSION=3.4.0 .
+# ========================================================================
+ARG JAVA_VERSION=17
+ARG SPRING_BOOT_VERSION=3.3.0
+ARG BASE_REGISTRY=quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images
+
+FROM ${BASE_REGISTRY}/ubi8-openjdk:openjdk-${JAVA_VERSION} AS builder
+
+# Re-declare ARGs after FROM (they go out of scope)
+ARG SPRING_BOOT_VERSION
+
 USER 0
 WORKDIR /build
 RUN microdnf install -y maven && microdnf clean all
@@ -11,9 +23,12 @@ RUN mkdir -p /root/.m2 && echo '<?xml version="1.0" encoding="UTF-8"?><settings>
 COPY source/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B || true
 COPY source/src ./src
-RUN mvn clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
 
-FROM quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images/ubi8-openjdk:openjdk-17 AS runtime
+# Re-declare ARGs for runtime stage
+ARG BASE_REGISTRY
+ARG JAVA_VERSION
+FROM ${BASE_REGISTRY}/ubi8-openjdk:openjdk-${JAVA_VERSION} AS runtime
 USER 0
 RUN groupadd -g 1001 appgroup && useradd -u 1001 -g appgroup appuser
 WORKDIR /app

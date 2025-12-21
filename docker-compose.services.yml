@@ -1,0 +1,519 @@
+version: '3.8'
+
+# PAGW Microservices - Local Development with Pre-built JARs
+# ═══════════════════════════════════════════════════════════════════════════
+# Prerequisites:
+#   1. Infrastructure running: docker-compose -f docker-compose.infra.yml up -d
+#   2. Build all JARs: mvn clean package -DskipTests
+#   3. Start services: docker-compose -f docker-compose.services.yml up -d
+#
+# This uses pre-built JARs mounted into containers for faster iteration.
+# ═══════════════════════════════════════════════════════════════════════════
+
+services:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Orchestrator - Main Entry Point (Port 8080)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasorchestrator:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-orchestrator
+    working_dir: /app
+    volumes:
+      - ./pasorchestrator/source/target/pasorchestrator-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 Buckets - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      # SQS Queues - aligned with Helm template variables
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-request-parser-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-response-builder-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      # Sync mode disabled - use async queues
+      PAGW_SYNC_ENABLED: "false"
+      # KMS encryption for PHI - LocalStack KMS key
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      # Java opts
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8080:8080"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Request Parser (Port 8081)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasrequestparser:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-request-parser
+    working_dir: /app
+    volumes:
+      - ./pasrequestparser/source/target/pasrequestparser-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-request-parser-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-business-validator-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8081:8081"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Business Validator (Port 8082)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasbusinessvalidator:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-business-validator
+    working_dir: /app
+    volumes:
+      - ./pasbusinessvalidator/source/target/pasbusinessvalidator-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-business-validator-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-request-enricher-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8082:8082"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8082/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Request Enricher (Port 8083)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasrequestenricher:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-request-enricher
+    working_dir: /app
+    volumes:
+      - ./pasrequestenricher/source/target/pasrequestenricher-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-request-enricher-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-attachment-handler-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8083:8083"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Attachment Handler (Port 8084)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasattachmenthandler:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-attachment-handler
+    working_dir: /app
+    volumes:
+      - ./pasattachmenthandler/source/target/pasattachmenthandler-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-attachment-handler-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-canonical-mapper-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8084:8084"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8084/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Request Converter (Port 8085)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasrequestconverter:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-request-converter
+    working_dir: /app
+    volumes:
+      - ./pasrequestconverter/source/target/pasrequestconverter-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-request-converter-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-api-connector-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8085:8085"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8085/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS API Connector (Port 8086)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasapiconnector:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-api-connector
+    working_dir: /app
+    volumes:
+      - ./pasapiconnector/source/target/pasapiconnector-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-api-connector-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-callback-handler-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      # Mock payer endpoint
+      PAGW_PAYER_ENDPOINT: http://pagw-mock-payer:3000
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8086:8086"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8086/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Response Builder (Port 8087)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pasresponsebuilder:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-response-builder
+    working_dir: /app
+    volumes:
+      - ./pasresponsebuilder/source/target/pasresponsebuilder-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-response-builder-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-callback-handler-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8087:8087"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8087/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Callback Handler (Port 8088)
+  # ═══════════════════════════════════════════════════════════════════════════
+  pascallbackhandler:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-callback-handler
+    working_dir: /app
+    volumes:
+      - ./pascallbackhandler/source/target/pascallbackhandler-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS - aligned with Helm template variables
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-callback-handler-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-orchestrator-complete-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8088:8088"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8088/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAS Subscription Handler - Webhook Notifications (Port 8090)
+  # ═══════════════════════════════════════════════════════════════════════════
+  passubscriptionhandler:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-subscription-handler
+    working_dir: /app
+    volumes:
+      - ./passubscriptionhandler/source/target/passubscriptionhandler-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # S3 & SQS
+      PAGW_S3_REQUEST_BUCKET: pagw-request-local
+      PAGW_S3_AUDIT_BUCKET: pagw-audit-local
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-subscription-handler-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      PAGW_ENCRYPTION_KMS_ENABLED: "true"
+      KMS_KEY_ID: "64d8fa08-d935-4139-bc2c-1d5e615b17d5"
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8090:8090"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Outbox Publisher - Processes outbox messages to SQS (Port 8089)
+  # ═══════════════════════════════════════════════════════════════════════════
+  outboxpublisher:
+    image: eclipse-temurin:17-jre-alpine
+    container_name: pagw-outbox-publisher
+    working_dir: /app
+    volumes:
+      - ./outboxpublisher/source/target/outboxpublisher-1.0.0-SNAPSHOT.jar:/app/app.jar:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      # Aurora Database - aligned with Helm template variables
+      PAGW_AURORA_WRITER_ENDPOINT: pagw-postgres
+      PAGW_AURORA_PORT: "5432"
+      PAGW_AURORA_DATABASE: pagw
+      PAGW_AURORA_USERNAME: pagw
+      PAGW_AURORA_PASSWORD: pagw123
+      PAGW_AURORA_MAX_POOL_SIZE: "10"
+      PAGW_AURORA_MIN_IDLE: "2"
+      # AWS/LocalStack - must use us-east-1 to match LocalStack default
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_AWS_ENDPOINT: http://pagw-localstack:4566
+      # SQS - aligned with Helm template variables
+      PAGW_SQS_REQUEST_QUEUE: http://pagw-localstack:4566/000000000000/pagw-outbox-queue
+      PAGW_SQS_RESPONSE_QUEUE: http://pagw-localstack:4566/000000000000/pagw-orchestrator-complete-queue
+      PAGW_SQS_DLQ: http://pagw-localstack:4566/000000000000/pagw-dlq
+      JAVA_OPTS: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Xms256m -Xmx512m"
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8089:8089"
+    networks:
+      - pagw-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8089/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+networks:
+  pagw-network:
+    external: true
+    name: pagw-network

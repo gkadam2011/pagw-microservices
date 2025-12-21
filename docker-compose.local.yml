@@ -1,0 +1,283 @@
+version: '3.8'
+
+# PAGW Local Development Environment
+# Usage: docker-compose -f docker-compose.local.yml up -d
+
+services:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Infrastructure Services
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: pagw-postgres
+    environment:
+      POSTGRES_USER: pagw
+      POSTGRES_PASSWORD: pagw123
+      POSTGRES_DB: pagw
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pagw"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: pagw-localstack
+    environment:
+      SERVICES: sqs,s3,secretsmanager
+      DEFAULT_REGION: us-east-1
+      DOCKER_HOST: unix:///var/run/docker.sock
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./infra/localstack-init.sh:/docker-entrypoint-initaws.d/init.sh:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PAGW Microservices
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  pasorchestrator:
+    build:
+      context: ./pasorchestrator
+      dockerfile: Dockerfile
+    container_name: pagw-orchestrator
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      PAGW_DATABASE_NAME: pagw
+      PAGW_DATABASE_USERNAME: pagw
+      PAGW_DATABASE_PASSWORD: pagw123
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      PAGW_QUEUES_PARSER: http://localstack:4566/000000000000/pagw-request-parser-queue
+      PAGW_SERVICES_PARSER_URL: http://pasrequestparser:8081
+      PAGW_SERVICES_VALIDATOR_URL: http://pasbusinessvalidator:8082
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pasrequestparser:
+    build:
+      context: ./pasrequestparser
+      dockerfile: Dockerfile
+    container_name: pagw-request-parser
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - localstack
+
+  pasbusinessvalidator:
+    build:
+      context: ./pasbusinessvalidator
+      dockerfile: Dockerfile
+    container_name: pagw-business-validator
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+      - localstack
+
+  pasrequestenricher:
+    build:
+      context: ./pasrequestenricher
+      dockerfile: Dockerfile
+    container_name: pagw-request-enricher
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+      - localstack
+
+  pasattachmenthandler:
+    build:
+      context: ./pasattachmenthandler
+      dockerfile: Dockerfile
+    container_name: pagw-attachment-handler
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8084:8084"
+    depends_on:
+      - localstack
+
+  pasrequestconverter:
+    build:
+      context: ./pasrequestconverter
+      dockerfile: Dockerfile
+    container_name: pagw-request-converter
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8085:8085"
+    depends_on:
+      - localstack
+
+  pasapiconnector:
+    build:
+      context: ./pasapiconnector
+      dockerfile: Dockerfile
+    container_name: pagw-api-connector
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      # Mock payer endpoint for testing
+      PAYER_API_URL: http://mock-payer:9000
+    ports:
+      - "8086:8086"
+    depends_on:
+      - localstack
+
+  pasresponsebuilder:
+    build:
+      context: ./pasresponsebuilder
+      dockerfile: Dockerfile
+    container_name: pagw-response-builder
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8087:8087"
+    depends_on:
+      - localstack
+
+  pascallbackhandler:
+    build:
+      context: ./pascallbackhandler
+      dockerfile: Dockerfile
+    container_name: pagw-callback-handler
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8088:8088"
+    depends_on:
+      - localstack
+
+  outboxpublisher:
+    build:
+      context: ./outboxpublisher
+      dockerfile: Dockerfile
+    container_name: pagw-outbox-publisher
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8089:8089"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+
+  pasproviderauth:
+    build:
+      context: ./pasproviderauth
+      dockerfile: Dockerfile
+    container_name: pagw-provider-auth
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      PAGW_DATABASE_HOST: postgres
+      PAGW_DATABASE_PORT: 5432
+      AWS_ENDPOINT: http://localstack:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "8090:8090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Mock Services for Testing
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  mock-payer:
+    image: mockserver/mockserver:latest
+    container_name: pagw-mock-payer
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock-payer-expectations.json
+    ports:
+      - "9000:1080"
+    volumes:
+      - ./test/mocks:/config:ro
+
+volumes:
+  postgres_data:
+  localstack_data:
+
+networks:
+  default:
+    name: pagw-network

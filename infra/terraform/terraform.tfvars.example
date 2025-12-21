@@ -1,0 +1,34 @@
+# Development environment variables
+# Copy to terraform.tfvars and fill in values
+
+aws_region  = "us-east-1"
+environment = "dev"
+app_name    = "pagw"
+
+# VPC Configuration - REQUIRED
+vpc_id             = "vpc-xxxxxxxxx"  # Replace with your VPC ID
+private_subnet_ids = [
+  "subnet-xxxxxxxxx",  # Replace with your private subnet IDs
+  "subnet-yyyyyyyyy",
+]
+
+# Database Configuration
+db_instance_class      = "db.r6g.large"
+db_name                = "pagw"
+db_master_username     = "pagw_admin"
+enable_aurora_serverless = false
+
+# KMS Configuration
+kms_deletion_window_days = 30
+
+# SQS Configuration
+sqs_message_retention_seconds  = 1209600  # 14 days
+sqs_visibility_timeout_seconds = 300      # 5 minutes
+dlq_message_retention_seconds  = 1209600  # 14 days
+
+# Additional Tags
+tags = {
+  Team        = "PAGW"
+  CostCenter  = "healthcare"
+  Application = "prior-auth-gateway"
+}

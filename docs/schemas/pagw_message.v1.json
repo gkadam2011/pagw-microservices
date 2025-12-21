@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://anthem.com/pagw/schemas/pagw_message.v1.json",
+  "title": "PAGW Message Envelope",
+  "description": "Standard message envelope for inter-service communication in PAGW pipeline",
+  "type": "object",
+  "required": [
+    "message_id",
+    "pagw_id",
+    "schema_version",
+    "stage",
+    "created_at"
+  ],
+  "properties": {
+    "message_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this specific message"
+    },
+    "pagw_id": {
+      "type": "string",
+      "pattern": "^PAGW-[0-9]{8}-[A-Z0-9]{8}$",
+      "description": "Unique PAGW request identifier, format: PAGW-YYYYMMDD-XXXXXXXX"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Optional idempotency key provided by the client"
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["v1", "v2"],
+      "default": "v1",
+      "description": "Version of the message schema"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "ORCHESTRATOR",
+        "REQUEST_PARSER",
+        "ATTACHMENT_HANDLER",
+        "BUSINESS_VALIDATOR",
+        "REQUEST_ENRICHER",
+        "CANONICAL_MAPPER",
+        "API_ORCHESTRATOR",
+        "RESPONSE_BUILDER",
+        "CALLBACK_HANDLER"
+      ],
+      "description": "Current processing stage"
+    },
+    "tenant": {
+      "type": "string",
+      "description": "Tenant identifier for multi-tenant deployments"
+    },
+    "payload_bucket": {
+      "type": "string",
+      "description": "S3 bucket containing the payload data"
+    },
+    "payload_key": {
+      "type": "string",
+      "description": "S3 object key for the payload data"
+    },
+    "has_attachments": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the request contains attachments"
+    },
+    "attachment_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of attachments in the request"
+    },
+    "attachment_metadata_key": {
+      "type": "string",
+      "description": "S3 key for attachment metadata"
+    },
+    "target_system": {
+      "type": "string",
+      "enum": [
+        "CLAIMS_PRO",
+        "CLAIMS_INST",
+        "CLAIMS_RX",
+        "CLAIMS_DENTAL",
+        "CLAIMS_VISION",
+        "CLAIMS_GENERIC"
+      ],
+      "description": "Target downstream system for claim submission"
+    },
+    "external_reference_id": {
+      "type": "string",
+      "description": "External system reference ID (e.g., claim number from downstream)"
+    },
+    "api_response_status": {
+      "type": "string",
+      "description": "Status from downstream API response"
+    },
+    "error_code": {
+      "type": "string",
+      "description": "Error code if processing failed"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error message if processing failed"
+    },
+    "enrichment_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of enrichment sources used"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional metadata passed through the pipeline"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this message was created"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Correlation ID for distributed tracing"
+    },
+    "source_service": {
+      "type": "string",
+      "description": "Service that created this message"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "message_id": "550e8400-e29b-41d4-a716-446655440000",
+      "pagw_id": "PAGW-20251220-A1B2C3D4",
+      "schema_version": "v1",
+      "stage": "REQUEST_PARSER",
+      "tenant": "anthem-bcbs",
+      "payload_bucket": "pagw-raw-dev",
+      "payload_key": "pagw/pas/raw/PAGW-202/PAGW-20251220-A1B2C3D4.json",
+      "has_attachments": true,
+      "attachment_count": 2,
+      "metadata": {
+        "source_system": "provider-portal",
+        "request_type": "professional"
+      },
+      "created_at": "2025-12-20T10:30:00Z",
+      "correlation_id": "trace-123456"
+    }
+  ]
+}

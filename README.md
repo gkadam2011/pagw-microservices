@@ -46,15 +46,15 @@ This repository contains the microservices for the PAGW platform. All services p
 
 ```
 pagw-microservices/
-├── pasorchestrator/             # Entry point - accepts PA requests
-├── pasrequestparser/            # FHIR bundle parsing
-├── pasbusinessvalidator/        # Business rules validation  
-├── pasrequestenricher/          # Data enrichment
-├── pasattachmenthandler/        # Attachment processing
-├── pascanonnicalmapper/         # FHIR to X12 278 mapping
-├── pasapiorchestrator/          # External API orchestration
-├── pasresponsebuilder/          # Build final ClaimResponse
-├── pascallbackhandler/          # Provider webhook notifications
+├── pasorchestrator/             # Entry point (Lambda-Orchestrator) - accepts PA requests
+├── pasrequestparser/            # Lambda-RequestParser - FHIR bundle parsing
+├── pasbusinessvalidator/        # Lambda-BusinessValidator - Business rules validation  
+├── pasrequestenricher/          # Lambda-RequestEnricher - Data enrichment
+├── pasattachmenthandler/        # Lambda-AttachmentHandler - Attachment processing
+├── pasrequestconverter/         # Lambda-RequestConverter - Create per-target payloads
+├── pasapiconnector/             # API-Connector (Fargate) - External API calls (Carelon/EAPI)
+├── pasresponsebuilder/          # Lambda-ResponseBuilder - Build final ClaimResponse
+├── pascallbackhandler/          # Lambda-CallbackHandler - Provider webhook notifications
 ├── outboxpublisher/             # Reliable event publishing (Outbox Pattern)
 ├── pom.xml                      # Parent POM with JFrog repos
 └── Makefile                     # Build automation

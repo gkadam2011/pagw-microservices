@@ -1,0 +1,156 @@
+# PAGW Orchestrator - Local Development Configuration
+spring:
+  application:
+    name: pasorchestrator
+  
+  # Allow bean overriding for local AWS configuration
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+
+  # Database
+  datasource:
+    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
+    username: ${PAGW_DATABASE_USERNAME:pagw}
+    password: ${PAGW_DATABASE_PASSWORD:pagw123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: pagw
+
+  # Jackson
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+# Server
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+# PAGW Configuration
+pagw:
+  application-id: pasorchestrator
+  
+  # Service info
+  service:
+    name: pasorchestrator
+    version: 1.0.0
+  
+  # Database
+  database:
+    host: ${PAGW_DATABASE_HOST:localhost}
+    port: ${PAGW_DATABASE_PORT:5432}
+    name: ${PAGW_DATABASE_NAME:pagw}
+    schema: pagw
+
+  # AWS/LocalStack - Important: configure clients to use LocalStack
+  aws:
+    region: us-east-1
+    sqs:
+      enabled: true
+    s3:
+      enabled: true
+      raw-bucket: pagw-storage-local
+      enriched-bucket: pagw-storage-local
+      final-bucket: pagw-storage-local
+      attachment-bucket: pagw-attachments-local
+    secrets:
+      enabled: false
+    kms:
+      enabled: false
+    dynamodb:
+      enabled: false
+  
+  # Encryption - DISABLED for local testing
+  encryption:
+    enabled: false
+    encrypt-phi-fields: false
+
+  # S3
+  storage:
+    bucket: ${PAGW_STORAGE_BUCKET:pagw-storage-local}
+    attachmentBucket: ${PAGW_ATTACHMENT_BUCKET:pagw-attachments-local}
+
+  # SQS Queues - property names must match PagwProperties.Queues class fields
+  queues:
+    requestParser: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-request-parser-queue
+    businessValidator: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-business-validator-queue
+    requestEnricher: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-request-enricher-queue
+    attachmentHandler: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-attachment-handler-queue
+    canonicalMapper: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-canonical-mapper-queue
+    apiOrchestrator: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-api-connector-queue
+    responseBuilder: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-response-builder-queue
+    callbackHandler: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-callback-handler-queue
+    outboxPublisher: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-outbox-publisher-queue
+    replay: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-replay-queue
+
+  # Internal service URLs (must match property names expected by SyncProcessingService)
+  services:
+    request-parser:
+      url: ${PAGW_SERVICES_PARSER_URL:http://localhost:8081}
+    business-validator:
+      url: ${PAGW_SERVICES_VALIDATOR_URL:http://localhost:8082}
+    parserUrl: ${PAGW_SERVICES_PARSER_URL:http://localhost:8081}
+    validatorUrl: ${PAGW_SERVICES_VALIDATOR_URL:http://localhost:8082}
+    enricherUrl: ${PAGW_SERVICES_ENRICHER_URL:http://localhost:8083}
+    attachmentUrl: ${PAGW_SERVICES_ATTACHMENT_URL:http://localhost:8084}
+    mapperUrl: ${PAGW_SERVICES_MAPPER_URL:http://localhost:8085}
+    apiConnectorUrl: ${PAGW_SERVICES_APICONNECTOR_URL:http://localhost:8086}
+    responseBuilderUrl: ${PAGW_SERVICES_RESPONSEBUILDER_URL:http://localhost:8087}
+    callbackUrl: ${PAGW_SERVICES_CALLBACK_URL:http://localhost:8088}
+    providerAuthUrl: ${PAGW_SERVICES_PROVIDERAUTH_URL:http://localhost:8090}
+
+  # Sync processing - DISABLED for local testing since downstream services aren't running
+  sync:
+    enabled: false
+    timeout-seconds: 13
+
+  # Processing settings
+  processing:
+    syncTimeoutSeconds: 15
+    asyncEnabled: true
+    idempotencyTtlHours: 24
+
+  # JWT/Auth (local testing)
+  auth:
+    enabled: false
+    jwtSecretArn: pagw/local/jwt-secret
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.anthem.pagw: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    software.amazon.awssdk: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] [%X{pagwId}] %-5level %logger{36} - %msg%n"

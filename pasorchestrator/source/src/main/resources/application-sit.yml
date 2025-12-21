@@ -1,0 +1,55 @@
+# =============================================================================
+# PAS Orchestrator - SIT Environment Configuration
+# AWS Region: us-east-2
+# Helm values source: pagw-platform-deploy/pasorchestrator/values-sit.yaml
+# =============================================================================
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagwdb}
+    hikari:
+      maximum-pool-size: ${PAGW_AURORA_MAX_POOL_SIZE:10}
+      minimum-idle: ${PAGW_AURORA_MIN_IDLE:2}
+
+pagw:
+  aws:
+    region: us-east-2
+    aurora:
+      writer-endpoint: ${PAGW_AURORA_WRITER_ENDPOINT}
+      reader-endpoint: ${PAGW_AURORA_READER_ENDPOINT:}
+      database: ${PAGW_AURORA_DATABASE:pagwdb}
+      port: ${PAGW_AURORA_PORT:5432}
+      secret-arn: ${PAGW_AURORA_SECRET_ARN}
+    sqs:
+      enabled: true
+      request-queue: ${PAGW_SQS_REQUEST_QUEUE}
+      response-queue: ${PAGW_SQS_RESPONSE_QUEUE}
+      dlq: ${PAGW_SQS_DLQ}
+    s3:
+      request-bucket: ${PAGW_S3_REQUEST_BUCKET:crln-pagw-sit-dataz-gbd-phi-useast2}
+      attachments-bucket: ${PAGW_S3_ATTACHMENTS_BUCKET:crln-pagw-sit-dataz-gbd-phi-useast2}
+      audit-bucket: ${PAGW_S3_AUDIT_BUCKET:crln-pagw-sit-logz-nogbd-nophi-useast2}
+    elasticache:
+      endpoint: ${PAGW_ELASTICACHE_ENDPOINT:}
+      port: ${PAGW_ELASTICACHE_PORT:6379}
+      ssl-enabled: ${PAGW_ELASTICACHE_SSL_ENABLED:true}
+    secrets:
+      enabled: true
+      aurora-secret-arn: ${PAGW_AURORA_SECRET_ARN}
+    kms:
+      enabled: true
+      phi-key-alias: alias/pagw-phi-field-sit
+    dynamodb:
+      enabled: true
+      idempotency-table: pagw-idempotency-sit
+  encryption:
+    enabled: true
+    encrypt-phi-fields: true
+  sync:
+    enabled: true
+    timeout-seconds: 13
+
+logging:
+  level:
+    com.anthem.pagw: DEBUG
+    org.springframework: INFO

@@ -1,0 +1,78 @@
+version: '3.8'
+
+# PAGW Infrastructure-Only for Local Development
+# Usage: docker-compose -f docker-compose.infra.yml up -d
+# 
+# This starts only the infrastructure services (PostgreSQL, LocalStack, Mock Payer)
+# Run the microservices directly from IDE or command line for faster development
+
+services:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # PostgreSQL Database
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: pagw-postgres
+    environment:
+      POSTGRES_USER: pagw
+      POSTGRES_PASSWORD: pagw123
+      POSTGRES_DB: pagw
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pagw"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LocalStack (AWS Emulator)
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  localstack:
+    image: localstack/localstack:3.0
+    container_name: pagw-localstack
+    environment:
+      SERVICES: sqs,s3,secretsmanager,kms,dynamodb
+      DEFAULT_REGION: us-east-1
+      DOCKER_HOST: unix:///var/run/docker.sock
+      DEBUG: 1
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./infra/localstack-init.sh:/etc/localstack/init/ready.d/init.sh:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Mock Payer API (for testing payer interactions)
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  mock-payer:
+    image: mockserver/mockserver:5.15.0
+    container_name: pagw-mock-payer
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock-payer-expectations.json
+      MOCKSERVER_LOG_LEVEL: WARN
+    ports:
+      - "9000:1080"
+    volumes:
+      - ./test/mocks:/config:ro
+
+volumes:
+  postgres_data:
+  localstack_data:
+
+networks:
+  default:
+    name: pagw-network

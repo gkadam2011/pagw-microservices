@@ -1,0 +1,16 @@
+# =============================================================================
+# Provider Auth Lambda Configuration
+# =============================================================================
+# This is a Lambda function for API Gateway authorization.
+#
+# Environment variables for Lambda (aligned with Helm templates):
+# ENVIRONMENT: dev | sit | preprod | prod
+# AWS_REGION: us-east-2 (dev/sit) | us-east-1 (preprod/prod)
+# PAGW_AURORA_WRITER_ENDPOINT: Aurora/RDS Proxy writer endpoint
+# PAGW_AURORA_PORT: Aurora port (default: 5432)
+# PAGW_AURORA_DATABASE: Database name (default: pagwdb)
+# PAGW_AURORA_SECRET_ARN: Secrets Manager ARN for DB credentials
+# PAGW_AURORA_MAX_POOL_SIZE: HikariCP max pool size (default: 5 for Lambda)
+# PAGW_AURORA_MIN_IDLE: HikariCP min idle connections (default: 1)
+# PROVIDER_REGISTRY_TABLE: pagw-provider-registry
+# JWT_SIGNING_KEY_SECRET: pagw/jwt-signing-key (Secrets Manager)
