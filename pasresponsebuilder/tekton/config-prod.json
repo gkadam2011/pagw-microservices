@@ -5,7 +5,7 @@
     "image":  "quay.elevancehealth.com/pagw/crln-shared-prod-img-pasresponsebuilder",
     "dockerfile":  "pasresponsebuilder/Dockerfile",
     "context":  "pasresponsebuilder",
-    "reqFile":  "",
+    "reqfile":  "",
     "repo_url":  "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
     "repo_name":  "ncr_aedleks_pagw_deploy",
     "build_args":  {
