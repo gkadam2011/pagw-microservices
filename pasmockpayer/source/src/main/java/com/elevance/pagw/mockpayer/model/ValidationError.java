@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValidationErrorResponse {
-    private String error;
-    private String errorCode;
+public class ValidationError {
+    private String field;
+    private String code;
     private String message;
-    private List<ValidationError> validationErrors;
-    private String timestamp;
 }

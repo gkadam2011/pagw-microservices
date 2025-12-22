@@ -11,10 +11,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValidationErrorResponse {
-    private String error;
-    private String errorCode;
-    private String message;
-    private List<ValidationError> validationErrors;
-    private String timestamp;
+public class RequiredDocument {
+    private String documentType;
+    private String description;
+    private Boolean required;
+    private List<String> acceptedFormats;
 }

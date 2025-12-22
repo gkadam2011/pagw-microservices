@@ -22,24 +22,3 @@ public class DeniedResponse {
     private String payerId;
     private String processedAt;
 }
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class DenialReason {
-    private String code;
-    private String reason;
-    private String description;
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class AppealInstructions {
-    private String deadline;
-    private String method;
-    private String faxNumber;
-    private String address;
-}

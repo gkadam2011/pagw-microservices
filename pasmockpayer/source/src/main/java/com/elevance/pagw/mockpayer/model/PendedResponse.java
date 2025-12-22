@@ -23,31 +23,3 @@ public class PendedResponse {
     private String receivedAt;
     private String processedAt;
 }
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class PendDetails {
-    private String reviewType;
-    private Integer estimatedCompletionHours;
-    private String estimatedCompletionTime;
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class StatusCheckInfo {
-    private String url;
-    private Integer pollingIntervalMinutes;
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class CallbackInfo {
-    private Boolean willCallback;
-    private String callbackUrl;
-}

@@ -24,14 +24,3 @@ public class ApprovedResponse {
     private String payerId;
     private String processedAt;
 }
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class ApprovedService {
-    private String serviceCode;
-    private Integer approvedUnits;
-    private Integer approvedVisits;
-    private String unitType;
-}
