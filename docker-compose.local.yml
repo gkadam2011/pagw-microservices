@@ -181,12 +181,13 @@ services:
       AWS_REGION: us-east-1
       AWS_ACCESS_KEY_ID: test
       AWS_SECRET_ACCESS_KEY: test
-      # Mock payer endpoint for testing
-      PAYER_API_URL: http://mock-payer:9000
+      # Mock payer endpoint for testing (Spring Boot mock payer on port 8095)
+      PAYER_API_URL: http://mock-payer:8095/api/x12/278
     ports:
       - "8086:8086"
     depends_on:
       - localstack
+      - mock-payer
 
   pasresponsebuilder:
     build:
@@ -264,9 +265,10 @@ services:
   # Mock Services for Testing
   # ═══════════════════════════════════════════════════════════════════════════
 
-  mock-payer:
+  # Option 1: WireMock (lightweight, JSON-based configuration)
+  mock-payer-wiremock:
     image: wiremock/wiremock:3.3.1
-    container_name: pagw-mock-payer
+    container_name: pagw-mock-payer-wiremock
     ports:
       - "9000:8080"
     volumes:
@@ -278,6 +280,25 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8080/__admin/health"]
       interval: 10s
       timeout: 5s
+      retries: 3
+    profiles:
+      - wiremock
+
+  # Option 2: Spring Boot Mock Payer (full control, deployable to EKS)
+  mock-payer:
+    build:
+      context: ./pasmockpayer
+      dockerfile: Dockerfile
+    container_name: pagw-mock-payer
+    ports:
+      - "8095:8095"
+    environment:
+      SERVER_PORT: 8095
+      LOGGING_LEVEL_COM_ELEVANCE_PAGW_MOCKPAYER: DEBUG
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8095/actuator/health"]
+      interval: 30s
+      timeout: 10s
       retries: 3
 
 volumes:
