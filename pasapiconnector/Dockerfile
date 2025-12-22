@@ -1,11 +1,22 @@
 # ========================================================================
+# PAS API Connector - Multi-stage Dockerfile
+# ========================================================================
 # Build Arguments - Override at build time:
 #   docker build --build-arg JAVA_VERSION=21 --build-arg SPRING_BOOT_VERSION=3.4.0 .
 # ========================================================================
 ARG JAVA_VERSION=17
 ARG SPRING_BOOT_VERSION=3.3.0
 ARG BASE_REGISTRY=quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images
+ARG PAGWCORE_IMAGE=pagwcore:latest
 
+# -----------------------------------------------------------------------------
+# Stage 0: Pull pagwcore library from its image
+# -----------------------------------------------------------------------------
+FROM ${PAGWCORE_IMAGE} AS pagwcore
+
+# -----------------------------------------------------------------------------
+# Stage 1: Build
+# -----------------------------------------------------------------------------
 FROM ${BASE_REGISTRY}/ubi8-openjdk:openjdk-${JAVA_VERSION} AS builder
 
 # Re-declare ARGs after FROM (they go out of scope)
@@ -15,10 +26,8 @@ USER 0
 WORKDIR /build
 RUN microdnf install -y maven && microdnf clean all
 
-# Configure Maven with JFrog credentials for pagwcore dependency
-ARG JFROG_USER
-ARG JFROG_TOKEN
-RUN mkdir -p /root/.m2 && echo '<?xml version="1.0" encoding="UTF-8"?><settings><servers><server><id>anthem-jfrog-releases</id><username>'"${JFROG_USER}"'</username><password>'"${JFROG_TOKEN}"'</password></server><server><id>anthem-jfrog-snapshots</id><username>'"${JFROG_USER}"'</username><password>'"${JFROG_TOKEN}"'</password></server></servers></settings>' > /root/.m2/settings.xml
+# Copy pagwcore from its image to local Maven repository
+COPY --from=pagwcore /app/m2/com/anthem/pagw /root/.m2/repository/com/anthem/pagw
 
 COPY source/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B || true
