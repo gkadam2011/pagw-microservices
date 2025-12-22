@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: pasorchestrator
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: pagw
+    baseline-on-migrate: true
+    baseline-version: '0'
+    validate-on-migrate: true
   datasource:
     # Aligned with Helm template: PAGW_AURORA_WRITER_ENDPOINT, PAGW_AURORA_PORT, PAGW_AURORA_DATABASE
     url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT:localhost}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagw}
