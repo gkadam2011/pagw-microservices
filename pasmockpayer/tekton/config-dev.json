@@ -1,53 +1,16 @@
 {
-  "name": "pas-mock-payer",
-  "namespace": "pagw-dev",
-  "image": {
-    "repository": "quay-nonprod.elevancehealth.com/aedl/pas-mock-payer",
-    "tag": "latest"
-  },
-  "build": {
-    "context": "pasmockpayer",
-    "dockerfile": "Dockerfile"
-  },
-  "service": {
-    "port": 8095,
-    "targetPort": 8095
-  },
-  "deployment": {
-    "replicas": 1,
-    "resources": {
-      "requests": {
-        "memory": "256Mi",
-        "cpu": "100m"
-      },
-      "limits": {
-        "memory": "512Mi",
-        "cpu": "500m"
-      }
-    }
-  },
-  "probes": {
-    "liveness": {
-      "path": "/actuator/health",
-      "port": 8095,
-      "initialDelaySeconds": 30,
-      "periodSeconds": 10
-    },
-    "readiness": {
-      "path": "/actuator/health",
-      "port": 8095,
-      "initialDelaySeconds": 10,
-      "periodSeconds": 5
-    }
-  },
-  "env": [
-    {
-      "name": "SERVER_PORT",
-      "value": "8095"
-    },
-    {
-      "name": "LOGGING_LEVEL_COM_ELEVANCE_PAGW_MOCKPAYER",
-      "value": "INFO"
-    }
-  ]
+    "service_name":  "pasmockpayer",
+    "type":  "docker",
+    "app_name":  "priorauthgateway",
+    "image":  "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pasmockpayer",
+    "dockerfile":  "pasmockpayer/Dockerfile",
+    "context":  "pasmockpayer",
+    "reqFile":  "",
+    "repo_url":  "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+    "repo_name":  "ncr_aedleks_pagw_deploy",
+    "build_args":  {
+                       "JAVA_VERSION":  "17",
+                       "SPRING_BOOT_VERSION":  "3.3.0",
+                       "BASE_REGISTRY":  "quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images"
+                   }
 }
