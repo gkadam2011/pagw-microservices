@@ -110,6 +110,13 @@
     <!-- JFrog Artifactory Repositories -->
     <repositories>
         <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
             <id>anthem-jfrog-releases</id>
             <name>Anthem JFrog Releases</name>
             <url>https://antm.jfrog.io/artifactory/libs-release</url>
