@@ -25,31 +25,31 @@ All services use a consistent folder structure within the request bucket:
 ```
 
 ### SQS Queues
-Terraform creates queues with pattern: `pagw-queue-{service}-dev`
+Terraform creates FIFO queues with pattern: `dev-PAGW-pagw-{service}-queue.fifo`
 
 | Queue | Purpose |
 |-------|---------|
-| `pagw-queue-request-parser-dev` | Incoming requests from orchestrator |
-| `pagw-queue-business-validator-dev` | After parsing |
-| `pagw-queue-request-enricher-dev` | After validation (async start) |
-| `pagw-queue-attachment-handler-dev` | After enrichment |
-| `pagw-queue-request-converter-dev` | After attachment processing |
-| `pagw-queue-api-connector-dev` | After format conversion |
-| `pagw-queue-response-builder-dev` | After external API call |
-| `pagw-queue-callback-handler-dev` | Async callbacks from payers |
-| `pagw-queue-subscription-handler-dev` | Client webhook notifications |
-| `pagw-queue-outbox-publisher-dev` | Outbox pattern publishing |
-| `pagw-queue-replay-dev` | Manual replay queue |
-| `pagw-queue-dlq-dev` | Dead letter queue |
+| `dev-PAGW-pagw-orchestrator-queue.fifo` | Entry point - API requests |
+| `dev-PAGW-pagw-request-parser-queue.fifo` | FHIR bundle parsing |
+| `dev-PAGW-pagw-business-validator-queue.fifo` | Business validation |
+| `dev-PAGW-pagw-request-enricher-queue.fifo` | Data enrichment (async start) |
+| `dev-PAGW-pagw-attachment-handler-queue.fifo` | Attachment S3 uploads |
+| `dev-PAGW-pagw-request-converter-queue.fifo` | FHIR to X12/payer format conversion |
+| `dev-PAGW-pagw-api-connector-queue.fifo` | External payer API calls |
+| `dev-PAGW-pagw-response-builder-queue.fifo` | Response assembly |
+| `dev-PAGW-pagw-callback-handler-queue.fifo` | Client webhook callbacks |
+| `dev-PAGW-pagw-subscription-handler-queue.fifo` | FHIR Subscription notifications |
+| `dev-PAGW-pagw-orchestrator-complete-queue.fifo` | Workflow completion |
+| `dev-PAGW-pagw-outbox-queue.fifo` | Transactional outbox publishing |
+| `dev-PAGW-pagw-dlq.fifo` | Dead letter queue |
 
 ### KMS Keys
-| Alias | Purpose |
+| Key ARN / Alias | Purpose |
 |-------|---------|
-| `alias/pagw-phi-field-dev` | Field-level PHI encryption |
-| `alias/pagw-s3-dev` | S3 bucket encryption |
-| `alias/pagw-sqs-dev` | SQS queue encryption |
-| `alias/pagw-rds-dev` | Aurora database encryption |
-| `alias/pagw-dynamodb-dev` | DynamoDB encryption |
+| `arn:aws:kms:us-east-2:482754295601:key/b8575906-6114-4656-a61f-3c24724b9def` | S3 PHI bucket encryption |
+| `alias/aws/sqs` | SQS queue encryption (AWS managed) |
+| `alias/aws/rds` | Aurora database encryption (AWS managed) |
+| `alias/aws/dynamodb` | DynamoDB encryption (AWS managed) |
 
 ### DynamoDB Tables
 | Table Name | Purpose |
@@ -112,31 +112,30 @@ env:
   PAGW_S3_ATTACHMENTS_BUCKET: "crln-pagw-dev-dataz-gbd-phi-useast2"
   PAGW_S3_AUDIT_BUCKET: "crln-pagw-dev-logz-nogbd-nophi-useast2"
   
-  # KMS
-  PAGW_KMS_KEY_ID: "alias/pagw-phi-field-dev"
+  # KMS Encryption
+  PAGW_ENCRYPTION_KMS_ENABLED: "true"
+  PAGW_ENCRYPTION_KMS_KEY_ID: "arn:aws:kms:us-east-2:482754295601:key/b8575906-6114-4656-a61f-3c24724b9def"
   
-  # ElastiCache (if enabled)
-  PAGW_ELASTICACHE_ENDPOINT: "<elasticache-endpoint>"
-  PAGW_ELASTICACHE_PORT: "6379"
-  PAGW_ELASTICACHE_SSL_ENABLED: "true"
+  # DynamoDB
+  PAGW_DYNAMODB_IDEMPOTENCY_TABLE: "pagw-idempotency-dev"
 ```
 
 ### Service-Specific SQS Queues
 Each service needs its input/output queue URLs configured:
 
-| Service | Input Queue Var | Output Queue Var |
-|---------|----------------|------------------|
-| pasrequestparser | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_NEXT_QUEUE |
-| pasbusinessvalidator | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_NEXT_QUEUE |
-| pasrequestenricher | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_NEXT_QUEUE |
-| pasattachmenthandler | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_NEXT_QUEUE |
-| pasrequestconverter | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_NEXT_QUEUE |
-| pasapiconnector | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_RESPONSE_QUEUE |
-| pasresponsebuilder | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_RESPONSE_QUEUE |
-| pascallbackhandler | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_RESPONSE_QUEUE |
-| passubscriptionhandler | PAGW_SQS_REQUEST_QUEUE | N/A (webhook delivery) |
-| pasorchestrator | PAGW_SQS_REQUEST_QUEUE | PAGW_SQS_RESPONSE_QUEUE |
-| outboxpublisher | N/A (polls DB) | Various queues |
+| Service | Input Queue | Output Queue |
+|---------|-------------|---------------|
+| pasorchestrator | pagw-orchestrator-queue.fifo | pagw-request-parser-queue.fifo |
+| pasrequestparser | pagw-request-parser-queue.fifo | pagw-business-validator-queue.fifo |
+| pasbusinessvalidator | pagw-business-validator-queue.fifo | pagw-request-enricher-queue.fifo |
+| pasrequestenricher | pagw-request-enricher-queue.fifo | pagw-attachment-handler-queue.fifo |
+| pasattachmenthandler | pagw-attachment-handler-queue.fifo | pagw-request-converter-queue.fifo |
+| pasrequestconverter | pagw-request-converter-queue.fifo | pagw-api-connector-queue.fifo |
+| pasapiconnector | pagw-api-connector-queue.fifo | pagw-response-builder-queue.fifo |
+| pasresponsebuilder | pagw-response-builder-queue.fifo | pagw-callback-handler-queue.fifo |
+| pascallbackhandler | pagw-callback-handler-queue.fifo | pagw-orchestrator-complete-queue.fifo |
+| passubscriptionhandler | pagw-subscription-handler-queue.fifo | pagw-orchestrator-complete-queue.fifo |
+| outboxpublisher | pagw-outbox-queue.fifo | (routes to target queues) |
 
 ---
 
@@ -146,14 +145,19 @@ Each service needs its input/output queue URLs configured:
 
 ```
 SYNC FLOW (returns 202 Accepted):
-  pasorchestrator → pasrequestparser → pasbusinessvalidator
-                                              │
-                                              ▼ (triggers async)
+  API Gateway → pasorchestrator → pasrequestparser → pasbusinessvalidator
+                                                            │
+                                                            ▼ (triggers async via outbox)
 ASYNC FLOW (background processing):
-  pasrequestenricher → pasattachmenthandler → pasrequestconverter
-         │
-         ▼
-  pasapiconnector → pasresponsebuilder → pascallbackhandler → passubscriptionhandler
+  pasrequestenricher → pasattachmenthandler → pasrequestconverter → pasapiconnector
+                                                                          │
+                                                                          ▼
+                                                            pasresponsebuilder ─┬─→ pascallbackhandler ─────┬─→ pasorchestrator (complete)
+                                        │                           │
+                                        └─→ passubscriptionhandler ─┘
+
+SUPPORT SERVICES:
+  outboxpublisher - Polls outbox table, publishes to target queues
 ```
 
 ### Recommended Deployment Order
@@ -171,7 +175,7 @@ Services can be deployed independently, but recommended order:
 3. **Async Pipeline (background processing)**
    - `pasrequestenricher` - Data enrichment
    - `pasattachmenthandler` - Attachment processing
-   - `pasrequestconverter` - Payer format conversion
+   - `pasrequestconverter` - FHIR to X12/payer format conversion
    - `pasapiconnector` - External payer API calls
 
 4. **Response Pipeline**
@@ -214,10 +218,12 @@ Services can be deployed independently, but recommended order:
 
 ### Terraform vs Application Config
 
-| Component | Terraform Pattern | App Config Default |
+| Component | Terraform Pattern | Actual Resource Name |
 |-----------|------------------|-------------------|
-| S3 Buckets | `pagw-{type}-dev-{account_id}` | `crln-pagw-dev-dataz-gbd-phi-useast2` |
-| SQS Queues | `pagw-queue-{service}-dev` | Configured via env vars |
+| S3 PHI Bucket | Corporate naming | `crln-pagw-dev-dataz-gbd-phi-useast2` |
+| S3 Audit Bucket | Corporate naming | `crln-pagw-dev-logz-nogbd-nophi-useast2` |
+| SQS Queues | `{env}-PAGW-pagw-{service}-queue.fifo` | e.g., `dev-PAGW-pagw-orchestrator-queue.fifo` |
+| DynamoDB | `pagw-idempotency-{env}` | `pagw-idempotency-dev` |
 
 **Note:** S3 bucket names follow a corporate naming convention. The Terraform configuration is a reference - actual bucket names are provisioned by the platform team.
 
