@@ -131,7 +131,12 @@
         </plugins>
     </build>
 
-    <!-- JFrog Artifactory Repositories -->
+    <!-- 
+        Repository Configuration:
+        - Maven Central FIRST for all standard dependencies (no JFrog POM issues)
+        - JFrog ONLY for internal pagwcore snapshots
+        This fixes transitive dependency resolution issues where JFrog returns HTML instead of POMs
+    -->
     <repositories>
         <repository>
             <id>central</id>
@@ -139,20 +144,6 @@
             <url>https://repo.maven.apache.org/maven2</url>
             <releases><enabled>true</enabled></releases>
             <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>anthem-jfrog-releases</id>
-            <name>Anthem JFrog Releases</name>
-            <url>https://antm.jfrog.io/artifactory/libs-release</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>anthem-jfrog-snapshots</id>
-            <name>Anthem JFrog Snapshots</name>
-            <url>https://antm.jfrog.io/artifactory/libs-snapshot</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
         </repository>
     </repositories>
 </project>

@@ -40,7 +40,5 @@
     </build>
     <repositories>
         <repository><id>central</id><url>https://repo.maven.apache.org/maven2</url></repository>
-        <repository><id>anthem-jfrog-releases</id><url>https://antm.jfrog.io/artifactory/libs-release</url></repository>
-        <repository><id>anthem-jfrog-snapshots</id><url>https://antm.jfrog.io/artifactory/libs-snapshot</url><snapshots><enabled>true</enabled></snapshots></repository>
     </repositories>
 </project>
