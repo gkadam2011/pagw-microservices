@@ -22,6 +22,7 @@ pagw:
       secret-arn: ${PAGW_AURORA_SECRET_ARN}
     sqs:
       enabled: true
+      business-validator-queue: ${PAGW_SQS_BUSINESS_VALIDATOR_QUEUE}
       request-queue: ${PAGW_SQS_REQUEST_QUEUE}
       response-queue: ${PAGW_SQS_RESPONSE_QUEUE}
       dlq: ${PAGW_SQS_DLQ}
