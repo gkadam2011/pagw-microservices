@@ -1,10 +1,10 @@
 {
-  "service_name": "pasresponsebuilder",
+  "service_name": "pasproviderauth",
   "type": "docker",
   "app_name": "priorauthgateway",
-  "image": "quay.elevancehealth.com/pagw/crln-shared-prod-img-pasresponsebuilder",
-  "dockerfile": "pasresponsebuilder/Dockerfile",
-  "context": "pasresponsebuilder","reqFile": "",
+  "image": "quay.elevancehealth.com/pagw/crln-shared-prod-img-pasproviderauth",
+  "dockerfile": "pasproviderauth/Dockerfile",
+  "context": "pasproviderauth","reqFile": "",
   "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
   "repo_name": "ncr_aedleks_pagw_deploy",
   "build_args": {
