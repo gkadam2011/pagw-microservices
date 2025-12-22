@@ -1,6 +1,6 @@
 # SQS Queue Parameters Configuration
 
-This document describes the SQS queue parameters for the PAGW PAS microservices pipeline, including the rationale for each configuration.
+This document describes the SQS queue parameters for the PAGW microservices pipeline, including the rationale for each configuration.
 
 ## Overview
 
@@ -9,30 +9,106 @@ All queues are **FIFO queues** with:
 - Long polling enabled (20 seconds)
 - 14-day message retention
 - 256KB max message size
-- Shared DLQ (`pas-error-dlq`) for failed messages
+- Shared DLQ (`pagw-dlq`) for failed messages
 
 ## Queue Parameter Summary
 
-| # | Queue Name | Visibility Timeout | Max Receive Count | Use Case |
-|---|------------|-------------------|-------------------|----------|
-| 0 | pas-error-dlq | 300s (5 min) | N/A | Dead Letter Queue |
-| 1 | pas-api-orchestrator-queue | 300s (5 min) | 5 | API entry point |
-| 2 | pas-request-validator | 300s (5 min) | 5 | FHIR validation |
-| 3 | pas-business-validator | 300s (5 min) | 5 | Business rules |
-| 4 | pas-request-enricher | 600s (10 min) | 7 | External enrichment APIs |
-| 5 | pagw-pas-attachment-handler | 600s (10 min) | 5 | S3 file uploads |
-| 6 | pas-canonical-mapper-queue | 300s (5 min) | 5 | FHIR→X12 transform |
-| 7 | pas-payer-router-queue | 300s (5 min) | 5 | Payer routing |
-| 8 | pas-response-builder-queue | 300s (5 min) | 5 | X12→FHIR response |
-| 9 | pagw-callback-queue | 600s (10 min) | 8 | Async callbacks |
-| 10 | pas-orchestrator-complete | 300s (5 min) | 5 | Workflow completion |
-| 11 | pas-notification-queue | 300s (5 min) | 5 | Status notifications |
-| 12 | pagw-request-parser-queue | 300s (5 min) | 5 | FHIR bundle parsing |
-| 13 | pagw-request-converter-queue | 300s (5 min) | 5 | Format conversion |
-| 14 | pagw-api-connector-queue | 900s (15 min) | 8 | External payer APIs |
-| 15 | pagw-subscription-handler-queue | 600s (10 min) | 8 | FHIR Subscriptions |
-| 16 | pagw-outbox-queue | 120s (2 min) | 3 | Transactional outbox |
-| 17 | pagw-callback-handler-queue | 600s (10 min) | 8 | Client webhooks |
+| # | Queue Name | Visibility Timeout | Max Receive Count | Consumer Service |
+|---|------------|-------------------|-------------------|------------------|
+| 0 | pagw-dlq | 300s (5 min) | N/A | DLQ (manual review) |
+| 1 | pagw-orchestrator-queue | 300s (5 min) | 5 | pasorchestrator |
+| 2 | pagw-request-parser-queue | 300s (5 min) | 5 | pasrequestparser |
+| 3 | pagw-business-validator-queue | 300s (5 min) | 5 | pasbusinessvalidator |
+| 4 | pagw-request-enricher-queue | 600s (10 min) | 7 | pasrequestenricher |
+| 5 | pagw-attachment-handler-queue | 600s (10 min) | 5 | pasattachmenthandler |
+| 6 | pagw-request-converter-queue | 300s (5 min) | 5 | pasrequestconverter |
+| 7 | pagw-canonical-mapper-queue | 300s (5 min) | 5 | pascanonnicalmapper |
+| 8 | pagw-api-connector-queue | 900s (15 min) | 8 | pasapiconnector |
+| 9 | pagw-response-builder-queue | 300s (5 min) | 5 | pasresponsebuilder |
+| 10 | pagw-callback-handler-queue | 600s (10 min) | 8 | pascallbackhandler |
+| 11 | pagw-subscription-handler-queue | 600s (10 min) | 8 | passubscriptionhandler |
+| 12 | pagw-orchestrator-complete-queue | 300s (5 min) | 5 | pasorchestrator |
+| 13 | pagw-outbox-queue | 120s (2 min) | 3 | outboxpublisher |
+
+## Message Flow
+
+```
+API Gateway
+    |
+    v
++------------------------+
+| pagw-orchestrator      | --> Entry point for API requests
++------------------------+
+    |
+    v
++------------------------+
+| pagw-request-parser    | --> FHIR bundle parsing
++------------------------+
+    |
+    v
++------------------------+
+| pagw-business-         | --> Business rules validation
+| validator              |
++------------------------+
+    |
+    v
++------------------------+
+| pagw-request-enricher  | --> Data enrichment (external APIs)
+|                        |     [600s timeout, 7 retries]
++------------------------+
+    |
+    v
++------------------------+
+| pagw-attachment-       | --> S3 file uploads
+| handler                |     [600s timeout]
++------------------------+
+    |
+    v
++------------------------+
+| pagw-request-converter | --> Format conversion
++------------------------+
+    |
+    v
++------------------------+
+| pagw-canonical-mapper  | --> FHIR to X12 278 transformation
++------------------------+
+    |
+    v
++------------------------+
+| pagw-api-connector     | --> External payer API calls (CRITICAL)
+|                        |     [900s timeout, 8 retries]
++------------------------+
+    |
+    v
++------------------------+
+| pagw-response-builder  | --> X12 to FHIR response building
++------------------------+
+    |
+    +---------------------------+
+    |                           |
+    v                           v
++------------------------+  +------------------------+
+| pagw-callback-handler  |  | pagw-subscription-     |
+| [600s, 8 retries]      |  | handler [600s, 8]      |
++------------------------+  +------------------------+
+    |                           |
+    +-------------+-------------+
+                  |
+                  v
++------------------------+
+| pagw-orchestrator-     | --> Workflow completion
+| complete               |
++------------------------+
+
++------------------------+
+| pagw-outbox            | --> Transactional outbox (all services)
+|                        |     [120s timeout, 3 retries]
++------------------------+
+
++------------------------+
+| pagw-dlq               | --> Dead Letter Queue (failed messages)
++------------------------+
+```
 
 ## Parameter Rationale
 
@@ -40,32 +116,29 @@ All queues are **FIFO queues** with:
 
 These queues handle CPU-bound or fast in-memory operations:
 
-- **pas-api-orchestrator-queue**: Entry point, sync processing
-- **pas-request-validator**: FHIR schema validation (fast)
-- **pas-business-validator**: Business rules validation (fast)
-- **pas-canonical-mapper-queue**: FHIR to X12 278 transformation (CPU-bound)
-- **pas-payer-router-queue**: Payer endpoint routing (database lookup)
-- **pas-response-builder-queue**: X12 to FHIR response building (CPU-bound)
-- **pas-orchestrator-complete**: Workflow completion notification
-- **pas-notification-queue**: Status update notifications
-- **pagw-request-parser-queue**: FHIR bundle parsing
-- **pagw-request-converter-queue**: Format conversion
+- **pagw-orchestrator-queue**: Entry point, sync processing
+- **pagw-request-parser-queue**: FHIR bundle parsing (fast)
+- **pagw-business-validator-queue**: Business rules validation (fast)
+- **pagw-request-converter-queue**: Format conversion (CPU-bound)
+- **pagw-canonical-mapper-queue**: FHIR to X12 278 transformation (CPU-bound)
+- **pagw-response-builder-queue**: X12 to FHIR response building (CPU-bound)
+- **pagw-orchestrator-complete-queue**: Workflow completion notification
 
 ### Extended Timeout Queues (600s / 5-8 retries)
 
 These queues handle external API calls or I/O-bound operations:
 
-#### pas-request-enricher (600s / 7 retries)
+#### pagw-request-enricher-queue (600s / 7 retries)
 - Calls external enrichment APIs (member lookup, provider registry)
 - External APIs may have variable response times
 - Extra retries for transient network failures
 
-#### pagw-pas-attachment-handler (600s / 5 retries)
+#### pagw-attachment-handler-queue (600s / 5 retries)
 - Handles large file uploads to S3
 - File sizes can vary significantly
 - Network latency for large transfers
 
-#### pagw-callback-queue (600s / 8 retries)
+#### pagw-callback-handler-queue (600s / 8 retries)
 - Delivers async responses to client webhooks
 - Client endpoints may be slow or temporarily unavailable
 - More retries to ensure delivery
@@ -74,11 +147,6 @@ These queues handle external API calls or I/O-bound operations:
 - Delivers FHIR Subscription notifications
 - Similar to callback delivery - external webhook calls
 - More retries for reliability
-
-#### pagw-callback-handler-queue (600s / 8 retries)
-- Processes callback requests
-- Client webhook endpoints may have variable latency
-- More retries for transient failures
 
 ### High Timeout Queue (900s / 8 retries)
 
@@ -122,7 +190,7 @@ The visibility timeout should be **at least 6x the expected processing time** to
 
 ## Dead Letter Queue (DLQ) Strategy
 
-All queues route failed messages to `pas-error-dlq`:
+All queues route failed messages to `pagw-dlq`:
 
 1. **Retention**: 14 days for debugging
 2. **Alerting**: CloudWatch alarm on DLQ message count > 0
@@ -130,6 +198,27 @@ All queues route failed messages to `pas-error-dlq`:
 4. **Reprocessing**: Manual redrive after fixing issues
 
 See [DLQ Runbook](../operations/dlq-runbook.md) for handling failed messages.
+
+## LocalStack Configuration
+
+For local development, queues are created in `infra/localstack-init.sh`:
+
+```bash
+awslocal sqs create-queue --queue-name pagw-orchestrator-queue
+awslocal sqs create-queue --queue-name pagw-request-parser-queue
+awslocal sqs create-queue --queue-name pagw-business-validator-queue
+awslocal sqs create-queue --queue-name pagw-attachment-handler-queue
+awslocal sqs create-queue --queue-name pagw-request-enricher-queue
+awslocal sqs create-queue --queue-name pagw-request-converter-queue
+awslocal sqs create-queue --queue-name pagw-canonical-mapper-queue
+awslocal sqs create-queue --queue-name pagw-api-connector-queue
+awslocal sqs create-queue --queue-name pagw-response-builder-queue
+awslocal sqs create-queue --queue-name pagw-callback-handler-queue
+awslocal sqs create-queue --queue-name pagw-subscription-handler-queue
+awslocal sqs create-queue --queue-name pagw-orchestrator-complete-queue
+awslocal sqs create-queue --queue-name pagw-outbox-queue
+awslocal sqs create-queue --queue-name pagw-dlq
+```
 
 ## Terraform Configuration
 
@@ -150,7 +239,7 @@ module "sqs_pagw_api_connector" {
   kms_data_key_reuse_period_seconds = 300
 
   redrive_policy = jsonencode({
-    deadLetterTargetArn = module.sqs_pagw_pas_error_dlq.sqs_queue_arn
+    deadLetterTargetArn = module.sqs_pagw_dlq.sqs_queue_arn
     maxReceiveCount     = 8
   })
 }
