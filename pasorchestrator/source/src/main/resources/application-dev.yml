@@ -41,7 +41,7 @@ pagw:
       enabled: true
       phi-key-alias: alias/pagw-phi-field-dev
     dynamodb:
-      enabled: true
+      enabled: false  # Disabled until IAM permissions are added for DynamoDB
       idempotency-table: pagw-idempotency-dev
   encryption:
     enabled: true
