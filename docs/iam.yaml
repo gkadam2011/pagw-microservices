@@ -1,0 +1,43 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    creationTimestamp: "2025-11-26T15:47:01Z"
+    name: default
+    namespace: pagw-srv-dev
+    resourceVersion: "2410659492"
+    uid: 6b5cab2c-74eb-4644-a46b-d33e21093715
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::482754295601:role/CRLN-PAGW-dev-EKS-crossaccount-Role
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{"eks.amazonaws.com/role-arn":"arn:aws:iam::482754295601:role/CRLN-PAGW-dev-EKS-crossaccount-Role"},"name":"pagw-custom-sa","namespace":"pagw-srv-dev"}}
+    creationTimestamp: "2025-12-19T21:26:46Z"
+    name: pagw-custom-sa
+    namespace: pagw-srv-dev
+    resourceVersion: "2547920052"
+    uid: 0bcaaa1a-3c8b-4f68-ad58-b08dc484c7c7
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"ServiceAccount","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"pagw","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/version":"0.0.1","helm.sh/chart":"namespace-0.0.6"},"name":"pagw-srv-dev-sa","namespace":"pagw-srv-dev"},"secrets":[{"name":"pagw-srv-dev-secret"}]}
+    creationTimestamp: "2025-11-26T15:47:01Z"
+    labels:
+      app.kubernetes.io/instance: pagw
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/version: 0.0.1
+      helm.sh/chart: namespace-0.0.6
+    name: pagw-srv-dev-sa
+    namespace: pagw-srv-dev
+    resourceVersion: "2410659517"
+    uid: 6661c67e-4070-4427-8f11-7b69e0a17093
+  secrets:
+  - name: pagw-srv-dev-secret
+kind: List
+metadata:
+  resourceVersion: ""

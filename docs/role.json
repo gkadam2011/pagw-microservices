@@ -1,0 +1,158 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::482754295601:oidc-provider/oidc.eks.us-east-2.amazonaws.com/id/DF0D04A01DFD8E98CEF5A66C21172918"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringLike": {
+                    "oidc.eks.us-east-2.amazonaws.com/id/DF0D04A01DFD8E98CEF5A66C21172918:aud": "sts.amazonaws.com",
+                    "oidc.eks.us-east-2.amazonaws.com/id/DF0D04A01DFD8E98CEF5A66C21172918:sub": "system:serviceaccount:pagw-*:pagw-*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "s3.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+
+
+# CRLN-PAGW-dev-KMS-S3-EBS-Encryption-Access-Policy
+{
+    "Statement": [
+        {
+            "Action": [
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:DescribeKey"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:kms:us-east-2:482754295601:key/1c2b78e3-6ad5-46e0-8ba8-60a37383ad7f",
+                "arn:aws:kms:us-east-2:482754295601:key/8b06d7a0-20a1-482a-868d-4797011babf7",
+                "arn:aws:kms:us-east-2:482754295601:key/48539804-3208-483f-82f1-bc7b0d8a66d3",
+                "arn:aws:kms:us-east-2:482754295601:key/5a6e222e-c4e0-4343-a43f-e862a6bfb2b0",
+                "*"
+            ],
+            "Sid": "AllowUseOfTheKey"
+        },
+        {
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
+            ],
+            "Condition": {
+                "Bool": {
+                    "kms:GrantIsForAWSResource": "true"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:kms:us-east-2:482754295601:key/1c2b78e3-6ad5-46e0-8ba8-60a37383ad7f",
+                "arn:aws:kms:us-east-2:482754295601:key/48539804-3208-483f-82f1-bc7b0d8a66d3"
+            ],
+            "Sid": "AllowAttachmentOfPersistentResources"
+        }
+    ],
+    "Version": "2012-10-17"
+}
+
+# CRLN-PAGW-dev-S3-Full-Access-Policy
+{
+    "Statement": [
+        {
+            "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetObjectRetention",
+                "s3:RestoreObject",
+                "s3:GetObjectTagging",
+                "s3:PutObjectTagging",
+                "s3:GetBucketAcl",
+                "s3:GetObjectVersion",
+                "s3:GetBucketLocation",
+                "s3:GetEncryptionConfiguration",
+                "s3:ListBucket",
+                "s3:ListObjectsV2",
+                "s3:ListObjects",
+                "s3:ListMultipartUploadParts",
+                "s3:DeleteObject*"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::*-pagw-*/*",
+                "arn:aws:s3:::*-pagw-*",
+                "arn:aws:s3:::*-ssm-*",
+                "arn:aws:s3:::*-ssm-*/*",
+                "arn:aws:s3:::*-edl-*",
+                "arn:aws:s3:::*-edl-*/*",
+                "arn:aws:s3:::cfx-*/*",
+                "arn:aws:s3:::cfx-*"
+            ],
+            "Sid": "ObjectAccess"
+        }
+    ],
+    "Version": "2012-10-17"
+}
+
+
+# CRLN-PAGW-dev-secret-manager-Policy
+{
+    "Statement": [
+        {
+            "Action": [
+                "secretsmanager:GetRandomPassword",
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:UntagResource",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecrets",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:TagResource"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:*PAGW*",
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:*pagw*",
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:dev/rds/aurora/postgresql-??????",
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:dev/rds/aurora/mysql-??????",
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:dev/snowflake/spark/pagw*",
+                "arn:aws:secretsmanager:us-east-2:482754295601:secret:dev/ser/edl-??????"
+            ]
+        }
+    ],
+    "Version": "2012-10-17"
+}
+
+# CRLN-PAGW-dev-sqs-Access-Policy
+{
+    "Statement": [
+        {
+            "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueUrl",
+                "sqs:ReceiveMessage",
+                "sqs:GetQueueAttributes"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:sqs:us-east-2:482754295601:dev-PAGW-*"
+            ],
+            "Sid": "VisualEditor0"
+        }
+    ],
+    "Version": "2012-10-17"
+}
