@@ -2,6 +2,119 @@
 
 Run these tests from inside a PAGW application pod to troubleshoot AWS credential and connectivity issues.
 
+---
+
+## Create a Test Pod
+
+Create a temporary debug pod using the same service account as the PAGW applications:
+
+### Option 1: Quick AWS CLI Pod
+
+```bash
+# Create a pod with AWS CLI using the pagw-custom-sa service account
+kubectl run aws-debug --rm -it \
+  --image=amazon/aws-cli:latest \
+  --serviceaccount=pagw-custom-sa \
+  --namespace=pagw-srv-dev \
+  --restart=Never \
+  --command -- /bin/bash
+```
+
+### Option 2: Full Debug Pod (YAML)
+
+Save this as `debug-pod.yaml`:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pagw-debug
+  namespace: pagw-srv-dev
+  labels:
+    app: pagw-debug
+spec:
+  serviceAccountName: pagw-custom-sa
+  containers:
+  - name: debug
+    image: amazon/aws-cli:latest
+    command: ["/bin/bash", "-c", "sleep 3600"]
+    env:
+    - name: AWS_REGION
+      value: "us-east-2"
+    - name: AWS_DEFAULT_REGION
+      value: "us-east-2"
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 0
+```
+
+Apply and connect:
+
+```bash
+# Create the debug pod
+kubectl apply -f debug-pod.yaml
+
+# Wait for it to be ready
+kubectl wait --for=condition=Ready pod/pagw-debug -n pagw-srv-dev --timeout=60s
+
+# Connect to the pod
+kubectl exec -it pagw-debug -n pagw-srv-dev -- /bin/bash
+
+# When done, delete the pod
+kubectl delete pod pagw-debug -n pagw-srv-dev
+```
+
+### Option 3: Debug Pod with Network Tools
+
+For more comprehensive debugging (includes curl, nc, nslookup):
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pagw-netdebug
+  namespace: pagw-srv-dev
+spec:
+  serviceAccountName: pagw-custom-sa
+  containers:
+  - name: debug
+    image: nicolaka/netshoot:latest
+    command: ["/bin/bash", "-c", "sleep 3600"]
+    env:
+    - name: AWS_REGION
+      value: "us-east-2"
+  restartPolicy: Never
+```
+
+Then install AWS CLI inside:
+
+```bash
+kubectl exec -it pagw-netdebug -n pagw-srv-dev -- /bin/bash
+# Inside the pod:
+pip install awscli --quiet
+aws --version
+```
+
+### Option 4: One-liner for quick STS check
+
+```bash
+# Quick identity check without keeping the pod
+kubectl run sts-check --rm -it \
+  --image=amazon/aws-cli:latest \
+  --serviceaccount=pagw-custom-sa \
+  --namespace=pagw-srv-dev \
+  --restart=Never \
+  -- sts get-caller-identity
+```
+
+---
+
 ## Prerequisites
 
 ```bash
