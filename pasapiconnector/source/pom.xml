@@ -19,6 +19,7 @@
         <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
         <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-validation</artifactId></dependency>
         <dependency><groupId>org.jboss.logging</groupId><artifactId>jboss-logging</artifactId></dependency>
+        <dependency><groupId>com.fasterxml</groupId><artifactId>classmate</artifactId></dependency>
         <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-actuator</artifactId></dependency>
         <!-- Spring Cloud AWS SQS with explicit transitive deps due to JFrog POM issues -->
         <dependency><groupId>io.awspring.cloud</groupId><artifactId>spring-cloud-aws-starter-sqs</artifactId><version>${spring-cloud-aws.version}</version></dependency>
