@@ -1,0 +1,30 @@
+{
+  "name": "PA Server Error (500)",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "ERROR-TEST" }
+    ]
+  },
+  "response": {
+    "status": 500,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Correlation-Id": "{{request.headers.X-Correlation-Id}}",
+      "X-Error-Id": "ERR-{{randomValue type='UUID'}}"
+    },
+    "jsonBody": {
+      "error": "INTERNAL_SERVER_ERROR",
+      "errorCode": "E500",
+      "message": "An unexpected error occurred while processing your request",
+      "details": "The payer system encountered an internal error. Please retry your request.",
+      "errorId": "ERR-{{randomValue type='UUID'}}",
+      "timestamp": "{{now}}",
+      "retryable": true,
+      "suggestedRetryAfterSeconds": 30
+    },
+    "transformers": ["response-template"]
+  }
+}

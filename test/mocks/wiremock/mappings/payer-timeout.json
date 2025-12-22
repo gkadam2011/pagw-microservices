@@ -1,0 +1,24 @@
+{
+  "name": "PA Timeout Simulation",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "TIMEOUT-TEST" }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "responseCode": "A1",
+      "responseStatus": "APPROVED",
+      "message": "This response is intentionally delayed to simulate timeout"
+    },
+    "transformers": ["response-template"],
+    "fixedDelayMilliseconds": 35000
+  }
+}

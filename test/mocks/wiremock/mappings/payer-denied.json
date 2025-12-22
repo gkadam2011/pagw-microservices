@@ -1,0 +1,48 @@
+{
+  "name": "PA Denied Response",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "DENY-TEST" }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Correlation-Id": "{{request.headers.X-Correlation-Id}}",
+      "X-Payer-Transaction-Id": "PAYER-{{randomValue type='UUID'}}"
+    },
+    "jsonBody": {
+      "responseCode": "A2",
+      "responseStatus": "DENIED",
+      "message": "Prior authorization denied",
+      "denialReasons": [
+        {
+          "code": "DN001",
+          "reason": "SERVICE_NOT_MEDICALLY_NECESSARY",
+          "description": "The requested service is not medically necessary based on clinical guidelines"
+        },
+        {
+          "code": "DN002", 
+          "reason": "ALTERNATIVE_AVAILABLE",
+          "description": "A less costly alternative treatment is available"
+        }
+      ],
+      "appealInstructions": {
+        "deadline": "{{now offset='30 days' format='yyyy-MM-dd'}}",
+        "method": "Written appeal with supporting clinical documentation",
+        "faxNumber": "1-800-555-0199",
+        "address": "Mock Payer Appeals, PO Box 12345, Anytown, ST 12345"
+      },
+      "providerNpi": "1234567890",
+      "payerName": "Mock Payer Inc.",
+      "payerId": "MOCK001",
+      "processedAt": "{{now}}"
+    },
+    "transformers": ["response-template"],
+    "fixedDelayMilliseconds": 200
+  }
+}

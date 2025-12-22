@@ -265,14 +265,20 @@ services:
   # ═══════════════════════════════════════════════════════════════════════════
 
   mock-payer:
-    image: mockserver/mockserver:latest
+    image: wiremock/wiremock:3.3.1
     container_name: pagw-mock-payer
-    environment:
-      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock-payer-expectations.json
     ports:
-      - "9000:1080"
+      - "9000:8080"
     volumes:
-      - ./test/mocks:/config:ro
+      - ./test/mocks/wiremock:/home/wiremock:ro
+    command:
+      - "--verbose"
+      - "--global-response-templating"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/__admin/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
   postgres_data:

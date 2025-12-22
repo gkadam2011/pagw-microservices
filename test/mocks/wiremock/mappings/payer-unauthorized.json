@@ -1,0 +1,26 @@
+{
+  "name": "PA Unauthorized (401)",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "UNAUTH-TEST" }
+    ]
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+      "Content-Type": "application/json",
+      "WWW-Authenticate": "Bearer realm=\"payer-api\", error=\"invalid_token\""
+    },
+    "jsonBody": {
+      "error": "UNAUTHORIZED",
+      "errorCode": "E401",
+      "message": "Authentication failed or token has expired",
+      "details": "Please obtain a new access token and retry the request",
+      "timestamp": "{{now}}"
+    },
+    "transformers": ["response-template"]
+  }
+}

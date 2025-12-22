@@ -1,0 +1,35 @@
+{
+  "name": "PA Rate Limited (429)",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "RATELIMIT-TEST" }
+    ]
+  },
+  "response": {
+    "status": 429,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Correlation-Id": "{{request.headers.X-Correlation-Id}}",
+      "Retry-After": "60",
+      "X-RateLimit-Limit": "100",
+      "X-RateLimit-Remaining": "0",
+      "X-RateLimit-Reset": "{{now offset='1 minute'}}"
+    },
+    "jsonBody": {
+      "error": "RATE_LIMIT_EXCEEDED",
+      "errorCode": "E429",
+      "message": "Too many requests. You have exceeded the rate limit.",
+      "details": {
+        "limit": 100,
+        "windowMinutes": 1,
+        "remaining": 0,
+        "resetAt": "{{now offset='1 minute'}}"
+      },
+      "retryAfterSeconds": 60
+    },
+    "transformers": ["response-template"]
+  }
+}

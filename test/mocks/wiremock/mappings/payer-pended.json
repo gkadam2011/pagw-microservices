@@ -1,0 +1,46 @@
+{
+  "name": "PA Pended Response",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "PEND-TEST" }
+    ]
+  },
+  "response": {
+    "status": 202,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Correlation-Id": "{{request.headers.X-Correlation-Id}}",
+      "X-Payer-Transaction-Id": "PAYER-{{randomValue type='UUID'}}",
+      "X-Callback-Scheduled": "true"
+    },
+    "jsonBody": {
+      "responseCode": "A3",
+      "responseStatus": "PENDED",
+      "message": "Request received and pending clinical review",
+      "pendReason": "CLINICAL_REVIEW_REQUIRED",
+      "pendDetails": {
+        "reviewType": "MEDICAL_DIRECTOR",
+        "estimatedCompletionHours": 24,
+        "estimatedCompletionTime": "{{now offset='24 hours'}}"
+      },
+      "statusCheckInfo": {
+        "url": "/api/status/{{randomValue type='UUID'}}",
+        "pollingIntervalMinutes": 30
+      },
+      "callbackInfo": {
+        "willCallback": true,
+        "callbackUrl": "Configured in payer portal"
+      },
+      "providerNpi": "1234567890",
+      "payerName": "Mock Payer Inc.",
+      "payerId": "MOCK001",
+      "receivedAt": "{{now}}",
+      "processedAt": "{{now}}"
+    },
+    "transformers": ["response-template"],
+    "fixedDelayMilliseconds": 500
+  }
+}

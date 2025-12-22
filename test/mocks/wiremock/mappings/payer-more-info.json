@@ -1,0 +1,67 @@
+{
+  "name": "PA Additional Information Required",
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPattern": "/api/x12/278.*",
+    "bodyPatterns": [
+      { "contains": "MOREINFO-TEST" }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Correlation-Id": "{{request.headers.X-Correlation-Id}}",
+      "X-Payer-Transaction-Id": "PAYER-{{randomValue type='UUID'}}"
+    },
+    "jsonBody": {
+      "responseCode": "A4",
+      "responseStatus": "ADDITIONAL_INFO_REQUIRED",
+      "message": "Additional clinical documentation is required to process this request",
+      "requiredDocuments": [
+        {
+          "documentType": "CLINICAL_NOTES",
+          "description": "Most recent clinical notes from treating physician (last 30 days)",
+          "required": true,
+          "acceptedFormats": ["PDF", "TIFF", "CDA"]
+        },
+        {
+          "documentType": "LAB_RESULTS",
+          "description": "Relevant laboratory results supporting medical necessity",
+          "required": true,
+          "acceptedFormats": ["PDF", "HL7"]
+        },
+        {
+          "documentType": "IMAGING_REPORT",
+          "description": "Previous imaging studies if available",
+          "required": false,
+          "acceptedFormats": ["PDF", "DICOM"]
+        },
+        {
+          "documentType": "TREATMENT_HISTORY",
+          "description": "Documentation of previous treatments attempted",
+          "required": true,
+          "acceptedFormats": ["PDF", "CDA"]
+        }
+      ],
+      "submissionInfo": {
+        "deadline": "{{now offset='14 days' format='yyyy-MM-dd'}}",
+        "submissionUrl": "/api/attachments/submit",
+        "referenceNumber": "REF-{{randomValue length=10 type='ALPHANUMERIC'}}",
+        "maxFileSizeMB": 25
+      },
+      "contactInfo": {
+        "phone": "1-800-555-0123",
+        "email": "pa-support@mockpayer.com",
+        "hours": "Monday-Friday 8AM-6PM EST"
+      },
+      "providerNpi": "1234567890",
+      "payerName": "Mock Payer Inc.",
+      "payerId": "MOCK001",
+      "processedAt": "{{now}}"
+    },
+    "transformers": ["response-template"],
+    "fixedDelayMilliseconds": 300
+  }
+}
