@@ -26,9 +26,12 @@ WORKDIR /build
 # Install Maven
 RUN microdnf install -y maven && microdnf clean all
 
-# Copy pagwcore from its image to local Maven repository
+# Copy pagwcore Maven artifacts (JARs and POMs) to local Maven repository
 ARG SPRING_BOOT_VERSION
-COPY --from=pagwcore /app/m2/com/anthem/pagw /root/.m2/repository/com/anthem/pagw
+COPY --from=pagwcore /app/m2/ /root/.m2/repository/
+
+# Debug: Show what was copied
+RUN echo "=== PAGWCORE FILES ===" && find /root/.m2/repository/com/anthem/pagw -type f \( -name "*.jar" -o -name "*.pom" \) 2>/dev/null || echo "No artifacts found"
 
 # Copy POM and download dependencies
 COPY source/pom.xml ./pom.xml
