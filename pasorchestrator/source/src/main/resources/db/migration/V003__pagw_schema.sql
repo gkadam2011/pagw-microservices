@@ -357,16 +357,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS request_tracker_updated_at ON pagw.request_tracker;
 CREATE TRIGGER request_tracker_updated_at
     BEFORE UPDATE ON pagw.request_tracker
     FOR EACH ROW
     EXECUTE FUNCTION pagw.update_updated_at();
 
+DROP TRIGGER IF EXISTS provider_registry_updated_at ON pagw.provider_registry;
 CREATE TRIGGER provider_registry_updated_at
     BEFORE UPDATE ON pagw.provider_registry
     FOR EACH ROW
     EXECUTE FUNCTION pagw.update_updated_at();
 
+DROP TRIGGER IF EXISTS payer_configuration_updated_at ON pagw.payer_configuration;
 CREATE TRIGGER payer_configuration_updated_at
     BEFORE UPDATE ON pagw.payer_configuration
     FOR EACH ROW
