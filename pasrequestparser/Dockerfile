@@ -8,12 +8,11 @@
 ARG JAVA_VERSION=17
 ARG SPRING_BOOT_VERSION=3.3.0
 ARG BASE_REGISTRY=quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images
-ARG PAGWCORE_VERSION=latest
 
 # -----------------------------------------------------------------------------
 # Stage 0: Pull pagwcore library from its image
 # -----------------------------------------------------------------------------
-FROM ${BASE_REGISTRY}/pagwcore:${PAGWCORE_VERSION} AS pagwcore
+FROM quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pagwcore:latest AS pagwcore
 
 # -----------------------------------------------------------------------------
 # Stage 1: Build
