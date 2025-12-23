@@ -22,7 +22,7 @@ import java.util.Map;
  * 15-second response requirement for Da Vinci PAS compliance.
  */
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/pas")
 public class ParserController {
 
     private static final Logger log = LoggerFactory.getLogger(ParserController.class);

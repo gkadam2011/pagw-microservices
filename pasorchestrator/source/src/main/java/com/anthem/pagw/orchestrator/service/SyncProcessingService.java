@@ -297,7 +297,7 @@ public class SyncProcessingService {
             HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             
             ResponseEntity<String> response = restTemplate.exchange(
-                    requestParserUrl + "/api/v1/parse",
+                    requestParserUrl + "/api/v1/pas/parse",
                     HttpMethod.POST,
                     request,
                     String.class);
