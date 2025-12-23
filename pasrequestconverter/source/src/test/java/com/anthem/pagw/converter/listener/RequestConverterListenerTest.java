@@ -92,7 +92,7 @@ class RequestConverterListenerTest {
         verify(trackerService).updateStatus(pagwId, "CONVERTING", "request-converter");
         verify(s3Service).getObject("pagw-request-dev", "enriched/PAGW-12345.json");
         verify(converterService).convertPayload(enrichedData, message);
-        verify(s3Service).putObject(eq("pagw-request-dev"), startsWith("canonical/"), anyString());
+        verify(s3Service).putObject(eq("pagw-request-dev"), contains("canonical.json"), anyString());
         verify(outboxService).writeOutbox(eq(NEXT_QUEUE), any(PagwMessage.class));
         verify(trackerService).updateStatus(pagwId, "CONVERTED", "request-converter");
     }
@@ -189,7 +189,7 @@ class RequestConverterListenerTest {
         assertEquals("API_CONNECTOR", capturedMessage.getStage());
         assertEquals("ANTHEM", capturedMessage.getTenant());
         assertEquals("CLAIMS_PRO", capturedMessage.getTargetSystem());
-        assertTrue(capturedMessage.getPayloadKey().startsWith("canonical/"));
+        assertTrue(capturedMessage.getPayloadKey().contains("canonical.json"));
     }
 
     @Test
@@ -263,7 +263,7 @@ class RequestConverterListenerTest {
         verify(s3Service).putObject(bucketCaptor.capture(), keyCaptor.capture(), dataCaptor.capture());
 
         assertEquals("pagw-request-dev", bucketCaptor.getValue());
-        assertTrue(keyCaptor.getValue().startsWith("canonical/"));
+        assertTrue(keyCaptor.getValue().contains("canonical.json"));
         assertTrue(keyCaptor.getValue().contains(pagwId));
         assertNotNull(dataCaptor.getValue());
     }

@@ -66,7 +66,9 @@ public class RequestConverterService {
             payload.setReceivedDate(LocalDate.now());
             
             // Convert amounts
-            payload.setTotalAmount(data.path("totalValue").decimalValue());
+            if (data.has("totalValue") && !data.path("totalValue").isNull()) {
+                payload.setTotalAmount(new BigDecimal(data.path("totalValue").asText()));
+            }
             payload.setCurrency(data.path("totalCurrency").asText("USD"));
             
             // Convert patient to target format
@@ -202,8 +204,12 @@ public class RequestConverterService {
                 li.setSequence(item.path("sequence").asInt());
                 li.setServiceCode(item.path("code").asText());
                 li.setQuantity(item.path("quantity").asInt(1));
-                li.setUnitPrice(item.path("unitPrice").decimalValue());
-                li.setNetAmount(item.path("netAmount").decimalValue());
+                if (item.has("unitPrice") && !item.path("unitPrice").isNull()) {
+                    li.setUnitPrice(new BigDecimal(item.path("unitPrice").asText()));
+                }
+                if (item.has("netAmount") && !item.path("netAmount").isNull()) {
+                    li.setNetAmount(new BigDecimal(item.path("netAmount").asText()));
+                }
                 lineItems.add(li);
             }
         }
@@ -217,17 +223,21 @@ public class RequestConverterService {
         elig.setTerminationDate(eligData.path("terminationDate").asText());
         elig.setPlanName(eligData.path("planName").asText());
         elig.setDeductibleMet(eligData.path("deductibleMet").asBoolean());
-        elig.setCopay(eligData.path("copay").decimalValue());
-        elig.setCoinsurance(eligData.path("coinsurance").decimalValue());
+        if (eligData.has("copay") && !eligData.path("copay").isNull()) {
+            elig.setCopay(new BigDecimal(eligData.path("copay").asText()));
+        }
+        if (eligData.has("coinsurance") && !eligData.path("coinsurance").isNull()) {
+            elig.setCoinsurance(new BigDecimal(eligData.path("coinsurance").asText()));
+        }
         return elig;
     }
 
     private Map<String, String> buildTargetHeaders(String targetSystem, PagwMessage message) {
-        return Map.of(
-                "X-Target-System", targetSystem,
-                "X-PAGW-ID", message.getPagwId(),
-                "X-Tenant", message.getTenant() != null ? message.getTenant() : "default",
-                "X-Correlation-ID", message.getMessageId()
-        );
+        Map<String, String> headers = new java.util.HashMap<>();
+        headers.put("X-Target-System", targetSystem);
+        headers.put("X-PAGW-ID", message.getPagwId());
+        headers.put("X-Tenant", message.getTenant() != null ? message.getTenant() : "default");
+        headers.put("X-Correlation-ID", message.getMessageId());
+        return headers;
     }
 }
