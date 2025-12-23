@@ -29,8 +29,7 @@ pagw:
       secret-arn: ${PAGW_AURORA_SECRET_ARN:}
     sqs:
       enabled: true
-      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
-      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      attachment-handler-queue: ${PAGW_SQS_ATTACHMENT_HANDLER_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}
     s3:
       request-bucket: ${PAGW_S3_REQUEST_BUCKET:pagw-request-dev}
