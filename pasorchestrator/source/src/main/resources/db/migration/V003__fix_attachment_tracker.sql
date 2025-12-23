@@ -11,8 +11,16 @@ ALTER TABLE pagw.attachment_tracker
     ADD COLUMN IF NOT EXISTS checksum VARCHAR(64);
 
 -- Step 2: Rename file_size_bytes to size (matches code)
-ALTER TABLE pagw.attachment_tracker 
-    RENAME COLUMN file_size_bytes TO size;
+-- Handle case where column might already be renamed
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_schema = 'pagw' 
+               AND table_name = 'attachment_tracker' 
+               AND column_name = 'file_size_bytes') THEN
+        ALTER TABLE pagw.attachment_tracker RENAME COLUMN file_size_bytes TO size;
+    END IF;
+END $$;
 
 -- Step 3: Make id column compatible with UUID strings (code uses UUID.randomUUID().toString())
 -- V001 defined it as BIGSERIAL, but code inserts UUID strings
@@ -34,7 +42,6 @@ BEGIN
         UPDATE pagw.attachment_tracker SET id_new = gen_random_uuid()::TEXT WHERE id_new IS NULL;
         -- Drop old constraint and column
         ALTER TABLE pagw.attachment_tracker DROP CONSTRAINT IF EXISTS attachment_tracker_pkey;
-        ALTER TABLE pagw.attachment_tracker DROP CONSTRAINT IF EXISTS attachment_tracker_unique;
         ALTER TABLE pagw.attachment_tracker DROP COLUMN id;
         -- Rename new column
         ALTER TABLE pagw.attachment_tracker RENAME COLUMN id_new TO id;
@@ -42,9 +49,11 @@ BEGIN
     END IF;
 END $$;
 
--- Step 4: Update the unique constraint to match code expectations
+-- Step 4: Drop the old unique constraint to match code expectations
 -- Code uses ON CONFLICT (id), not (pagw_id, attachment_id)
-DROP INDEX IF EXISTS pagw.attachment_tracker_unique;
+-- Must drop constraint (not index) as PostgreSQL creates implicit index for UNIQUE constraints
+-- Note: Already dropped in Step 3 if table had data, so using IF EXISTS
+ALTER TABLE pagw.attachment_tracker DROP CONSTRAINT IF EXISTS attachment_tracker_unique;
 
 -- Step 5: Add indexes for performance
 CREATE INDEX IF NOT EXISTS idx_attachment_tracker_pagw ON pagw.attachment_tracker(pagw_id);
