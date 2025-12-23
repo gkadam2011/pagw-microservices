@@ -108,3 +108,86 @@ Caused by: java.net.SocketTimeoutException: Connect timed out
 2025-12-23 12:50:19.074 [sync-processing-thread] [] [] INFO  c.a.p.o.s.SyncProcessingService - Synchronous processing returning pended: pagwId=PAGW-20251223-00001-EE115CD1, reason=Validator unavailable, queued for async processing, timeMs=4110
 2025-12-23 12:50:19.075 [http-nio-8080-exec-4] [] [] INFO  c.a.p.o.service.OrchestratorService - Request pended, queueing for async: pagwId=PAGW-20251223-00001-EE115CD1, lastStage=BUSINESS_VALIDATOR
 2025-12-23 12:50:19.094 [http-nio-8080-exec-4] [] [] INFO  c.a.pagw.core.service.OutboxService - Outbox entry created: id=84c051e9-28a7-4d41-b129-4e816bf3a289, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, pagwId=PAGW-20251223-00001-EE115CD1
+===== POD: pasorchestrator-app-696d4dbd5-h29sw =====
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-12-23 15:27:05.363 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-23 15:27:05.368 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-23 15:27:14.466 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-23 15:27:14.558 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 15:27:14.558 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-23 15:27:14.960 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-23 15:27:14.961 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9302 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2025-12-23 15:27:20.330 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-23 15:27:21.430 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-23 15:27:22.668 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@55d8f6bb
+2025-12-23 15:27:22.669 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-23 15:27:22.833 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-23 15:27:23.160 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 4 migrations (execution time 00:00.227s)
+2025-12-23 15:27:23.331 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 003
+2025-12-23 15:27:23.334 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
+2025-12-23 15:27:23.342 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-23 15:27:32.030 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-23 15:27:32.371 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-23 15:27:32.558 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 29.659 seconds (process running for 32.127)
+=== Application Context Status ===
+Context is active: true
+Context is running: true
+Application started on port 8080. Press Ctrl+C to stop.
+2025-12-23 15:27:42.269 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 15:27:42.270 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 15:27:42.271 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+===== POD: pasorchestrator-app-696d4dbd5-h29sw =====
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-12-23 15:27:05.363 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-23 15:27:05.368 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-23 15:27:14.466 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-23 15:27:14.558 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-23 15:27:14.558 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-23 15:27:14.960 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-23 15:27:14.961 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9302 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2025-12-23 15:27:20.330 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-23 15:27:21.430 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-23 15:27:22.668 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@55d8f6bb
+2025-12-23 15:27:22.669 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-23 15:27:22.833 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-23 15:27:23.160 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 4 migrations (execution time 00:00.227s)
+2025-12-23 15:27:23.331 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 003
+2025-12-23 15:27:23.334 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
+2025-12-23 15:27:23.342 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-23 15:27:32.030 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-23 15:27:32.371 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-23 15:27:32.558 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 29.659 seconds (process running for 32.127)
+=== Application Context Status ===
+Context is active: true
+Context is running: true
+Application started on port 8080. Press Ctrl+C to stop.
+2025-12-23 15:27:42.269 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23 15:27:42.270 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-23 15:27:42.271 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-23 15:29:16.923 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=null, correlationId=null, syncMode=true
+2025-12-23 15:29:16.935 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251223-00001-946A5D5F, type=SUBMIT, tenant=null, syncMode=true
+2025-12-23 15:29:16.935 [http-nio-8080-exec-8] [] [] WARN  c.a.p.o.service.OrchestratorService - PHI encryption enabled but service not available - storing unencrypted (local mode)
+2025-12-23 15:29:18.765 [http-nio-8080-exec-8] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request tracker created: pagwId=PAGW-20251223-00001-946A5D5F, status=RECEIVED
+2025-12-23 15:29:18.830 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.s.SyncProcessingService - Starting synchronous processing: pagwId=PAGW-20251223-00001-946A5D5F, tenant=null
+2025-12-23 15:29:19.064 [http-nio-8080-exec-8] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request status updated: pagwId=PAGW-20251223-00001-946A5D5F, status=ERROR, stage=SYNC_PROCESSING
+2025-12-23 15:29:19.065 [http-nio-8080-exec-8] [] [] WARN  c.a.p.o.service.OrchestratorService - Validation errors: pagwId=PAGW-20251223-00001-946A5D5F, errors=1
