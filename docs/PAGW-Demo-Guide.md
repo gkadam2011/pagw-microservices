@@ -96,60 +96,49 @@ curl -X GET "https://pasorchestrator.pagwdev.awsdns.internal.das/actuator/health
 ```
 
 #### Step 2: Submit a Sync PA Request
+
+**Using the correct API endpoint:**
 ```bash
-curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit" \
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/api/v1/pas/Claim/\$submit?syncMode=true" \
   -H "Content-Type: application/json" \
   -H "X-Correlation-ID: demo-123" \
   -H "X-Tenant-ID: ANTHEM" \
-  -d @sample-pas-request.json
+  -d @test/fixtures/pas-referral-bundle-valid.json
 ```
 
-**Sample Request Payload** (`sample-pas-request.json`):
-```json
-{
-  "resourceType": "Bundle",
-  "type": "collection",
-  "entry": [
-    {
-      "resource": {
-        "resourceType": "Claim",
-        "status": "active",
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
-              "code": "professional"
-            }
-          ]
-        },
-        "use": "preauthorization",
-        "patient": {
-          "reference": "Patient/12345"
-        },
-        "created": "2025-12-22",
-        "provider": {
-          "reference": "Organization/67890"
-        },
-        "priority": {
-          "coding": [
-            {
-              "code": "normal"
-            }
-          ]
-        },
-        "insurance": [
-          {
-            "sequence": 1,
-            "focal": true,
-            "coverage": {
-              "reference": "Coverage/ABC123"
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
+**Or using the simplified internal endpoint:**
+```bash
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit?syncMode=true" \
+  -H "Content-Type: application/json" \
+  -H "X-Correlation-ID: demo-123" \
+  -H "X-Tenant-ID: ANTHEM" \
+  -d @test/fixtures/pas-referral-bundle-valid.json
+```
+
+**Sample Request Payloads Available:**
+
+1. **Valid Referral Bundle**: `test/fixtures/pas-referral-bundle-valid.json`
+   - Complete FHIR Bundle following Da Vinci PAS IG
+   - Includes Claim, Patient, Coverage, PractitionerRole resources
+   - Ready for production testing
+
+2. **Urgent Cardiac**: `test/fixtures/pas-request-urgent-cardiac.json`
+   - Urgent priority authorization
+   - Cardiac procedure example
+
+3. **Home Care**: `test/fixtures/pas-homecare-bundle.json`
+   - Home healthcare services authorization
+
+4. **Knee Replacement**: `test/fixtures/pas-request-professional-knee-replacement.json`
+   - Professional claim for surgical procedure
+
+**Using Postman Collection:**
+
+Import the collection from `test/postman/PAGW-PAS-Collection.postman_collection.json`:
+- Pre-configured requests with valid FHIR bundles
+- Automatic correlation ID generation
+- Response validation tests
+- Variables for baseUrl and tracking IDs
 ```
 
 **Expected Response (Sync Mode):**
@@ -169,12 +158,46 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit"
 
 #### Step 3: Check Request Status
 ```bash
-curl -X GET "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/status/PAGW-20251222-00001-XXXXX"
+# Using the status endpoint
+curl -X GET "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/status/{pagwId}" \
+  -H "X-Correlation-ID: demo-123"
+
+# Or using the inquiry endpoint for DA Vinci PAS compliance
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/inquiry" \
+  -H "Content-Type: application/json" \
+  -H "X-Correlation-ID: demo-123" \
+  -d @test/fixtures/pas-inquiry-bundle.json
 ```
 
 ---
 
 ### Part 3: Show Internal Processing (5 min)
+
+#### Service Communication Flow
+
+**Synchronous Flow (syncMode=true):**
+```
+Orchestrator (port 443) 
+  → Parser (port 443, /pas/v1/parse)
+  → Validator (port 443, /pas/v1/validate)
+  → Returns response within 13 seconds
+```
+
+**Asynchronous Flow (syncMode=false):**
+```
+Orchestrator 
+  → SQS: pagw-orchestrator-queue
+  → Parser (SQS listener)
+  → SQS: pagw-business-validator-queue
+  → Validator (SQS listener)
+  → SQS: pagw-request-enricher-queue
+  → Enricher (SQS listener)
+  → SQS: pagw-request-converter-queue
+  → Converter → API Connector → Payer
+```
+
+**Note:** All internal K8s service-to-service calls use port 443 (ClusterIP service port)
+mapping to respective container ports (8080, 8081, 8082, 8083, etc.).
 
 #### AWS Console - SQS Queues
 1. Navigate to AWS SQS Console
@@ -206,11 +229,15 @@ Show tables:
 
 #### 2. Sync vs Async Modes
 ```bash
-# Sync mode (default) - waits for response
-curl -X POST ".../pas/v1/submit?syncMode=true"
+# Sync mode - waits up to 13 seconds for response (Da Vinci PAS requirement: 15 sec)
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/api/v1/pas/Claim/\$submit?syncMode=true" \
+  -H "Content-Type: application/json" \
+  -d @test/fixtures/pas-referral-bundle-valid.json
 
-# Async mode - returns immediately with tracking ID
-curl -X POST ".../pas/v1/submit?syncMode=false"
+# Async mode - returns immediately with tracking ID (202 Accepted)
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/api/v1/pas/Claim/\$submit?syncMode=false" \
+  -H "Content-Type: application/json" \
+  -d @test/fixtures/pas-referral-bundle-valid.json
 ```
 
 #### 3. Error Handling
@@ -281,8 +308,17 @@ Share with team:
 
 ## Appendix: Full API Reference
 
-### POST /pas/v1/submit
-Submit a new PA request
+### External API (Da Vinci PAS Compliant)
+
+#### POST /api/v1/pas/Claim/$submit
+Submit a new PA request following FHIR PAS Operation
+
+**Endpoint:** `https://pasorchestrator.pagwdev.awsdns.internal.das/api/v1/pas/Claim/$submit`
+
+### Internal API (Simplified)
+
+#### POST /pas/v1/submit
+Simplified PA submission endpoint
 
 **Headers:**
 | Header | Required | Description |
@@ -310,4 +346,22 @@ Spring Actuator health (includes dependencies)
 
 ---
 
-*Last Updated: December 22, 2025*
+*Last Updated: December 23, 2025*
+
+## Quick Start Checklist
+
+- [ ] Import Postman collection from `test/postman/PAGW-PAS-Collection.postman_collection.json`
+- [ ] Set `baseUrl` variable to `https://pasorchestrator.pagwdev.awsdns.internal.das`
+- [ ] Verify orchestrator health: `GET /actuator/health`
+- [ ] Run "Submit PA Request (Sync)" from Postman
+- [ ] Verify parser and validator logs show successful processing
+- [ ] Check SQS queues for async flow (if using syncMode=false)
+
+## Common Issues & Solutions
+
+| Issue | Solution |
+|-------|----------|
+| "Missing or invalid 'entry' array" | Ensure FHIR Bundle has valid entry array with Claim resource |
+| Connection timeout (port 8081/8082) | Services using wrong ports - verify latest deployment with port 443 |
+| Env var not resolved | Check property names use camelCase (not hyphenated) for Spring Boot binding |
+| Parser/Validator not found | Verify K8s services are running: `kubectl get svc -n pagw-srv-dev` |
