@@ -29,8 +29,8 @@ pagw:
       secret-arn: ${PAGW_AURORA_SECRET_ARN:}
     sqs:
       enabled: true
-      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
-      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      business-validator-queue: ${PAGW_SQS_BUSINESS_VALIDATOR_QUEUE:}
+      request-enricher-queue: ${PAGW_SQS_REQUEST_ENRICHER_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}
     s3:
       request-bucket: ${PAGW_S3_REQUEST_BUCKET:pagw-request-dev}
