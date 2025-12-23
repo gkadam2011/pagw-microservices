@@ -60,16 +60,16 @@ public class SyncProcessingService {
     private final PagwProperties properties;
     private final ExecutorService executor;
     
-    @Value("${pagw.sync.request-parser-url:http://pasrequestparser:8081}")
+    @Value("${pagw.sync.requestParserUrl:http://pasrequestparser:443}")
     private String requestParserUrl;
-    
-    @Value("${pagw.sync.business-validator-url:http://pasbusinessvalidator:8082}")
+
+    @Value("${pagw.sync.businessValidatorUrl:http://pasbusinessvalidator:443}")
     private String businessValidatorUrl;
     
     @Value("${pagw.sync.enabled:true}")
     private boolean syncEnabled;
     
-    @Value("${pagw.sync.timeout-seconds:13}")
+    @Value("${pagw.sync.timeoutSeconds:13}")
     private int syncTimeoutSeconds;
     
     public SyncProcessingService(
