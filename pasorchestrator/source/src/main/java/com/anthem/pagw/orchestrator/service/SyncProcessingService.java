@@ -362,7 +362,7 @@ public class SyncProcessingService {
             HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             
             ResponseEntity<String> response = restTemplate.exchange(
-                    businessValidatorUrl + "/api/v1/validate",
+                    businessValidatorUrl + "/pas/v1/validate",
                     HttpMethod.POST,
                     request,
                     String.class);
