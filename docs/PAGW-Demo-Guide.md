@@ -156,6 +156,25 @@ Import the collection from `test/postman/PAGW-PAS-Collection.postman_collection.
 }
 ```
 
+**Verify in Database:**
+```sql
+-- Check request was received and tracked
+SELECT 
+    pagw_id,
+    status,
+    last_stage,
+    correlation_id,
+    tenant,
+    received_at,
+    created_at
+FROM pagw.request_tracker 
+WHERE correlation_id = 'demo-123'
+ORDER BY created_at DESC
+LIMIT 1;
+
+-- Expected: status='RECEIVED' or 'PROCESSING'
+```
+
 #### Step 3: Check Request Status
 ```bash
 # Using the status endpoint
@@ -168,7 +187,45 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/inquiry
   -H "X-Correlation-ID: demo-123" \
   -d @test/fixtures/pas-inquiry-bundle.json
 ```
+**Verify Processing Flow in Database:**
+```sql
+-- Get full request details
+SELECT 
+    pagw_id,
+    status,
+    last_stage,
+    next_stage,
+    correlation_id,
+    tenant,
+    external_request_id,
+    payer_id,
+    patient_member_id,
+    sync_processed,
+    async_queued,
+    raw_s3_key,
+    enriched_s3_key,
+    received_at,
+    completed_at,
+    updated_at
+FROM pagw.request_tracker 
+WHERE pagw_id = 'PAGW-20251223-00001-XXXXX';
 
+-- Check outbox messages (transactional outbox pattern)
+SELECT 
+    id,
+    aggregate_id AS pagw_id,
+    event_type,
+    destination_queue,
+    status,
+    retry_count,
+    created_at,
+    processed_at
+FROM pagw.outbox 
+WHERE aggregate_id = 'PAGW-20251223-00001-XXXXX'
+ORDER BY created_at DESC;
+
+-- Expected: Messages for each processing stage
+```
 ---
 
 ### Part 3: Show Internal Processing (5 min)
@@ -199,6 +256,99 @@ Orchestrator
 **Note:** All internal K8s service-to-service calls use port 443 (ClusterIP service port)
 mapping to respective container ports (8080, 8081, 8082, 8083, etc.).
 
+#### Database Verification Queries
+
+**1. Monitor Request Lifecycle:**
+```sql
+-- Real-time status of recent requests
+SELECT 
+    pagw_id,
+    status,
+    last_stage,
+    correlation_id,
+    DATE_TRUNC('second', received_at) as received,
+    DATE_TRUNC('second', completed_at) as completed,
+    EXTRACT(EPOCH FROM (completed_at - received_at)) as processing_time_sec
+FROM pagw.request_tracker 
+WHERE received_at > NOW() - INTERVAL '1 hour'
+ORDER BY received_at DESC
+LIMIT 10;
+```
+
+**2. Check Outbox Queue Status:**
+```sql
+-- Pending messages in outbox
+SELECT 
+    COUNT(*) as pending_count,
+    destination_queue,
+    MIN(created_at) as oldest_message
+FROM pagw.outbox
+WHERE status = 'PENDING'
+GROUP BY destination_queue;
+
+-- Failed messages requiring attention
+SELECT 
+    id,
+    aggregate_id as pagw_id,
+    destination_queue,
+    retry_count,
+    last_error,
+    created_at
+FROM pagw.outbox
+WHERE status = 'FAILED' OR retry_count >= max_retries
+ORDER BY created_at DESC
+LIMIT 5;
+```
+
+**3. Track Attachment Processing:**
+```sql
+-- Attachment status for a request
+SELECT 
+    att.pagw_id,
+    att.attachment_id,
+    att.attachment_type,
+    att.original_filename,
+    att.file_size_bytes,
+    att.status,
+    att.s3_bucket,
+    att.s3_key,
+    att.created_at,
+    att.processed_at
+FROM pagw.attachment_tracker att
+WHERE att.pagw_id = 'PAGW-20251223-00001-XXXXX';
+```
+
+**4. Performance Metrics:**
+```sql
+-- Average processing time by status
+SELECT 
+    status,
+    COUNT(*) as request_count,
+    ROUND(AVG(EXTRACT(EPOCH FROM (updated_at - received_at))), 2) as avg_time_sec,
+    ROUND(MIN(EXTRACT(EPOCH FROM (updated_at - received_at))), 2) as min_time_sec,
+    ROUND(MAX(EXTRACT(EPOCH FROM (updated_at - received_at))), 2) as max_time_sec
+FROM pagw.request_tracker
+WHERE received_at > NOW() - INTERVAL '24 hours'
+GROUP BY status;
+```
+
+**5. Error Analysis:**
+```sql
+-- Recent errors
+SELECT 
+    pagw_id,
+    status,
+    last_stage,
+    last_error_code,
+    last_error_msg,
+    retry_count,
+    created_at
+FROM pagw.request_tracker
+WHERE status = 'ERROR' OR last_error_code IS NOT NULL
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
 #### AWS Console - SQS Queues
 1. Navigate to AWS SQS Console
 2. Show the queue flow:
@@ -212,10 +362,51 @@ mapping to respective container ports (8080, 8081, 8082, 8083, etc.).
 3. Show structured logging format
 
 #### Database (Aurora PostgreSQL)
-Show tables:
-- `request_tracker` - Tracks request lifecycle
-- `audit_log` - Audit trail for compliance
-- `outbox` - Transactional outbox pattern
+
+**Connect to database:**
+```bash
+# Using psql
+psql -h aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com \
+     -U pagw_admin \
+     -d pagwdb
+
+# Set schema
+SET search_path TO pagw;
+```
+
+**Key Tables:**
+```sql
+-- List all tables in pagw schema
+\dt pagw.*
+
+-- Table descriptions
+\d+ pagw.request_tracker
+\d+ pagw.outbox
+\d+ pagw.attachment_tracker
+```
+
+**Quick Status Dashboard:**
+```sql
+-- Requests by status (last 24h)
+SELECT 
+    status,
+    COUNT(*) as count,
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage
+FROM pagw.request_tracker
+WHERE received_at > NOW() - INTERVAL '24 hours'
+GROUP BY status
+ORDER BY count DESC;
+
+-- Processing pipeline health
+SELECT 
+    last_stage,
+    COUNT(*) as stuck_count,
+    MIN(updated_at) as oldest_update
+FROM pagw.request_tracker
+WHERE status IN ('PROCESSING', 'PENDING')
+  AND updated_at < NOW() - INTERVAL '5 minutes'
+GROUP BY last_stage;
+```
 
 ---
 
