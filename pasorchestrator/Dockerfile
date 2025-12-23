@@ -37,9 +37,10 @@ RUN echo "=== PAGWCORE FILES ===" && find /root/.m2/repository/com/anthem/pagw -
 COPY source/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B -Dspring-boot.version=${SPRING_BOOT_VERSION} || true
 
-# Copy source and build
+# Copy source and build (clean first to avoid cached old migration files)
 COPY source/src ./src
-RUN mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
+RUN rm -rf target && \
+    mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
 
 # -----------------------------------------------------------------------------
 # Runtime
