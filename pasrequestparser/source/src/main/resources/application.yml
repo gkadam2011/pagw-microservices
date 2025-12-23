@@ -41,6 +41,10 @@ pagw:
       request-bucket: ${PAGW_S3_REQUEST_BUCKET:pagw-request-dev}
       attachments-bucket: ${PAGW_S3_ATTACHMENTS_BUCKET:pagw-attachments-dev}
       audit-bucket: ${PAGW_S3_AUDIT_BUCKET:pagw-audit-dev}
+    sqs:
+      request-parser-queue: ${PAGW_SQS_REQUEST_PARSER_QUEUE:}
+      business-validator-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      dlq: ${PAGW_SQS_DLQ:}
     elasticache:
       endpoint: ${PAGW_ELASTICACHE_ENDPOINT:}
       port: ${PAGW_ELASTICACHE_PORT:6379}
