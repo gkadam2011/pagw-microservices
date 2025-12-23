@@ -11,6 +11,7 @@ import com.anthem.pagw.core.util.JsonUtils;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,22 +33,24 @@ import java.util.UUID;
 public class ApiConnectorListener {
 
     private static final Logger log = LoggerFactory.getLogger(ApiConnectorListener.class);
-    private static final String CALLBACK_QUEUE = "pagw-callback-handler-queue";
 
     private final ExternalApiClient externalApiClient;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
     private final OutboxService outboxService;
+    private final String callbackQueueName;
 
     public ApiConnectorListener(
             ExternalApiClient externalApiClient,
             S3Service s3Service,
             RequestTrackerService trackerService,
-            OutboxService outboxService) {
+            OutboxService outboxService,
+            @Value("${pagw.aws.sqs.callback-handler-queue}") String callbackQueueName) {
         this.externalApiClient = externalApiClient;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
         this.outboxService = outboxService;
+        this.callbackQueueName = callbackQueueName;
     }
 
     @SqsListener(value = "${pagw.aws.sqs.api-connectors-queue}")
@@ -119,7 +122,7 @@ public class ApiConnectorListener {
                     .build();
             
             // Write to outbox - always route to callback-handler
-            outboxService.writeOutbox(CALLBACK_QUEUE, callbackMessage);
+            outboxService.writeOutbox(callbackQueueName, callbackMessage);
             
             log.info("API submission complete: pagwId={}, externalId={}, async={}, routedTo=callback-handler", 
                     pagwId, apiResponse.getExternalId(), apiResponse.isAsync());
