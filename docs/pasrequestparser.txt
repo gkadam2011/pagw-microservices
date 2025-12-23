@@ -1,0 +1,24 @@
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+{"timestamp":"2025-12-23 08:30:38,124","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-23 08:30:38,128","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-23 08:30:42,542","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-23 08:30:42,640","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 91 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-23 08:30:45,625","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+{"timestamp":"2025-12-23 08:30:45,634","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
+{"timestamp":"2025-12-23 08:30:45,634","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
+{"timestamp":"2025-12-23 08:30:46,135","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
+{"timestamp":"2025-12-23 08:30:46,140","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 7788 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
+{"timestamp":"2025-12-23 08:30:48,330","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-23 08:30:49,640","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2965dd88","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
+{"timestamp":"2025-12-23 08:30:49,641","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-23 08:30:49,921","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
+{"timestamp":"2025-12-23 08:30:50,244","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
+{"timestamp":"2025-12-23 08:30:50,432","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
