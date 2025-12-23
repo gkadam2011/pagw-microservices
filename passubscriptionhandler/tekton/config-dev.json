@@ -1,4 +1,4 @@
-{
+﻿{
     "service_name":  "passubscriptionhandler",
     "type":  "docker",
     "app_name":  "priorauthgateway",
