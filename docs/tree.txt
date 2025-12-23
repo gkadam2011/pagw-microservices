@@ -1,0 +1,50 @@
+LF7HJF7GMKG:pagw AG29266$ tree pagw-microservices -L1
+pagw-microservices
+├── db
+├── deps.txt
+├── docker-compose.infra.yml
+├── docker-compose.local.yml
+├── docker-compose.services.yml
+├── docs
+├── infra
+├── Makefile
+├── META-INF
+├── outboxpublisher
+├── pasapiconnector
+├── pasattachmenthandler
+├── pasbusinessvalidator
+├── pascallbackhandler
+├── pasmockpayer
+├── pasorchestrator
+├── pasproviderauth
+├── pasrequestconverter
+├── pasrequestenricher
+├── pasrequestparser
+├── pasresponsebuilder
+├── passubscriptionhandler
+├── pom.xml
+├── README.md
+├── scripts
+└── test
+
+20 directories, 7 files
+LF7HJF7GMKG:pagw AG29266$ tree ncr_aedleks_pagw_app -L1
+ncr_aedleks_pagw_app
+├── outboxpublisher
+├── pagwcore
+├── pasapiconnector
+├── pasattachmenthandler
+├── pasbusinessvalidator
+├── pascallbackhandler
+├── pasmockpayer
+├── pasorchestrator
+├── pasproviderauth
+├── pasrequestconverter
+├── pasrequestenricher
+├── pasrequestparser
+├── pasresponsebuilder
+└── passubscriptionhandler
+
+15 directories, 0 files
+LF7HJF7GMKG:pagw AG29266$ pwd
+/Users/AG29266/pagw
