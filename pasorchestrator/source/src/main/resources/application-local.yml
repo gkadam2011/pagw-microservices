@@ -14,7 +14,7 @@ spring:
 
   # Database
   datasource:
-    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
+    url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}?currentSchema=pagw
     username: ${PAGW_DATABASE_USERNAME:pagw}
     password: ${PAGW_DATABASE_PASSWORD:pagw123}
     driver-class-name: org.postgresql.Driver

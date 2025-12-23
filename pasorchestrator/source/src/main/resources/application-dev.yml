@@ -18,7 +18,7 @@ spring:
 pagw:
   # Reset DB migration flag - set to true for ONE deployment to reset schema, then revert to false
   # WARNING: This will DROP all tables and recreate them!
-  reset-db-migration: true  # TODO: Change back to false after schema reset
+  reset-db-migration: false
   aws:
     region: us-east-2
     aurora:
