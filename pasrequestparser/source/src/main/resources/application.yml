@@ -21,6 +21,7 @@ spring:
 pagw:
   application-id: ${PAGW_APPLICATION_ID:pas-request-parser}
   aws:
+    endpoint: ${PAGW_AWS_ENDPOINT:http://localhost:4566}
     region: ${AWS_REGION:us-east-2}
     account-id: ${AWS_ACCOUNT_ID:}
     aurora:

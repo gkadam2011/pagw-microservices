@@ -28,8 +28,8 @@ pagw:
     batch-size: ${OUTBOX_BATCH_SIZE:50}
     max-retries: ${OUTBOX_MAX_RETRIES:5}
   aws:
-    region: ${AWS_REGION:us-east-1}
     endpoint: ${PAGW_AWS_ENDPOINT:http://localhost:4566}
+    region: ${AWS_REGION:us-east-2}
     account-id: ${AWS_ACCOUNT_ID:}
     aurora:
       writer-endpoint: ${PAGW_AURORA_WRITER_ENDPOINT:localhost}
