@@ -27,9 +27,8 @@ pagw:
       audit-bucket: ${PAGW_S3_AUDIT_BUCKET:pagw-audit-local}
     sqs:
       enabled: true
-      request-enricher-queue: ${PAGW_SQS_REQUEST_QUEUE:}
-      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
-      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      request-enricher-queue: ${PAGW_SQS_REQUEST_ENRICHER_QUEUE:}
+      request-converter-queue: ${PAGW_SQS_REQUEST_CONVERTER_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}
 
 logging:

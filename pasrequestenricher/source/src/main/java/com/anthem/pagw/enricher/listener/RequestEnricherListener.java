@@ -10,6 +10,7 @@ import com.anthem.pagw.enricher.service.RequestEnricherService;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,22 +26,24 @@ import java.util.UUID;
 public class RequestEnricherListener {
 
     private static final Logger log = LoggerFactory.getLogger(RequestEnricherListener.class);
-    private static final String NEXT_QUEUE = "pagw-request-converter-queue";
 
     private final RequestEnricherService enricherService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
     private final OutboxService outboxService;
+    private final String nextQueueName;
 
     public RequestEnricherListener(
             RequestEnricherService enricherService,
             S3Service s3Service,
             RequestTrackerService trackerService,
-            OutboxService outboxService) {
+            OutboxService outboxService,
+            @Value("${pagw.aws.sqs.request-converter-queue}") String nextQueueName) {
         this.enricherService = enricherService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
         this.outboxService = outboxService;
+        this.nextQueueName = nextQueueName;
     }
 
     @SqsListener(value = "${pagw.aws.sqs.request-enricher-queue}")
@@ -94,7 +97,7 @@ public class RequestEnricherListener {
                     .build();
             
             // Write to outbox
-            outboxService.writeOutbox(NEXT_QUEUE, nextMessage);
+            outboxService.writeOutbox(nextQueueName, nextMessage);
             
             // Update tracker
             trackerService.updateStatus(pagwId, "ENRICHED", "request-enricher");

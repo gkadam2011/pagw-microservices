@@ -29,13 +29,16 @@ pagw:
       secret-arn: ${PAGW_AURORA_SECRET_ARN:}
     sqs:
       enabled: true
-      request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
-      response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      request-enricher-queue: ${PAGW_SQS_REQUEST_ENRICHER_QUEUE:}
+      request-converter-queue: ${PAGW_SQS_REQUEST_CONVERTER_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}
     s3:
       request-bucket: ${PAGW_S3_REQUEST_BUCKET:pagw-request-dev}
       attachments-bucket: ${PAGW_S3_ATTACHMENTS_BUCKET:pagw-attachments-dev}
       audit-bucket: ${PAGW_S3_AUDIT_BUCKET:pagw-audit-dev}
+  external:
+    eligibility-service-url: ${PAGW_ELIGIBILITY_SERVICE_URL:http://eligibility-service:8080}
+    provider-directory-url: ${PAGW_PROVIDER_DIRECTORY_URL:http://provider-directory:8080}
     elasticache:
       endpoint: ${PAGW_ELASTICACHE_ENDPOINT:}
       port: ${PAGW_ELASTICACHE_PORT:6379}
