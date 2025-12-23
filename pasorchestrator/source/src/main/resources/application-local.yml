@@ -8,6 +8,10 @@ spring:
     allow-bean-definition-overriding: true
     web-application-type: servlet
 
+  # Flyway - enable clean for local testing
+  flyway:
+    clean-disabled: false
+
   # Database
   datasource:
     url: jdbc:postgresql://${PAGW_DATABASE_HOST:localhost}:${PAGW_DATABASE_PORT:5432}/${PAGW_DATABASE_NAME:pagw}
@@ -58,6 +62,9 @@ management:
 # PAGW Configuration
 pagw:
   application-id: pasorchestrator
+  
+  # Reset DB migration - set to true to drop and recreate schema
+  reset-db-migration: ${RESET_DB_MIGRATION:true}
   
   # Service info
   service:
