@@ -1,13 +1,13 @@
 #################################################
 $ pagd logs pasorchestrator-app-696d4dbd5-h29sw
 #################################################
-I1223 15:46:43.275177   79243 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1223 15:46:43.275474   79243 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1223 15:46:43.275479   79243 get_token.go:59] finding a token cache
-I1223 15:46:43.275481   79243 get_token.go:68] acquiring the lock of token cache
-I1223 15:46:43.276195   79243 get_token.go:88] checking expiration of the existing token
-I1223 15:46:43.276213   79243 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
-I1223 15:46:43.276252   79243 get_token.go:74] releasing the lock of token cache
+I1223 17:08:12.542221   47609 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 17:08:12.542563   47609 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 17:08:12.542574   47609 get_token.go:59] finding a token cache
+I1223 17:08:12.542576   47609 get_token.go:68] acquiring the lock of token cache
+I1223 17:08:12.543537   47609 get_token.go:88] checking expiration of the existing token
+I1223 17:08:12.543560   47609 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 17:08:12.543603   47609 get_token.go:74] releasing the lock of token cache
 Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -52,16 +52,23 @@ Application started on port 8080. Press Ctrl+C to stop.
 2025-12-23 15:29:18.830 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.s.SyncProcessingService - Starting synchronous processing: pagwId=PAGW-20251223-00001-946A5D5F, tenant=null
 2025-12-23 15:29:19.064 [http-nio-8080-exec-8] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request status updated: pagwId=PAGW-20251223-00001-946A5D5F, status=ERROR, stage=SYNC_PROCESSING
 2025-12-23 15:29:19.065 [http-nio-8080-exec-8] [] [] WARN  c.a.p.o.service.OrchestratorService - Validation errors: pagwId=PAGW-20251223-00001-946A5D5F, errors=1
+2025-12-23 17:06:05.149 [http-nio-8080-exec-1] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, syncMode=true
+2025-12-23 17:06:05.151 [http-nio-8080-exec-1] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251223-00002-86CB8D00, type=SUBMIT, tenant=ANTHEM, syncMode=true
+2025-12-23 17:06:05.151 [http-nio-8080-exec-1] [] [] WARN  c.a.p.o.service.OrchestratorService - PHI encryption enabled but service not available - storing unencrypted (local mode)
+2025-12-23 17:06:05.377 [http-nio-8080-exec-1] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request tracker created: pagwId=PAGW-20251223-00002-86CB8D00, status=RECEIVED
+2025-12-23 17:06:05.379 [http-nio-8080-exec-1] [] [] INFO  c.a.p.o.s.SyncProcessingService - Starting synchronous processing: pagwId=PAGW-20251223-00002-86CB8D00, tenant=ANTHEM
+2025-12-23 17:06:05.502 [http-nio-8080-exec-1] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request status updated: pagwId=PAGW-20251223-00002-86CB8D00, status=ERROR, stage=SYNC_PROCESSING
+2025-12-23 17:06:05.503 [http-nio-8080-exec-1] [] [] WARN  c.a.p.o.service.OrchestratorService - Validation errors: pagwId=PAGW-20251223-00002-86CB8D00, errors=1
 #################################################
 $ pagd logs pasrequestparser-app-9d7c698c9-blfhp
 #################################################
-I1223 15:44:19.669009   74384 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1223 15:44:19.669559   74384 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1223 15:44:19.669570   74384 get_token.go:59] finding a token cache
-I1223 15:44:19.669574   74384 get_token.go:68] acquiring the lock of token cache
-I1223 15:44:19.670857   74384 get_token.go:88] checking expiration of the existing token
-I1223 15:44:19.670881   74384 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
-I1223 15:44:19.670928   74384 get_token.go:74] releasing the lock of token cache
+I1223 17:09:43.580909   50691 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 17:09:43.581227   50691 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 17:09:43.581230   50691 get_token.go:59] finding a token cache
+I1223 17:09:43.581232   50691 get_token.go:68] acquiring the lock of token cache
+I1223 17:09:43.581797   50691 get_token.go:88] checking expiration of the existing token
+I1223 17:09:43.581817   50691 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 17:09:43.581862   50691 get_token.go:74] releasing the lock of token cache
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -100,17 +107,21 @@ I1223 15:44:19.670928   74384 get_token.go:74] releasing the lock of token cache
 {"timestamp":"2025-12-23 15:27:55,362","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 1 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
 {"timestamp":"2025-12-23 15:29:19,047","level":"INFO","service":"pas-request-parser","message":"Synchronous parse request: pagwId=PAGW-20251223-00001-946A5D5F, tenant=null","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-7"}
 {"timestamp":"2025-12-23 15:29:19,048","level":"WARN","service":"pas-request-parser","message":"Parse failed: pagwId=PAGW-20251223-00001-946A5D5F, errors=[Missing or invalid 'entry' array]","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-7"}
+{"timestamp":"2025-12-23 17:06:05,387","level":"INFO","service":"pas-request-parser","message":"Synchronous parse request: pagwId=PAGW-20251223-00002-86CB8D00, tenant=ANTHEM","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-23 17:06:05,389","level":"INFO","service":"pas-request-parser","message":"Parsed bundle: pagwId=PAGW-20251223-00002-86CB8D00, claimType=professional, attachments=0","logger":"com.anthem.pagw.parser.service.RequestParserService","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-23 17:06:05,396","level":"INFO","service":"pas-request-parser","message":"Parse successful: pagwId=PAGW-20251223-00002-86CB8D00, attachments=0","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-1"}
 
 #################################################
 $ pagd logs pasbusinessvalidator-app-dbdbdb8c8-hkqk7
 #################################################
-I1223 15:47:50.785611   81519 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1223 15:47:50.785922   81519 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1223 15:47:50.785925   81519 get_token.go:59] finding a token cache
-I1223 15:47:50.785927   81519 get_token.go:68] acquiring the lock of token cache
-I1223 15:47:50.786466   81519 get_token.go:88] checking expiration of the existing token
-I1223 15:47:50.786486   81519 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
-I1223 15:47:50.786525   81519 get_token.go:74] releasing the lock of token cache
+$ pagd logs pasbusinessvalidator-app-dbdbdb8c8-hkqk7
+I1223 17:10:32.108996   52332 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 17:10:32.109442   52332 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 17:10:32.109451   52332 get_token.go:59] finding a token cache
+I1223 17:10:32.109455   52332 get_token.go:68] acquiring the lock of token cache
+I1223 17:10:32.110485   52332 get_token.go:88] checking expiration of the existing token
+I1223 17:10:32.110505   52332 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 17:10:32.110544   52332 get_token.go:74] releasing the lock of token cache
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -135,4 +146,77 @@ I1223 15:47:50.786525   81519 get_token.go:74] releasing the lock of token cache
 2025-12-23T15:28:21.428-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-12-23T15:28:21.428-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-12-23T15:28:21.429-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-LF7HJF7GMKG:pagw AG29266$
+2025-12-23T17:06:05.407-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] c.a.p.v.controller.ValidatorController   : Received sync validation request
+2025-12-23T17:06:05.416-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] c.a.p.v.controller.ValidatorController   : Validating bundle: pagwId=PAGW-20251223-00002-86CB8D00, tenant=ANTHEM
+2025-12-23T17:06:05.423-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] c.a.p.v.controller.ValidatorController   : Validation completed: pagwId=PAGW-20251223-00002-86CB8D00, valid=false, errors=1, warnings=0
+
+#################################################
+$ pagd log pasrequestenricher-app-6948947cd8-7ppvn
+#################################################
+$ pagd logs pasrequestenricher-app-6948947cd8-7ppvn
+I1223 17:11:29.257010   54319 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 17:11:29.257485   54319 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 17:11:29.257494   54319 get_token.go:59] finding a token cache
+I1223 17:11:29.257498   54319 get_token.go:68] acquiring the lock of token cache
+I1223 17:11:29.258353   54319 get_token.go:88] checking expiration of the existing token
+I1223 17:11:29.258373   54319 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 17:11:29.258432   54319 get_token.go:74] releasing the lock of token cache
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-12-23T15:27:51.922-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Starting RequestEnricherApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-23T15:27:52.009-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : The following 2 profiles are active: "pagw", "dev"
+2025-12-23T15:27:59.300-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-12-23T15:27:59.312-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-23T15:27:59.312-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-23T15:27:59.798-05:00  INFO 1 --- [pasrequestenricher] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-23T15:27:59.800-05:00  INFO 1 --- [pasrequestenricher] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7590 ms
+2025-12-23T15:28:04.605-05:00  INFO 1 --- [pasrequestenricher] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-23T15:28:10.899-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-23T15:28:11.301-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2025-12-23T15:28:11.415-05:00  INFO 1 --- [pasrequestenricher] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-23T15:28:11.601-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Started RequestEnricherApplication in 21.978 seconds (process running for 23.852)
+2025-12-23T15:28:19.008-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23T15:28:19.008-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-23T15:28:19.009-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+#################################################
+$ pagd logs pasattachmenthandler-app-69ddf9c856-tk8np
+#################################################
+I1223 17:12:38.123025   56597 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 17:12:38.123365   56597 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 17:12:38.123370   56597 get_token.go:59] finding a token cache
+I1223 17:12:38.123372   56597 get_token.go:68] acquiring the lock of token cache
+I1223 17:12:38.124218   56597 get_token.go:88] checking expiration of the existing token
+I1223 17:12:38.124238   56597 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 17:12:38.124280   56597 get_token.go:74] releasing the lock of token cache
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-12-23T16:41:49.464-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Starting AttachmentHandlerApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-23T16:41:49.472-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-23T16:42:02.566-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-23T16:42:02.662-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-23T16:42:02.662-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-23T16:42:03.381-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-23T16:42:03.384-05:00  INFO 1 --- [pasattachmenthandler] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 13506 ms
+2025-12-23T16:42:12.162-05:00  INFO 1 --- [pasattachmenthandler] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-23T16:42:24.264-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-23T16:42:24.863-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path '/'
+2025-12-23T16:42:25.062-05:00  INFO 1 --- [pasattachmenthandler] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-23T16:42:25.262-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Started AttachmentHandlerApplication in 39.897 seconds (process running for 44.068)
+2025-12-23T16:42:33.277-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23T16:42:33.277-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-23T16:42:33.358-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
