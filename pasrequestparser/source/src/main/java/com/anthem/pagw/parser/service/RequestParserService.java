@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -172,13 +173,17 @@ public class RequestParserService {
         List<Map<String, Object>> items = new ArrayList<>();
         if (claimNode.has("item") && claimNode.path("item").isArray()) {
             for (JsonNode item : claimNode.path("item")) {
-                Map<String, Object> lineItem = Map.of(
-                        "sequence", item.path("sequence").asInt(),
-                        "productOrService", item.path("productOrService").path("coding").path(0).path("code").asText(),
-                        "quantity", item.path("quantity").path("value").asInt(),
-                        "unitPrice", item.path("unitPrice").path("value").decimalValue(),
-                        "net", item.path("net").path("value").decimalValue()
-                );
+                Map<String, Object> lineItem = new HashMap<>();
+                lineItem.put("sequence", item.path("sequence").asInt());
+                lineItem.put("productOrService", item.path("productOrService").path("coding").path(0).path("code").asText());
+                lineItem.put("quantity", item.path("quantity").path("value").asInt());
+                
+                JsonNode unitPriceNode = item.path("unitPrice").path("value");
+                lineItem.put("unitPrice", unitPriceNode.isMissingNode() ? null : unitPriceNode.decimalValue());
+                
+                JsonNode netNode = item.path("net").path("value");
+                lineItem.put("net", netNode.isMissingNode() ? null : netNode.decimalValue());
+                
                 items.add(lineItem);
             }
         }
