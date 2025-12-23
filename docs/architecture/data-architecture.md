@@ -310,41 +310,67 @@ CREATE INDEX idx_outbox_unprocessed ON pagw.outbox(processed, created_at)
 ```
 
 #### audit_log
-HIPAA-compliant audit trail of all operations.
+HIPAA-compliant audit trail with PHI access tracking.
+
+> **⚠️ Schema Updated**: V002 migration (Dec 2024) aligned schema with HIPAA requirements.  
+> See [audit-log-resolution-summary.md](audit-log-resolution-summary.md) for details.
 
 ```sql
 CREATE TABLE pagw.audit_log (
-    id BIGSERIAL PRIMARY KEY,
-    pagw_id VARCHAR(50),
+    -- Primary key
+    id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
-    -- Event info
-    event_type VARCHAR(100) NOT NULL,
-    event_subtype VARCHAR(100),
+    -- Event identification
+    event_type              VARCHAR(50) NOT NULL,           -- CREATE, UPDATE, ACCESS, EXPORT, etc.
+    event_timestamp         TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    event_source            VARCHAR(50) NOT NULL,           -- service name (pasorchestrator, pagwcore, etc.)
     
-    -- Actor info
-    actor_type VARCHAR(50),  -- 'service', 'user', 'system'
-    actor_id VARCHAR(100),
+    -- Actor tracking (HIPAA requirement)
+    actor_id                VARCHAR(100) NOT NULL,          -- user or service identifier
+    actor_type              VARCHAR(20) NOT NULL,           -- USER, SERVICE, SYSTEM
+    actor_ip                VARCHAR(50),                    -- IP address if available
     
-    -- Resource info
-    resource_type VARCHAR(100),
-    resource_id VARCHAR(255),
+    -- Resource tracking
+    resource_type           VARCHAR(50) NOT NULL,           -- REQUEST, PROVIDER, PAYER, etc.
+    resource_id             VARCHAR(100) NOT NULL,          -- PAGW ID or other resource identifier
     
-    -- Details (no PHI!)
-    details JSONB,
+    -- Action details
+    action_description      TEXT NOT NULL,                  -- Detailed description
+    outcome                 VARCHAR(20),                    -- success, failure, error
+    error_code              VARCHAR(50),                    -- Error code if applicable
     
-    -- Timing
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    -- Tracing and context
+    correlation_id          VARCHAR(100),                   -- Request correlation ID
+    trace_id                VARCHAR(100),                   -- Distributed trace ID
+    request_path            VARCHAR(500),                   -- API endpoint
+    tenant                  VARCHAR(100),                   -- Multi-tenancy support
     
-    -- Source
-    service_name VARCHAR(100),
-    service_version VARCHAR(20)
+    -- PHI access tracking (HIPAA compliance)
+    phi_accessed            BOOLEAN NOT NULL DEFAULT false, -- Was PHI accessed?
+    phi_fields_accessed     TEXT[],                         -- Array of PHI field names
+    access_reason           VARCHAR(500),                   -- Business justification
+    
+    -- Additional context
+    metadata                JSONB,                          -- Flexible additional data
+    
+    -- Timestamps
+    created_at              TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Indexes for audit queries
-CREATE INDEX idx_audit_log_pagw_id ON pagw.audit_log(pagw_id);
-CREATE INDEX idx_audit_log_timestamp ON pagw.audit_log(timestamp);
-CREATE INDEX idx_audit_log_event_type ON pagw.audit_log(event_type);
+-- Indexes for performance and compliance queries
+CREATE INDEX idx_audit_log_timestamp ON pagw.audit_log(event_timestamp);
+CREATE INDEX idx_audit_log_resource ON pagw.audit_log(resource_id);
+CREATE INDEX idx_audit_log_type ON pagw.audit_log(event_type);
+CREATE INDEX idx_audit_log_correlation ON pagw.audit_log(correlation_id);
+CREATE INDEX idx_audit_log_actor ON pagw.audit_log(actor_id);
+CREATE INDEX idx_audit_log_phi ON pagw.audit_log(phi_accessed) WHERE phi_accessed = true;
 ```
+
+**Key HIPAA Compliance Features:**
+- **PHI Access Tracking**: `phi_accessed`, `phi_fields_accessed`, `access_reason` columns
+- **Actor Identification**: `actor_id`, `actor_type`, `actor_ip` for accountability
+- **Audit Trail**: Immutable records with UUID primary keys
+- **Observability**: `trace_id` and `request_path` for incident investigation
 
 ### Configuration
 
