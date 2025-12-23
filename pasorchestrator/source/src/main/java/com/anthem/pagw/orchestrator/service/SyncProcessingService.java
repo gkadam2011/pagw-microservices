@@ -60,10 +60,10 @@ public class SyncProcessingService {
     private final PagwProperties properties;
     private final ExecutorService executor;
     
-    @Value("${pagw.services.request-parser.url:http://pasrequestparser:8080}")
+    @Value("${pagw.sync.request-parser-url:http://pasrequestparser:8081}")
     private String requestParserUrl;
     
-    @Value("${pagw.services.business-validator.url:http://pasbusinessvalidator:8080}")
+    @Value("${pagw.sync.business-validator-url:http://pasbusinessvalidator:8082}")
     private String businessValidatorUrl;
     
     @Value("${pagw.sync.enabled:true}")
