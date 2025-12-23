@@ -95,8 +95,8 @@ pagw:
   sync:
     enabled: ${PAGW_SYNC_ENABLED:true}
     timeout-seconds: ${PAGW_SYNC_TIMEOUT_SECONDS:13}
-    request-parser-url: ${PAGW_REQUEST_PARSER_URL:http://pasrequestparser:8080}
-    business-validator-url: ${PAGW_BUSINESS_VALIDATOR_URL:http://pasbusinessvalidator:8080}
+    request-parser-url: ${PAGW_REQUEST_PARSER_URL:http://pasrequestparser:8081}
+    business-validator-url: ${PAGW_BUSINESS_VALIDATOR_URL:http://pasbusinessvalidator:8082}
 
 # Logging
 logging:
