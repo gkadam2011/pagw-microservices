@@ -6,7 +6,7 @@ spring:
     name: pascallbackhandler
   datasource:
     # Aligned with Helm template: PAGW_AURORA_WRITER_ENDPOINT, PAGW_AURORA_PORT, PAGW_AURORA_DATABASE
-    url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT:localhost}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagw}
+    url: jdbc:postgresql://${PAGW_AURORA_WRITER_ENDPOINT:localhost}:${PAGW_AURORA_PORT:5432}/${PAGW_AURORA_DATABASE:pagw}?currentSchema=pagw
     username: ${PAGW_AURORA_USERNAME:postgres}
     password: ${PAGW_AURORA_PASSWORD:}
     driver-class-name: org.postgresql.Driver
