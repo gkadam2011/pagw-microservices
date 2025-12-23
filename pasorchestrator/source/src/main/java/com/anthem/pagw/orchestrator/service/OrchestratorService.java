@@ -164,7 +164,8 @@ public class OrchestratorService {
                         return buildSyncResponse(pagwId, syncResult);
                     } else {
                         // Validation error - return OperationOutcome
-                        log.warn("Validation errors: pagwId={}, errors={}", pagwId, syncResult.getValidationErrors().size());
+                        log.warn("Validation errors: pagwId={}, errors={}, details={}", 
+                                pagwId, syncResult.getValidationErrors().size(), syncResult.getValidationErrors());
                         return buildValidationErrorResponse(pagwId, syncResult);
                     }
                 } else {
