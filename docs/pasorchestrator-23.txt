@@ -1,3 +1,14 @@
+#################################################
+$ pagd logs pasorchestrator-app-696d4dbd5-h29sw
+#################################################
+I1223 15:46:43.275177   79243 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 15:46:43.275474   79243 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 15:46:43.275479   79243 get_token.go:59] finding a token cache
+I1223 15:46:43.275481   79243 get_token.go:68] acquiring the lock of token cache
+I1223 15:46:43.276195   79243 get_token.go:88] checking expiration of the existing token
+I1223 15:46:43.276213   79243 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 15:46:43.276252   79243 get_token.go:74] releasing the lock of token cache
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -41,3 +52,87 @@ Application started on port 8080. Press Ctrl+C to stop.
 2025-12-23 15:29:18.830 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.s.SyncProcessingService - Starting synchronous processing: pagwId=PAGW-20251223-00001-946A5D5F, tenant=null
 2025-12-23 15:29:19.064 [http-nio-8080-exec-8] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request status updated: pagwId=PAGW-20251223-00001-946A5D5F, status=ERROR, stage=SYNC_PROCESSING
 2025-12-23 15:29:19.065 [http-nio-8080-exec-8] [] [] WARN  c.a.p.o.service.OrchestratorService - Validation errors: pagwId=PAGW-20251223-00001-946A5D5F, errors=1
+#################################################
+$ pagd logs pasrequestparser-app-9d7c698c9-blfhp
+#################################################
+I1223 15:44:19.669009   74384 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 15:44:19.669559   74384 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 15:44:19.669570   74384 get_token.go:59] finding a token cache
+I1223 15:44:19.669574   74384 get_token.go:68] acquiring the lock of token cache
+I1223 15:44:19.670857   74384 get_token.go:88] checking expiration of the existing token
+I1223 15:44:19.670881   74384 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 15:44:19.670928   74384 get_token.go:74] releasing the lock of token cache
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+{"timestamp":"2025-12-23 15:27:18,748","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-23 15:27:18,752","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-23 15:27:23,645","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-23 15:27:23,747","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 92 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-23 15:27:26,955","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+{"timestamp":"2025-12-23 15:27:27,044","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
+{"timestamp":"2025-12-23 15:27:27,044","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
+{"timestamp":"2025-12-23 15:27:27,545","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
+{"timestamp":"2025-12-23 15:27:27,546","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 8585 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
+{"timestamp":"2025-12-23 15:27:29,758","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-23 15:27:31,450","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@51141f64","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
+{"timestamp":"2025-12-23 15:27:31,451","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-23 15:27:31,757","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
+{"timestamp":"2025-12-23 15:27:32,060","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
+{"timestamp":"2025-12-23 15:27:32,256","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
+{"timestamp":"2025-12-23 15:27:33,845","level":"INFO","service":"pas-request-parser","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","logger":"org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo","thread":"main"}
+{"timestamp":"2025-12-23 15:27:35,871","level":"INFO","service":"pas-request-parser","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","logger":"org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator","thread":"main"}
+{"timestamp":"2025-12-23 15:27:35,945","level":"INFO","service":"pas-request-parser","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","logger":"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean","thread":"main"}
+{"timestamp":"2025-12-23 15:27:38,861","level":"INFO","service":"pas-request-parser","message":"S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...","logger":"com.anthem.pagw.core.service.S3Service","thread":"main"}
+{"timestamp":"2025-12-23 15:27:41,858","level":"WARN","service":"pas-request-parser","message":"spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning","logger":"org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration","thread":"main"}
+{"timestamp":"2025-12-23 15:27:45,550","level":"INFO","service":"pas-request-parser","message":"Exposing 3 endpoints beneath base path '/actuator'","logger":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread":"main"}
+{"timestamp":"2025-12-23 15:27:45,855","level":"INFO","service":"pas-request-parser","message":"Tomcat started on port 8081 (http) with context path '/'","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+{"timestamp":"2025-12-23 15:27:46,149","level":"INFO","service":"pas-request-parser","message":"Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started","logger":"io.awspring.cloud.sqs.listener.AbstractMessageListenerContainer","thread":"lifecycle-thread-1"}
+{"timestamp":"2025-12-23 15:27:46,245","level":"INFO","service":"pas-request-parser","message":"Started RequestParserApplication in 29.791 seconds (process running for 32.235)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-23 15:27:55,361","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-23 15:27:55,361","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-23 15:27:55,362","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 1 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-23 15:29:19,047","level":"INFO","service":"pas-request-parser","message":"Synchronous parse request: pagwId=PAGW-20251223-00001-946A5D5F, tenant=null","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-7"}
+{"timestamp":"2025-12-23 15:29:19,048","level":"WARN","service":"pas-request-parser","message":"Parse failed: pagwId=PAGW-20251223-00001-946A5D5F, errors=[Missing or invalid 'entry' array]","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-7"}
+
+#################################################
+$ pagd logs pasbusinessvalidator-app-dbdbdb8c8-hkqk7
+#################################################
+I1223 15:47:50.785611   81519 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1223 15:47:50.785922   81519 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1223 15:47:50.785925   81519 get_token.go:59] finding a token cache
+I1223 15:47:50.785927   81519 get_token.go:68] acquiring the lock of token cache
+I1223 15:47:50.786466   81519 get_token.go:88] checking expiration of the existing token
+I1223 15:47:50.786486   81519 get_token.go:97] you already have a valid token until 2025-12-23 17:24:03 -0500 EST
+I1223 15:47:50.786525   81519 get_token.go:74] releasing the lock of token cache
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-12-23T15:27:34.625-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Starting BusinessValidatorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-23T15:27:34.629-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-23T15:27:42.422-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-12-23T15:27:42.501-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-23T15:27:42.501-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-23T15:27:42.902-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-23T15:27:42.918-05:00  INFO 1 --- [pasbusinessvalidator] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8006 ms
+2025-12-23T15:27:47.803-05:00  INFO 1 --- [pasbusinessvalidator] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-23T15:27:54.600-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-23T15:27:54.903-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2025-12-23T15:27:55.022-05:00  INFO 1 --- [pasbusinessvalidator] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-23T15:27:55.197-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Started BusinessValidatorApplication in 23.077 seconds (process running for 25.294)
+2025-12-23T15:28:21.428-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-23T15:28:21.428-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-23T15:28:21.429-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+LF7HJF7GMKG:pagw AG29266$
