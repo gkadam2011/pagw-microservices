@@ -147,7 +147,8 @@ public class RequestParserService {
         
         // Extract total
         if (claimNode.has("total")) {
-            claim.setTotalValue(claimNode.path("total").path("value").decimalValue());
+            JsonNode totalValueNode = claimNode.path("total").path("value");
+            claim.setTotalValue(totalValueNode.isMissingNode() ? null : totalValueNode.decimalValue());
             claim.setTotalCurrency(claimNode.path("total").path("currency").asText());
         }
         
