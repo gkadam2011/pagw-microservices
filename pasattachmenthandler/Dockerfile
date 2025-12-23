@@ -6,6 +6,7 @@
 ARG JAVA_VERSION=17
 ARG SPRING_BOOT_VERSION=3.3.0
 ARG BASE_REGISTRY=quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images
+ARG CACHE_BUST=1
 
 # -----------------------------------------------------------------------------
 # Stage 0: Pull pagwcore library from its image
@@ -26,8 +27,11 @@ COPY --from=pagwcore /app/m2/com/anthem/pagw /root/.m2/repository/com/anthem/pag
 
 COPY source/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B -Dspring-boot.version=${SPRING_BOOT_VERSION} || true
+ARG CACHE_BUST
+RUN echo "Cache bust: ${CACHE_BUST}"
 COPY source/src ./src
-RUN mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
+RUN rm -rf target && \
+    mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
 
 ARG JAVA_VERSION
 ARG BASE_REGISTRY
