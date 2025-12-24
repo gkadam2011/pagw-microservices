@@ -115,6 +115,54 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit?
   -d @test/fixtures/pas-referral-bundle-valid.json
 ```
 
+
+```bash
+curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Claim",
+        "status": "active",
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+              "code": "professional"
+            }
+          ]
+        },
+        "use": "preauthorization",
+        "patient": {
+          "reference": "Patient/12345"
+        },
+        "created": "2025-12-22",
+        "provider": {
+          "reference": "Organization/67890"
+        },
+        "priority": {
+          "coding": [
+            {
+              "code": "normal"
+            }
+          ]
+        },
+        "insurance": [
+          {
+            "sequence": 1,
+            "focal": true,
+            "coverage": {
+              "reference": "Coverage/ABC123"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}'
+```
+
 **Sample Request Payloads Available:**
 
 1. **Valid Referral Bundle**: `test/fixtures/pas-referral-bundle-valid.json`
@@ -159,7 +207,7 @@ Import the collection from `test/postman/PAGW-PAS-Collection.postman_collection.
 **Verify in Database:**
 ```sql
 -- Check request was received and tracked
-SELECT 
+SELECT
     pagw_id,
     status,
     last_stage,
@@ -167,7 +215,7 @@ SELECT
     tenant,
     received_at,
     created_at
-FROM pagw.request_tracker 
+FROM pagw.request_tracker
 WHERE correlation_id = 'demo-123'
 ORDER BY created_at DESC
 LIMIT 1;
@@ -190,7 +238,7 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/inquiry
 **Verify Processing Flow in Database:**
 ```sql
 -- Get full request details
-SELECT 
+SELECT
     pagw_id,
     status,
     last_stage,
@@ -207,11 +255,11 @@ SELECT
     received_at,
     completed_at,
     updated_at
-FROM pagw.request_tracker 
+FROM pagw.request_tracker
 WHERE pagw_id = 'PAGW-20251223-00001-XXXXX';
 
 -- Check outbox messages (transactional outbox pattern)
-SELECT 
+SELECT
     id,
     aggregate_id AS pagw_id,
     event_type,
@@ -220,7 +268,7 @@ SELECT
     retry_count,
     created_at,
     processed_at
-FROM pagw.outbox 
+FROM pagw.outbox
 WHERE aggregate_id = 'PAGW-20251223-00001-XXXXX'
 ORDER BY created_at DESC;
 
@@ -234,7 +282,7 @@ ORDER BY created_at DESC;
 
 **Synchronous Flow (syncMode=true):**
 ```
-Orchestrator (port 443) 
+Orchestrator (port 443)
   → Parser (port 443, /pas/v1/parse)
   → Validator (port 443, /pas/v1/validate)
   → Returns response within 13 seconds
@@ -242,7 +290,7 @@ Orchestrator (port 443)
 
 **Asynchronous Flow (syncMode=false):**
 ```
-Orchestrator 
+Orchestrator
   → SQS: pagw-orchestrator-queue
   → Parser (SQS listener)
   → SQS: pagw-business-validator-queue
@@ -261,7 +309,7 @@ mapping to respective container ports (8080, 8081, 8082, 8083, etc.).
 **1. Monitor Request Lifecycle:**
 ```sql
 -- Real-time status of recent requests
-SELECT 
+SELECT
     pagw_id,
     status,
     last_stage,
@@ -269,7 +317,7 @@ SELECT
     DATE_TRUNC('second', received_at) as received,
     DATE_TRUNC('second', completed_at) as completed,
     EXTRACT(EPOCH FROM (completed_at - received_at)) as processing_time_sec
-FROM pagw.request_tracker 
+FROM pagw.request_tracker
 WHERE received_at > NOW() - INTERVAL '1 hour'
 ORDER BY received_at DESC
 LIMIT 10;
@@ -278,7 +326,7 @@ LIMIT 10;
 **2. Check Outbox Queue Status:**
 ```sql
 -- Pending messages in outbox
-SELECT 
+SELECT
     COUNT(*) as pending_count,
     destination_queue,
     MIN(created_at) as oldest_message
@@ -287,7 +335,7 @@ WHERE status = 'PENDING'
 GROUP BY destination_queue;
 
 -- Failed messages requiring attention
-SELECT 
+SELECT
     id,
     aggregate_id as pagw_id,
     destination_queue,
@@ -303,7 +351,7 @@ LIMIT 5;
 **3. Track Attachment Processing:**
 ```sql
 -- Attachment status for a request
-SELECT 
+SELECT
     att.pagw_id,
     att.attachment_id,
     att.attachment_type,
@@ -321,7 +369,7 @@ WHERE att.pagw_id = 'PAGW-20251223-00001-XXXXX';
 **4. Performance Metrics:**
 ```sql
 -- Average processing time by status
-SELECT 
+SELECT
     status,
     COUNT(*) as request_count,
     ROUND(AVG(EXTRACT(EPOCH FROM (updated_at - received_at))), 2) as avg_time_sec,
@@ -335,7 +383,7 @@ GROUP BY status;
 **5. Error Analysis:**
 ```sql
 -- Recent errors
-SELECT 
+SELECT
     pagw_id,
     status,
     last_stage,
@@ -388,7 +436,7 @@ SET search_path TO pagw;
 **Quick Status Dashboard:**
 ```sql
 -- Requests by status (last 24h)
-SELECT 
+SELECT
     status,
     COUNT(*) as count,
     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage
@@ -398,7 +446,7 @@ GROUP BY status
 ORDER BY count DESC;
 
 -- Processing pipeline health
-SELECT 
+SELECT
     last_stage,
     COUNT(*) as stuck_count,
     MIN(updated_at) as oldest_update
