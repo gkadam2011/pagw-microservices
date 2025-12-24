@@ -24,7 +24,7 @@ management:
 pagw:
   application-id: ${PAGW_APPLICATION_ID:outboxpublisher}
   outbox:
-    poll-interval-ms: ${OUTBOX_POLL_INTERVAL_MS:10000}
+    publish-interval-ms: ${OUTBOX_PUBLISH_INTERVAL_MS:10000}
     batch-size: ${OUTBOX_BATCH_SIZE:50}
     max-retries: ${OUTBOX_MAX_RETRIES:5}
   aws:
