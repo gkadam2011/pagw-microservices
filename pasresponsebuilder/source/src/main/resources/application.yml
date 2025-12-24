@@ -29,6 +29,7 @@ pagw:
       secret-arn: ${PAGW_AURORA_SECRET_ARN:}
     sqs:
       enabled: true
+      response-builder-queue: ${PAGW_SQS_RESPONSE_BUILDER_QUEUE:http://localhost:4566/000000000000/pagw-response-builder-queue}
       request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
       response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}

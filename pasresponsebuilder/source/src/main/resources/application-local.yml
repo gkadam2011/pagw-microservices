@@ -46,6 +46,11 @@ pagw:
   storage:
     bucket: ${PAGW_STORAGE_BUCKET:pagw-storage-local}
 
+  aws:
+    sqs:
+      enabled: true
+      response-builder-queue: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-response-builder-queue
+
   queues:
     callback: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-callback-handler-queue
     outbox: ${AWS_ENDPOINT:http://localhost:4566}/000000000000/pagw-outbox-queue
