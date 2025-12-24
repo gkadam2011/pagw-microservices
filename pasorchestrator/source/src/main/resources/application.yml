@@ -53,6 +53,11 @@ pagw:
       enabled: true
       request-queue: ${PAGW_SQS_REQUEST_QUEUE:}
       response-queue: ${PAGW_SQS_RESPONSE_QUEUE:}
+      request-parser-queue: ${PAGW_SQS_REQUEST_PARSER_QUEUE:}
+      business-validator-queue: ${PAGW_SQS_BUSINESS_VALIDATOR_QUEUE:}
+      request-enricher-queue: ${PAGW_SQS_REQUEST_ENRICHER_QUEUE:}
+      request-converter-queue: ${PAGW_SQS_REQUEST_CONVERTER_QUEUE:}
+      api-connectors-queue: ${PAGW_SQS_API_CONNECTORS_QUEUE:}
       dlq: ${PAGW_SQS_DLQ:}
     s3:
       enabled: true
