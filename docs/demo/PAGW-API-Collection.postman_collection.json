@@ -1,0 +1,561 @@
+{
+  "info": {
+    "name": "PAGW API Collection",
+    "description": "Complete API collection for PAGW Prior Authorization Gateway\n\n**Features:**\n- Health checks for all services\n- Submit demo bundles (success, errors, warnings)\n- Status inquiries\n- Mock payer testing\n- Parser and validator endpoints\n\n**Setup:**\n1. Import this collection\n2. Set environment variables (see Variables tab)\n3. Disable SSL verification: Settings > General > SSL certificate verification OFF\n4. Test with demo bundles\n\n**Base URL:** https://pasorchestrator.pagwdev.awsdns.internal.das",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "PAGW"
+  },
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Orchestrator Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/actuator/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["actuator", "health"]
+            },
+            "description": "Check pasorchestrator service health"
+          },
+          "response": []
+        },
+        {
+          "name": "Business Validator Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://pasbusinessvalidator.pagwdev.awsdns.internal.das/actuator/health",
+              "protocol": "https",
+              "host": ["pasbusinessvalidator", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["actuator", "health"]
+            },
+            "description": "Check business validator service health"
+          },
+          "response": []
+        },
+        {
+          "name": "Request Parser Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://pasrequestparser.pagwdev.awsdns.internal.das/actuator/health",
+              "protocol": "https",
+              "host": ["pasrequestparser", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["actuator", "health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API Connector Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://pasapiconnector.pagwdev.awsdns.internal.das/actuator/health",
+              "protocol": "https",
+              "host": ["pasapiconnector", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["actuator", "health"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Health check endpoints for all PAGW microservices"
+    },
+    {
+      "name": "Submit Requests",
+      "item": [
+        {
+          "name": "Submit Valid Bundle (Success)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              },
+              {
+                "key": "X-Correlation-ID",
+                "value": "TEST-VALID-{{$timestamp}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-success-001\",\n        \"status\": \"active\",\n        \"type\": {\n          \"coding\": [\n            {\n              \"system\": \"http://terminology.hl7.org/CodeSystem/claim-type\",\n              \"code\": \"professional\"\n            }\n          ]\n        },\n        \"use\": \"preauthorization\",\n        \"patient\": {\n          \"reference\": \"Patient/patient-001\"\n        },\n        \"created\": \"2024-12-24\",\n        \"provider\": {\n          \"reference\": \"Practitioner/practitioner-001\"\n        },\n        \"insurance\": [\n          {\n            \"sequence\": 1,\n            \"focal\": true,\n            \"coverage\": {\n              \"reference\": \"Coverage/coverage-001\"\n            }\n          }\n        ],\n        \"total\": {\n          \"value\": 150.00,\n          \"currency\": \"USD\"\n        }\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Patient\",\n        \"id\": \"patient-001\",\n        \"identifier\": [\n          {\n            \"system\": \"http://example.org/member-id\",\n            \"value\": \"MBR123456789\"\n          }\n        ],\n        \"name\": [\n          {\n            \"family\": \"Doe\",\n            \"given\": [\"John\"]\n          }\n        ]\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Practitioner\",\n        \"id\": \"practitioner-001\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"1234567893\"\n          }\n        ],\n        \"name\": [\n          {\n            \"family\": \"Smith\",\n            \"given\": [\"Jane\"]\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true",
+                  "description": "Wait for synchronous response"
+                }
+              ]
+            },
+            "description": "Submit a fully valid FHIR bundle that passes all validations"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - Missing ClaimId (Error)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              },
+              {
+                "key": "X-Correlation-ID",
+                "value": "TEST-MISSING-CLAIMID-{{$timestamp}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-error-002\",\n        \"status\": \"active\",\n        \"type\": {\n          \"coding\": [\n            {\n              \"system\": \"http://terminology.hl7.org/CodeSystem/claim-type\",\n              \"code\": \"professional\"\n            }\n          ]\n        },\n        \"use\": \"preauthorization\",\n        \"patient\": {\n          \"reference\": \"Patient/patient-002\"\n        },\n        \"created\": \"2024-12-24\",\n        \"provider\": {\n          \"reference\": \"Practitioner/practitioner-002\"\n        },\n        \"total\": {\n          \"value\": 150.00,\n          \"currency\": \"USD\"\n        }\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit bundle missing required claimId field - should fail with REQUIRED_FIELD_MISSING"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - Invalid NPI (Error)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              },
+              {
+                "key": "X-Correlation-ID",
+                "value": "TEST-INVALID-NPI-{{$timestamp}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-error-007\",\n        \"status\": \"active\",\n        \"type\": {\n          \"coding\": [\n            {\n              \"system\": \"http://terminology.hl7.org/CodeSystem/claim-type\",\n              \"code\": \"professional\"\n            }\n          ]\n        },\n        \"patient\": {\n          \"reference\": \"Patient/patient-007\"\n        },\n        \"provider\": {\n          \"reference\": \"Practitioner/practitioner-007\"\n        }\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Practitioner\",\n        \"id\": \"practitioner-007\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"1041117049\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit with invalid NPI (1041117049) that fails Luhn checksum - should fail with INVALID_NPI"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - Invalid Reference Format (Error)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-error-004\",\n        \"patient\": {\n          \"reference\": \"patient-004\"\n        },\n        \"provider\": {\n          \"reference\": \"doctor-004\"\n        },\n        \"insurance\": [\n          {\n            \"coverage\": {\n              \"reference\": \"insurance-004\"\n            }\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit with invalid FHIR reference formats - should fail with INVALID_REFERENCE_FORMAT"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - Old Claim (Warning)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-warning-015\",\n        \"status\": \"active\",\n        \"type\": {\n          \"coding\": [\n            {\n              \"system\": \"http://terminology.hl7.org/CodeSystem/claim-type\",\n              \"code\": \"professional\"\n            }\n          ]\n        },\n        \"patient\": {\n          \"reference\": \"Patient/patient-015\"\n        },\n        \"created\": \"2022-06-15\",\n        \"provider\": {\n          \"reference\": \"Practitioner/practitioner-015\"\n        },\n        \"total\": {\n          \"value\": 250.00,\n          \"currency\": \"USD\"\n        }\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Practitioner\",\n        \"id\": \"practitioner-015\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"1234567893\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit claim from 2022 - should succeed with OLD_CLAIM warning"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - High Value Claim (Warning)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-warning-016\",\n        \"status\": \"active\",\n        \"type\": {\n          \"coding\": [\n            {\n              \"system\": \"http://terminology.hl7.org/CodeSystem/claim-type\",\n              \"code\": \"institutional\"\n            }\n          ]\n        },\n        \"patient\": {\n          \"reference\": \"Patient/patient-016\"\n        },\n        \"created\": \"2024-12-24\",\n        \"provider\": {\n          \"reference\": \"Organization/organization-016\"\n        },\n        \"total\": {\n          \"value\": 1250000.00,\n          \"currency\": \"USD\"\n        }\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Organization\",\n        \"id\": \"organization-016\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"1245319599\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit $1.25M claim - should succeed with HIGH_VALUE_CLAIM warning"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit - Multiple Errors",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Tenant-ID",
+                "value": "{{TENANT_ID}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-error-020\",\n        \"patient\": {\n          \"reference\": \"patient-020\"\n        },\n        \"provider\": {\n          \"reference\": \"doctor-020\"\n        },\n        \"insurance\": [\n          {\n            \"coverage\": {\n              \"reference\": \"insurance-020\"\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Practitioner\",\n        \"id\": \"practitioner-020\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"1041117049\"\n          }\n        ]\n      }\n    },\n    {\n      \"resource\": {\n        \"resourceType\": \"Organization\",\n        \"id\": \"organization-020\",\n        \"identifier\": [\n          {\n            \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n            \"value\": \"2171717178\"\n          }\n        ]\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/submit?syncMode=true",
+              "host": ["{{BASE_URL}}"],
+              "path": ["submit"],
+              "query": [
+                {
+                  "key": "syncMode",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Submit bundle with 5 validation errors (similar to official HL7 example)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Submit FHIR bundles for prior authorization"
+    },
+    {
+      "name": "Status & Inquiries",
+      "item": [
+        {
+          "name": "Get Request Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/status/:pagwId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["status", ":pagwId"],
+              "variable": [
+                {
+                  "key": "pagwId",
+                  "value": "PAGW-20251224-00001-44FEAF35",
+                  "description": "Replace with actual pagwId from submit response"
+                }
+              ]
+            },
+            "description": "Get current status of a request by pagwId"
+          },
+          "response": []
+        },
+        {
+          "name": "Inquire Status (Full Details)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"PAGW-20251224-00001-44FEAF35\"\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/inquire",
+              "host": ["{{BASE_URL}}"],
+              "path": ["inquire"]
+            },
+            "description": "Get full details of a request including validation results and payer response"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recent Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/requests?limit=10",
+              "host": ["{{BASE_URL}}"],
+              "path": ["requests"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get list of recent requests"
+          },
+          "response": []
+        }
+      ],
+      "description": "Query status and details of submitted requests"
+    },
+    {
+      "name": "Mock Payer",
+      "item": [
+        {
+          "name": "Test Approved Scenario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claimId\": \"CLAIM-TEST-APPROVED\",\n  \"subscriberId\": \"APPROVED-TEST\",\n  \"providerNpi\": \"1234567893\",\n  \"serviceType\": \"99213\",\n  \"serviceDate\": \"2024-12-24\"\n}"
+            },
+            "url": {
+              "raw": "https://pasmockpayer.pagwdev.awsdns.internal.das/authorize",
+              "protocol": "https",
+              "host": ["pasmockpayer", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["authorize"]
+            },
+            "description": "Test approved authorization response"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Denied Scenario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claimId\": \"CLAIM-TEST-DENIED\",\n  \"subscriberId\": \"DENIED-TEST\",\n  \"providerNpi\": \"1234567893\",\n  \"serviceType\": \"99213\",\n  \"serviceDate\": \"2024-12-24\"\n}"
+            },
+            "url": {
+              "raw": "https://pasmockpayer.pagwdev.awsdns.internal.das/authorize",
+              "protocol": "https",
+              "host": ["pasmockpayer", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["authorize"]
+            },
+            "description": "Test denied authorization response"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Pended/More Info Scenario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claimId\": \"CLAIM-TEST-PENDED\",\n  \"subscriberId\": \"MOREINFO-TEST\",\n  \"providerNpi\": \"1234567893\",\n  \"serviceType\": \"99213\",\n  \"serviceDate\": \"2024-12-24\"\n}"
+            },
+            "url": {
+              "raw": "https://pasmockpayer.pagwdev.awsdns.internal.das/authorize",
+              "protocol": "https",
+              "host": ["pasmockpayer", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["authorize"]
+            },
+            "description": "Test pended response requiring more information"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Timeout Scenario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claimId\": \"CLAIM-TEST-TIMEOUT\",\n  \"subscriberId\": \"TIMEOUT-TEST\",\n  \"providerNpi\": \"1234567893\",\n  \"serviceType\": \"99213\",\n  \"serviceDate\": \"2024-12-24\"\n}"
+            },
+            "url": {
+              "raw": "https://pasmockpayer.pagwdev.awsdns.internal.das/authorize",
+              "protocol": "https",
+              "host": ["pasmockpayer", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["authorize"]
+            },
+            "description": "Test timeout scenario (takes 5+ seconds)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Test different payer response scenarios"
+    },
+    {
+      "name": "Direct Service Calls",
+      "item": [
+        {
+          "name": "Parse Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resourceType\": \"Bundle\",\n  \"type\": \"collection\",\n  \"entry\": [\n    {\n      \"resource\": {\n        \"resourceType\": \"Claim\",\n        \"id\": \"claim-test\",\n        \"status\": \"active\",\n        \"patient\": {\n          \"reference\": \"Patient/patient-001\"\n        }\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "https://pasrequestparser.pagwdev.awsdns.internal.das/parse",
+              "protocol": "https",
+              "host": ["pasrequestparser", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["parse"]
+            },
+            "description": "Parse FHIR bundle directly"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pagwId\": \"PAGW-TEST-001\",\n  \"claimId\": \"CLAIM-001\",\n  \"claimType\": \"professional\",\n  \"patientReference\": \"Patient/patient-001\",\n  \"providerReference\": \"Practitioner/practitioner-001\",\n  \"practitionerData\": {\n    \"identifier\": [\n      {\n        \"system\": \"http://hl7.org/fhir/sid/us-npi\",\n        \"value\": \"1234567893\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "https://pasbusinessvalidator.pagwdev.awsdns.internal.das/validate",
+              "protocol": "https",
+              "host": ["pasbusinessvalidator", "pagwdev", "awsdns", "internal", "das"],
+              "path": ["validate"]
+            },
+            "description": "Validate claim data directly"
+          },
+          "response": []
+        }
+      ],
+      "description": "Direct calls to individual microservices"
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://pasorchestrator.pagwdev.awsdns.internal.das",
+      "type": "string"
+    },
+    {
+      "key": "TENANT_ID",
+      "value": "ANTHEM",
+      "type": "string"
+    }
+  ]
+}
