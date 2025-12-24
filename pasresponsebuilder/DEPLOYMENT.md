@@ -33,7 +33,7 @@ Orchestrator → ... → Response Converter → **Response Builder** → Subscri
 | Variable | Description | Required | Default | Example |
 |----------|-------------|----------|---------|---------|
 | `SPRING_PROFILES_ACTIVE` | Active Spring profile | Yes | - | `dev`, `prod` |
-| `SERVER_PORT` | HTTP server port | No | `8087` | `8080` |
+| `SERVER_PORT` | HTTP server port | No | `8087` | `8087` |
 | `PAGW_APPLICATION_ID` | Application identifier | No | `pasresponsebuilder` | `pasresponsebuilder` |
 
 ### AWS Configuration
