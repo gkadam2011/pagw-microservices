@@ -1,0 +1,32 @@
+# Test Resources for pascallbackhandler
+
+spring:
+  application:
+    name: pascallbackhandler-test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+pagw:
+  application-id: pascallbackhandler-test
+  aws:
+    endpoint: http://localhost:4566
+    region: us-east-2
+    account-id: "123456789012"
+    sqs:
+      enabled: false
+    s3:
+      enabled: false
+    secrets:
+      enabled: false
+  encryption:
+    kms-enabled: false
+
+logging:
+  level:
+    com.anthem.pagw: DEBUG
+    root: INFO

@@ -19,36 +19,50 @@ FROM quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pagwcore:latest AS
 # -----------------------------------------------------------------------------
 FROM ${BASE_REGISTRY}/ubi8-openjdk:openjdk-${JAVA_VERSION} AS builder
 
-# Re-declare ARGs after FROM (they go out of scope)
-ARG SPRING_BOOT_VERSION
-
 USER 0
+
 WORKDIR /build
+
+# Install Maven
 RUN microdnf install -y maven && microdnf clean all
 
-# Copy pagwcore from its image to local Maven repository
-COPY --from=pagwcore /app/m2/com/anthem/pagw /root/.m2/repository/com/anthem/pagw
+# Copy pagwcore Maven artifacts (JARs and POMs) to local Maven repository
+ARG SPRING_BOOT_VERSION
+COPY --from=pagwcore /app/m2/ /root/.m2/repository/
 
+# Debug: Show what was copied
+RUN echo "=== PAGWCORE FILES ===" && find /root/.m2/repository/com/anthem/pagw -type f \( -name "*.jar" -o -name "*.pom" \) 2>/dev/null || echo "No artifacts found"
+
+# Copy POM and download dependencies
 COPY source/pom.xml ./pom.xml
-RUN mvn dependency:go-offline -B || true
+RUN mvn dependency:go-offline -B -Dspring-boot.version=${SPRING_BOOT_VERSION} || true
 
+# Copy source and build (clean first to avoid cached old migration files)
 ARG CACHE_BUST
 RUN echo "Cache bust: ${CACHE_BUST}"
-
 COPY source/src ./src
 RUN rm -rf target && \
     mvn clean package -DskipTests -B -Dspring-boot.version=${SPRING_BOOT_VERSION}
 
-# Re-declare ARGs for runtime stage
-ARG BASE_REGISTRY
+# -----------------------------------------------------------------------------
+# Runtime
+# -----------------------------------------------------------------------------
 ARG JAVA_VERSION
+ARG BASE_REGISTRY
 FROM ${BASE_REGISTRY}/ubi8-openjdk:openjdk-${JAVA_VERSION} AS runtime
+
 USER 0
+
 RUN groupadd -g 1001 appgroup && useradd -u 1001 -g appgroup appuser
+
 WORKDIR /app
+
 COPY --from=builder /build/target/*.jar app.jar
+
 RUN chown -R appuser:appgroup /app
+
 USER appuser
+
 EXPOSE 8088
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8088/actuator/health || exit 1
