@@ -1,301 +1,999 @@
-====================================================================
-POD: pasapiconnector-app-848dbc64cc-5p2cf
-TIMESTAMP: 2025-12-24T18:31:09Z
-====================================================================
-I1224 13:31:10.044199    4724 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:10.044800    4724 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:10.044818    4724 get_token.go:59] finding a token cache
-I1224 13:31:10.044831    4724 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:10.045552    4724 get_token.go:88] checking expiration of the existing token
-I1224 13:31:10.045576    4724 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:10.045623    4724 get_token.go:74] releasing the lock of token cache
-2025-12-24T01:53:53.355549075Z   .   ____          _            __ _ _
-2025-12-24T01:53:53.355582718Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T01:53:53.355588751Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T01:53:53.355593114Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T01:53:53.355597528Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T01:53:53.355602110Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T01:53:53.355613406Z 
-2025-12-24T01:53:53.355904729Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T01:53:53.355920062Z 
-2025-12-24T01:53:53.663995022Z 2025-12-23T20:53:53.661-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Starting ApiConnectorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T01:53:53.742944676Z 2025-12-23T20:53:53.742-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : The following 2 profiles are active: "pagw", "dev"
-2025-12-24T01:54:01.049755448Z 2025-12-23T20:54:01.049-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
-2025-12-24T01:54:01.059239105Z 2025-12-23T20:54:01.059-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-24T01:54:01.059304070Z 2025-12-23T20:54:01.059-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T01:54:01.462086855Z 2025-12-23T20:54:01.461-05:00  INFO 1 --- [pasapiconnector] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-24T01:54:01.463058145Z 2025-12-23T20:54:01.462-05:00  INFO 1 --- [pasapiconnector] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7602 ms
-2025-12-24T01:54:06.268233298Z 2025-12-23T20:54:06.266-05:00  INFO 1 --- [pasapiconnector] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T01:54:12.252640234Z 2025-12-23T20:54:12.252-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T01:54:12.759424134Z 2025-12-23T20:54:12.759-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path '/'
-2025-12-24T01:54:12.862338969Z 2025-12-23T20:54:12.862-05:00  INFO 1 --- [pasapiconnector] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-24T01:54:12.955238734Z 2025-12-23T20:54:12.954-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Started ApiConnectorApplication in 21.303 seconds (process running for 23.095)
-2025-12-24T01:54:21.354318553Z 2025-12-23T20:54:21.354-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T01:54:21.354399766Z 2025-12-23T20:54:21.354-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-24T01:54:21.355762348Z 2025-12-23T20:54:21.355-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:46:28.801-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:46:29.812-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasattachmenthandler-app-57bc9bcc58-cjgzm
-TIMESTAMP: 2025-12-24T18:31:11Z
-====================================================================
-I1224 13:31:11.330864    4790 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:11.331436    4790 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:11.331448    4790 get_token.go:59] finding a token cache
-I1224 13:31:11.331474    4790 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:11.332209    4790 get_token.go:88] checking expiration of the existing token
-I1224 13:31:11.332231    4790 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:11.332274    4790 get_token.go:74] releasing the lock of token cache
-2025-12-24T17:36:38.254842029Z   .   ____          _            __ _ _
-2025-12-24T17:36:38.254897300Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T17:36:38.254908580Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T17:36:38.254916640Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T17:36:38.254923831Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T17:36:38.254932091Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T17:36:38.254939761Z 
-2025-12-24T17:36:38.255226607Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T17:36:38.255248667Z 
-2025-12-24T17:36:38.560638559Z 2025-12-24T12:36:38.552-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Starting AttachmentHandlerApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T17:36:38.563103560Z 2025-12-24T12:36:38.562-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : The following 2 profiles are active: "pagw", "dev"
-2025-12-24T17:36:45.379347215Z 2025-12-24T12:36:45.379-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
-2025-12-24T17:36:45.468855726Z 2025-12-24T12:36:45.468-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-24T17:36:45.468972248Z 2025-12-24T12:36:45.468-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T17:36:45.965607679Z 2025-12-24T12:36:45.965-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-24T17:36:45.966890136Z 2025-12-24T12:36:45.966-05:00  INFO 1 --- [pasattachmenthandler] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7197 ms
-2025-12-24T17:36:50.566253368Z 2025-12-24T12:36:50.564-05:00  INFO 1 --- [pasattachmenthandler] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T17:36:56.751411716Z 2025-12-24T12:36:56.751-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T17:36:57.072977219Z 2025-12-24T12:36:57.072-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path '/'
-2025-12-24T17:36:57.175463116Z 2025-12-24T12:36:57.174-05:00  INFO 1 --- [pasattachmenthandler] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-24T17:36:57.270908747Z 2025-12-24T12:36:57.270-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Started AttachmentHandlerApplication in 20.908 seconds (process running for 23.009)
-2025-12-24T17:37:05.375555582Z 2025-12-24T12:37:05.375-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T17:37:05.375680834Z 2025-12-24T12:37:05.375-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-24T17:37:05.376873889Z 2025-12-24T12:37:05.376-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:46:39.813-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:46:40.825-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasbusinessvalidator-app-785bc4bc5-tkrwv
-TIMESTAMP: 2025-12-24T18:31:11Z
-====================================================================
-I1224 13:31:11.964112    4805 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:11.964404    4805 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:11.964411    4805 get_token.go:59] finding a token cache
-I1224 13:31:11.964414    4805 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:11.965276    4805 get_token.go:88] checking expiration of the existing token
-I1224 13:31:11.965297    4805 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:11.965343    4805 get_token.go:74] releasing the lock of token cache
-2025-12-24T17:36:38.768252433Z   .   ____          _            __ _ _
-2025-12-24T17:36:38.768308605Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T17:36:38.768316915Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T17:36:38.768324865Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T17:36:38.768332866Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T17:36:38.768339746Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T17:36:38.768347726Z 
-2025-12-24T17:36:38.768642014Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T17:36:38.768659785Z 
-2025-12-24T17:36:39.161000257Z 2025-12-24T12:36:39.158-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Starting BusinessValidatorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T17:36:39.163407644Z 2025-12-24T12:36:39.163-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : The following 2 profiles are active: "pagw", "dev"
-2025-12-24T17:36:46.562818698Z 2025-12-24T12:36:46.562-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
-2025-12-24T17:36:46.571599683Z 2025-12-24T12:36:46.571-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-24T17:36:46.571734577Z 2025-12-24T12:36:46.571-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T17:36:47.171289862Z 2025-12-24T12:36:47.170-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-24T17:36:47.172620129Z 2025-12-24T12:36:47.172-05:00  INFO 1 --- [pasbusinessvalidator] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7810 ms
-2025-12-24T17:36:52.658786197Z 2025-12-24T12:36:52.657-05:00  INFO 1 --- [pasbusinessvalidator] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T17:36:59.260493043Z 2025-12-24T12:36:59.260-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T17:36:59.667708790Z 2025-12-24T12:36:59.667-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
-2025-12-24T17:36:59.852647152Z 2025-12-24T12:36:59.852-05:00  INFO 1 --- [pasbusinessvalidator] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-24T17:36:59.956564203Z 2025-12-24T12:36:59.956-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Started BusinessValidatorApplication in 23.103 seconds (process running for 25.29)
-2025-12-24T17:37:25.770596031Z 2025-12-24T12:37:25.770-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T17:37:25.770759525Z 2025-12-24T12:37:25.770-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-24T17:37:25.771988710Z 2025-12-24T12:37:25.771-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-12-24T17:51:06.283874075Z 2025-12-24T12:51:06.283-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-12-24T17:51:06.860169687Z 2025-12-24T12:51:06.859-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-2] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52d6af95
-2025-12-24T17:51:06.863506560Z 2025-12-24T12:51:06.863-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-12-24T18:30:10.025225064Z 2025-12-24T13:30:10.024-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-4] c.a.p.v.controller.ValidatorController   : Received sync validation request
-2025-12-24T18:30:10.032211428Z 2025-12-24T13:30:10.032-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-4] c.a.p.v.controller.ValidatorController   : Validating bundle: pagwId=PAGW-20251224-00001-DBCC6FD5, tenant=ANTHEM
-2025-12-24T18:30:10.036371834Z 2025-12-24T13:30:10.036-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-4] c.a.p.v.controller.ValidatorController   : Validation completed: pagwId=PAGW-20251224-00001-DBCC6FD5, valid=true, errors=0, warnings=0
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:46:50.826-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:46:51.840-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasorchestrator-app-66d658c9c9-jhpmz
-TIMESTAMP: 2025-12-24T18:31:12Z
-====================================================================
-I1224 13:31:12.616395    4815 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:12.616864    4815 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:12.616873    4815 get_token.go:59] finding a token cache
-I1224 13:31:12.616878    4815 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:12.617630    4815 get_token.go:88] checking expiration of the existing token
-I1224 13:31:12.617653    4815 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:12.617697    4815 get_token.go:74] releasing the lock of token cache
-2025-12-24T17:36:56.444886399Z Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
-2025-12-24T17:36:58.840614799Z   .   ____          _            __ _ _
-2025-12-24T17:36:58.840632309Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T17:36:58.840646609Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T17:36:58.840649659Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T17:36:58.840652479Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T17:36:58.840655169Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T17:36:58.840657819Z 
-2025-12-24T17:36:58.841205616Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T17:36:58.841239896Z 
-2025-12-24T17:36:59.036540929Z 2025-12-24 12:36:59.034 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T17:36:59.038502849Z 2025-12-24 12:36:59.038 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
-2025-12-24T17:37:06.139002437Z 2025-12-24 12:37:06.138 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-12-24T17:37:06.147117428Z 2025-12-24 12:37:06.146 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-24T17:37:06.147260528Z 2025-12-24 12:37:06.147 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T17:37:06.546646030Z 2025-12-24 12:37:06.546 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-24T17:37:06.547389197Z 2025-12-24 12:37:06.547 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7307 ms
-2025-12-24T17:37:06.550423232Z Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
-2025-12-24T17:37:10.636647083Z 2025-12-24 12:37:10.635 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T17:37:11.542000956Z 2025-12-24 12:37:11.541 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-24T17:37:12.449523100Z 2025-12-24 12:37:12.449 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56b48163
-2025-12-24T17:37:12.450634866Z 2025-12-24 12:37:12.450 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-24T17:37:12.551378767Z 2025-12-24 12:37:12.551 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
-2025-12-24T17:37:12.847606333Z 2025-12-24 12:37:12.847 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 4 migrations (execution time 00:00.198s)
-2025-12-24T17:37:12.951985169Z 2025-12-24 12:37:12.951 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 003
-2025-12-24T17:37:13.035385300Z 2025-12-24 12:37:13.035 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
-2025-12-24T17:37:13.045404450Z 2025-12-24 12:37:13.045 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
-2025-12-24T17:37:19.535290757Z 2025-12-24 12:37:19.535 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T17:37:19.848041969Z 2025-12-24 12:37:19.847 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-12-24T17:37:19.937474384Z 2025-12-24 12:37:19.937 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 22.697 seconds (process running for 24.565)
-2025-12-24T17:37:20.044761979Z === Application Context Status ===
-2025-12-24T17:37:20.044867598Z Context is active: true
-2025-12-24T17:37:20.044894528Z Context is running: true
-2025-12-24T17:37:20.044899958Z Application started on port 8080. Press Ctrl+C to stop.
-2025-12-24T17:37:26.645843720Z 2025-12-24 12:37:26.645 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T17:37:26.645884279Z 2025-12-24 12:37:26.645 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-12-24T17:37:26.647034705Z 2025-12-24 12:37:26.646 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-12-24T18:30:08.464432237Z 2025-12-24 13:30:08.464 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, syncMode=true
-2025-12-24T18:30:08.472051101Z 2025-12-24 13:30:08.471 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251224-00001-DBCC6FD5, type=SUBMIT, tenant=ANTHEM, syncMode=true
-2025-12-24T18:30:08.472116561Z 2025-12-24 13:30:08.472 [http-nio-8080-exec-5] [] [] WARN  c.a.p.o.service.OrchestratorService - PHI encryption enabled but service not available - storing unencrypted (local mode)
-2025-12-24T18:30:09.758991786Z 2025-12-24 13:30:09.758 [http-nio-8080-exec-5] [] [] INFO  c.a.p.c.s.RequestTrackerService - Request tracker created: pagwId=PAGW-20251224-00001-DBCC6FD5, status=RECEIVED
-2025-12-24T18:30:09.761537508Z 2025-12-24 13:30:09.761 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.s.SyncProcessingService - Starting synchronous processing: pagwId=PAGW-20251224-00001-DBCC6FD5, tenant=ANTHEM
-2025-12-24T18:30:10.044632330Z 2025-12-24 13:30:10.044 [sync-processing-thread] [] [] INFO  c.a.p.o.s.SyncProcessingService - Synchronous processing returning pended: pagwId=PAGW-20251224-00001-DBCC6FD5, reason=Validation passed, awaiting payer decision, timeMs=283
-2025-12-24T18:30:10.045407187Z 2025-12-24 13:30:10.045 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.service.OrchestratorService - Request pended, queueing for async: pagwId=PAGW-20251224-00001-DBCC6FD5, lastStage=BUSINESS_VALIDATOR
-2025-12-24T18:30:10.060853295Z 2025-12-24 13:30:10.060 [http-nio-8080-exec-5] [] [] INFO  c.a.pagw.core.service.OutboxService - Outbox entry created: id=50a96991-2ca0-4cdd-aab2-bc176276c3cc, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, pagwId=PAGW-20251224-00001-DBCC6FD5
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:47:01.841-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:02.852-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasrequestconverter-app-f986fb444-9ghgt
-TIMESTAMP: 2025-12-24T18:31:13Z
-====================================================================
-I1224 13:31:13.272758    4873 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:13.272951    4873 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:13.272956    4873 get_token.go:59] finding a token cache
-I1224 13:31:13.272960    4873 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:13.273949    4873 get_token.go:88] checking expiration of the existing token
-I1224 13:31:13.273971    4873 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:13.274014    4873 get_token.go:74] releasing the lock of token cache
-2025-12-24T02:53:19.511486751Z   .   ____          _            __ _ _
-2025-12-24T02:53:19.511532132Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T02:53:19.511536662Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T02:53:19.511540542Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T02:53:19.511544262Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T02:53:19.511547862Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T02:53:19.511551122Z 
-2025-12-24T02:53:19.511986870Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T02:53:19.512000390Z 
-2025-12-24T02:53:19.793251572Z 2025-12-23T21:53:19.790-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Starting RequestConverterApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T02:53:19.795686457Z 2025-12-23T21:53:19.795-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : The following 2 profiles are active: "pagw", "dev"
-2025-12-24T02:53:27.714069013Z 2025-12-23T21:53:27.713-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
-2025-12-24T02:53:27.787901306Z 2025-12-23T21:53:27.787-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-24T02:53:27.788062430Z 2025-12-23T21:53:27.787-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T02:53:28.218750305Z 2025-12-23T21:53:28.218-05:00  INFO 1 --- [pasrequestconverter] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-24T02:53:28.220131636Z 2025-12-23T21:53:28.219-05:00  INFO 1 --- [pasrequestconverter] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8221 ms
-2025-12-24T02:53:32.986573679Z 2025-12-23T21:53:32.985-05:00  INFO 1 --- [pasrequestconverter] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T02:53:39.514075363Z 2025-12-23T21:53:39.513-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T02:53:39.984800294Z 2025-12-23T21:53:39.984-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path '/'
-2025-12-24T02:53:40.089078450Z 2025-12-23T21:53:40.088-05:00  INFO 1 --- [pasrequestconverter] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-24T02:53:40.187985635Z 2025-12-23T21:53:40.187-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Started RequestConverterApplication in 22.693 seconds (process running for 24.906)
-2025-12-24T02:53:48.116576481Z 2025-12-23T21:53:48.116-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T02:53:48.116737175Z 2025-12-23T21:53:48.116-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-24T02:53:48.118087454Z 2025-12-23T21:53:48.117-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:47:12.853-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:13.865-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasrequestenricher-app-54d746cb59-fg8tq
-TIMESTAMP: 2025-12-24T18:31:13Z
-====================================================================
-I1224 13:31:13.892602    4890 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:13.893207    4890 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:13.893218    4890 get_token.go:59] finding a token cache
-I1224 13:31:13.893223    4890 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:13.894000    4890 get_token.go:88] checking expiration of the existing token
-I1224 13:31:13.894018    4890 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:13.894060    4890 get_token.go:74] releasing the lock of token cache
-2025-12-24T11:48:56.863850511Z   .   ____          _            __ _ _
-2025-12-24T11:48:56.863919692Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T11:48:56.863930292Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T11:48:56.863939382Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T11:48:56.863949112Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T11:48:56.863958582Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T11:48:56.863967052Z 
-2025-12-24T11:48:56.864594881Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T11:48:56.944005760Z 
-2025-12-24T11:48:57.561662185Z 2025-12-24T06:48:57.557-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Starting RequestEnricherApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-24T11:48:57.647153755Z 2025-12-24T06:48:57.646-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : The following 2 profiles are active: "pagw", "dev"
-2025-12-24T11:49:11.366374968Z 2025-12-24T06:49:11.365-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
-2025-12-24T11:49:11.452883417Z 2025-12-24T06:49:11.452-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-24T11:49:11.453126440Z 2025-12-24T06:49:11.452-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-24T11:49:12.250628245Z 2025-12-24T06:49:12.250-05:00  INFO 1 --- [pasrequestenricher] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-24T11:49:12.252481170Z 2025-12-24T06:49:12.252-05:00  INFO 1 --- [pasrequestenricher] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 14204 ms
-2025-12-24T11:49:22.160760286Z 2025-12-24T06:49:22.157-05:00  INFO 1 --- [pasrequestenricher] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-24T11:49:34.647235136Z 2025-12-24T06:49:34.646-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-24T11:49:35.268156826Z 2025-12-24T06:49:35.267-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
-2025-12-24T11:49:35.546904360Z 2025-12-24T06:49:35.546-05:00  INFO 1 --- [pasrequestenricher] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-24T11:49:35.652760101Z 2025-12-24T06:49:35.652-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Started RequestEnricherApplication in 42.396 seconds (process running for 46.295)
-2025-12-24T11:49:41.351877105Z 2025-12-24T06:49:41.351-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-24T11:49:41.352038277Z 2025-12-24T06:49:41.351-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-24T11:49:41.354164136Z 2025-12-24T06:49:41.353-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:47:23.866-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:24.883-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-====================================================================
-POD: pasrequestparser-app-64494f54d5-zf277
-TIMESTAMP: 2025-12-24T18:31:14Z
-====================================================================
-I1224 13:31:14.518826    4899 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1224 13:31:14.519165    4899 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1224 13:31:14.519171    4899 get_token.go:59] finding a token cache
-I1224 13:31:14.519175    4899 get_token.go:68] acquiring the lock of token cache
-I1224 13:31:14.519745    4899 get_token.go:88] checking expiration of the existing token
-I1224 13:31:14.519763    4899 get_token.go:97] you already have a valid token until 2025-12-24 13:47:55 -0500 EST
-I1224 13:31:14.519803    4899 get_token.go:74] releasing the lock of token cache
-2025-12-24T17:36:49.200828903Z   .   ____          _            __ _ _
-2025-12-24T17:36:49.200846613Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2025-12-24T17:36:49.200850192Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2025-12-24T17:36:49.200852942Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2025-12-24T17:36:49.200855532Z   '  |____| .__|_| |_|_| |_\__, | / / / /
-2025-12-24T17:36:49.200858122Z  =========|_|==============|___/=/_/_/_/
-2025-12-24T17:36:49.200860792Z 
-2025-12-24T17:36:49.201405698Z  :: Spring Boot ::                (v3.3.0)
-2025-12-24T17:36:49.201409998Z 
-2025-12-24T17:36:49.504722763Z {"timestamp":"2025-12-24 12:36:49,502","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
-2025-12-24T17:36:49.506687802Z {"timestamp":"2025-12-24 12:36:49,506","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
-2025-12-24T17:36:53.297649566Z {"timestamp":"2025-12-24 12:36:53,297","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
-2025-12-24T17:36:53.393144467Z {"timestamp":"2025-12-24 12:36:53,392","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 11 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
-2025-12-24T17:36:56.178428188Z {"timestamp":"2025-12-24 12:36:56,178","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
-2025-12-24T17:36:56.189247226Z {"timestamp":"2025-12-24 12:36:56,186","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
-2025-12-24T17:36:56.189276406Z {"timestamp":"2025-12-24 12:36:56,186","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
-2025-12-24T17:36:56.617646600Z {"timestamp":"2025-12-24 12:36:56,616","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
-2025-12-24T17:36:56.617681720Z {"timestamp":"2025-12-24 12:36:56,617","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 6932 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
-2025-12-24T17:36:58.490042803Z {"timestamp":"2025-12-24 12:36:58,487","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
-2025-12-24T17:36:59.790504970Z {"timestamp":"2025-12-24 12:36:59,790","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@51141f64","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
-2025-12-24T17:36:59.791807833Z {"timestamp":"2025-12-24 12:36:59,791","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
-2025-12-24T17:36:59.908916691Z {"timestamp":"2025-12-24 12:36:59,908","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
-2025-12-24T17:37:00.182698237Z {"timestamp":"2025-12-24 12:37:00,182","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
-2025-12-24T17:37:00.305597417Z {"timestamp":"2025-12-24 12:37:00,305","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
-2025-12-24T17:37:01.508155775Z {"timestamp":"2025-12-24 12:37:01,507","level":"INFO","service":"pas-request-parser","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","logger":"org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo","thread":"main"}
-2025-12-24T17:37:03.302278543Z {"timestamp":"2025-12-24 12:37:03,302","level":"INFO","service":"pas-request-parser","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","logger":"org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator","thread":"main"}
-2025-12-24T17:37:03.306319254Z {"timestamp":"2025-12-24 12:37:03,306","level":"INFO","service":"pas-request-parser","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","logger":"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean","thread":"main"}
-2025-12-24T17:37:05.581889001Z {"timestamp":"2025-12-24 12:37:05,581","level":"INFO","service":"pas-request-parser","message":"S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...","logger":"com.anthem.pagw.core.service.S3Service","thread":"main"}
-2025-12-24T17:37:08.004781881Z {"timestamp":"2025-12-24 12:37:08,004","level":"WARN","service":"pas-request-parser","message":"spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning","logger":"org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration","thread":"main"}
-2025-12-24T17:37:11.104345881Z {"timestamp":"2025-12-24 12:37:11,104","level":"INFO","service":"pas-request-parser","message":"Exposing 3 endpoints beneath base path '/actuator'","logger":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread":"main"}
-2025-12-24T17:37:11.483846257Z {"timestamp":"2025-12-24 12:37:11,483","level":"INFO","service":"pas-request-parser","message":"Tomcat started on port 8081 (http) with context path '/'","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
-2025-12-24T17:37:11.610271516Z {"timestamp":"2025-12-24 12:37:11,610","level":"INFO","service":"pas-request-parser","message":"Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started","logger":"io.awspring.cloud.sqs.listener.AbstractMessageListenerContainer","thread":"lifecycle-thread-1"}
-2025-12-24T17:37:11.701565524Z {"timestamp":"2025-12-24 12:37:11,701","level":"INFO","service":"pas-request-parser","message":"Started RequestParserApplication in 24.177 seconds (process running for 26.03)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
-2025-12-24T17:37:17.556739166Z {"timestamp":"2025-12-24 12:37:17,556","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
-2025-12-24T17:37:17.601028040Z {"timestamp":"2025-12-24 12:37:17,600","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
-2025-12-24T17:37:17.609177648Z {"timestamp":"2025-12-24 12:37:17,602","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 2 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
-2025-12-24T18:30:09.977973775Z {"timestamp":"2025-12-24 13:30:09,977","level":"INFO","service":"pas-request-parser","message":"Synchronous parse request: pagwId=PAGW-20251224-00001-DBCC6FD5, tenant=ANTHEM","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-3"}
-2025-12-24T18:30:09.980549846Z {"timestamp":"2025-12-24 13:30:09,980","level":"INFO","service":"pas-request-parser","message":"Parsed bundle: pagwId=PAGW-20251224-00001-DBCC6FD5, claimType=professional, attachments=0","logger":"com.anthem.pagw.parser.service.RequestParserService","thread":"http-nio-8081-exec-3"}
-2025-12-24T18:30:10.011022053Z {"timestamp":"2025-12-24 13:30:10,010","level":"INFO","service":"pas-request-parser","message":"Parse successful: pagwId=PAGW-20251224-00001-DBCC6FD5, attachments=0","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-3"}
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
 
+2025-12-24T13:47:34.884-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:35.895-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:47:45.896-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:46.907-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:47:56.909-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:47:57.922-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:48:07.923-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:48:08.934-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:48:18.936-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:48:19.947-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:48:29.949-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:48:30.963-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:48:40.964-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:48:41.975-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:48:51.976-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:48:52.987-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:02.988-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:04.004-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:14.005-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:15.016-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:25.018-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:26.028-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:36.030-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:37.043-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:47.045-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:48.056-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:49:58.057-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:49:59.069-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:50:09.070-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:50:10.084-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:50:20.085-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:50:21.097-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:50:31.098-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:50:32.109-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:50:42.110-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:50:43.124-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:50:53.125-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:50:54.137-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2025-12-24T13:51:04.138-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:51:05.149-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+
+java.lang.UnsupportedOperationException: DB time is not supported for unknown database product
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.lambda$static$2(DatabaseProduct.java:19) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.DatabaseProduct.getDbTimeStatementSource(DatabaseProduct.java:33) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.SqlStatementsSource.create(SqlStatementsSource.java:44) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.sqlStatementsSource(JdbcTemplateStorageAccessor.java:126) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateStorageAccessor.insertRecord(JdbcTemplateStorageAccessor.java:63) ~[shedlock-provider-jdbc-template-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.doLock(StorageBasedLockProvider.java:72) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.support.StorageBasedLockProvider.lock(StorageBasedLockProvider.java:55) ~[shedlock-core-5.10.0.jar!/:na]
+	at jdk.internal.reflect.GeneratedMethodAccessor14.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:216) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at jdk.proxy2/jdk.proxy2.$Proxy79.lock(Unknown Source) ~[na:na]
+	at net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor.executeWithLock(DefaultLockingTaskExecutor.java:63) ~[shedlock-core-5.10.0.jar!/:na]
+	at net.javacrumbs.shedlock.spring.aop.MethodProxyScheduledLockAdvisor$LockingInterceptor.invoke(MethodProxyScheduledLockAdvisor.java:79) ~[shedlock-spring-5.10.0.jar!/:na]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
+	at jdk.internal.reflect.GeneratedMethodAccessor12.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.lambda$run$2(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at io.micrometer.observation.Observation.observe(Observation.java:499) ~[micrometer-observation-1.13.0.jar!/:1.13.0]
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:124) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.8.jar!/:6.1.8]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
