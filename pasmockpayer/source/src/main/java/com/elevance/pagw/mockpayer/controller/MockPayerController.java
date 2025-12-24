@@ -62,10 +62,6 @@ public class MockPayerController {
      * Common processing logic for both endpoints
      */
     private ResponseEntity<?> processPriorAuthRequest(Map<String, Object> request, String correlationId) {
-    /**
-     * Common processing logic for both endpoints
-     */
-    private ResponseEntity<?> processPriorAuthRequest(Map<String, Object> request, String correlationId) {
         // Check for test triggers in request body
         String requestJson = request.toString();
         
