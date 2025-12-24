@@ -1,16 +1,16 @@
-﻿{
-  "service_name": "pascallbackhandler",
-  "type": "docker",
-  "app_name": "priorauthgateway",
-  "image": "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pascallbackhandler",
-  "dockerfile": "pascallbackhandler/Dockerfile",
-  "context": "pascallbackhandler",
-  "reqfile": "",
-  "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
-  "repo_name": "ncr_aedleks_pagw_deploy",
-  "build_args": {
-    "JAVA_VERSION": "17",
-    "SPRING_BOOT_VERSION": "3.3.0",
-    "BASE_REGISTRY": "quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images"
-  }
+{
+    "service_name": "pascallbackhandler",
+    "type": "docker",
+    "app_name": "priorauthgateway",
+    "image": "quay-nonprod.elevancehealth.com/pagw/crln-shared-dev-img-pascallbackhandler",
+    "dockerfile": "pascallbackhandler/Dockerfile",
+    "context": "pascallbackhandler",
+    "reqfile": "",
+    "repo_url": "https://bitbucket.elevancehealth.com/scm/aedlk8s/ncr_aedleks_pagw_deploy.git",
+    "repo_name": "ncr_aedleks_pagw_deploy",
+    "build_args": {
+        "JAVA_VERSION": "17",
+        "SPRING_BOOT_VERSION": "3.3.0",
+        "BASE_REGISTRY": "quay-nonprod.elevancehealth.com/multiarchitecture-golden-base-images"
+    }
 }
