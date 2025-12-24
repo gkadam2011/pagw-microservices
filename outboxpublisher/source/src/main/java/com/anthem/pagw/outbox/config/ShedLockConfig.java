@@ -38,6 +38,7 @@ public class ShedLockConfig {
     /**
      * Configure JDBC-based lock provider.
      * Uses the same database as the outbox table for consistency.
+     * Note: Using client time instead of DB time to avoid database product detection issues.
      */
     @Bean
     public LockProvider lockProvider(DataSource dataSource) {
@@ -45,7 +46,6 @@ public class ShedLockConfig {
                 JdbcTemplateLockProvider.Configuration.builder()
                         .withJdbcTemplate(new JdbcTemplate(dataSource))
                         .withTableName("shedlock")
-                        .usingDbTime()
                         .build()
         );
     }
