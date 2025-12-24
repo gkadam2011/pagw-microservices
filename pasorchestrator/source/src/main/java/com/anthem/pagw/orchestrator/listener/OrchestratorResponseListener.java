@@ -21,35 +21,30 @@ import org.springframework.transaction.annotation.Transactional;
  * 2. Outbox publisher → orchestrator-complete-queue
  * 3. This listener → routes to next stage queue
  * 4. Stage-specific service processes and continues flow
+ * 
+ * Note: Uses queue NAMES (not URLs) for outbox entries, consistent with other services.
+ * The outbox publisher will resolve queue names to URLs when publishing.
  */
 @Component
 public class OrchestratorResponseListener {
 
     private static final Logger log = LoggerFactory.getLogger(OrchestratorResponseListener.class);
 
+    // Queue names (not URLs) - consistent with other services
+    private static final String REQUEST_PARSER_QUEUE = "pagw-request-parser-queue";
+    private static final String BUSINESS_VALIDATOR_QUEUE = "pagw-business-validator-queue";
+    private static final String REQUEST_ENRICHER_QUEUE = "pagw-request-enricher-queue";
+    private static final String REQUEST_CONVERTER_QUEUE = "pagw-request-converter-queue";
+    private static final String API_CONNECTORS_QUEUE = "pagw-api-connectors-queue";
+
     private final OutboxService outboxService;
     private final RequestTrackerService trackerService;
-    private final String requestParserQueue;
-    private final String businessValidatorQueue;
-    private final String requestEnricherQueue;
-    private final String requestConverterQueue;
-    private final String apiConnectorsQueue;
 
     public OrchestratorResponseListener(
             OutboxService outboxService,
-            RequestTrackerService trackerService,
-            @Value("${pagw.aws.sqs.request-parser-queue}") String requestParserQueue,
-            @Value("${pagw.aws.sqs.business-validator-queue}") String businessValidatorQueue,
-            @Value("${pagw.aws.sqs.request-enricher-queue}") String requestEnricherQueue,
-            @Value("${pagw.aws.sqs.request-converter-queue}") String requestConverterQueue,
-            @Value("${pagw.aws.sqs.api-connectors-queue}") String apiConnectorsQueue) {
+            RequestTrackerService trackerService) {
         this.outboxService = outboxService;
         this.trackerService = trackerService;
-        this.requestParserQueue = requestParserQueue;
-        this.businessValidatorQueue = businessValidatorQueue;
-        this.requestEnricherQueue = requestEnricherQueue;
-        this.requestConverterQueue = requestConverterQueue;
-        this.apiConnectorsQueue = apiConnectorsQueue;
     }
 
     @SqsListener(value = "${pagw.aws.sqs.response-queue}")
@@ -100,14 +95,15 @@ public class OrchestratorResponseListener {
 
     /**
      * Determine target queue based on message stage.
+     * Returns queue NAME (not URL) for consistency with other services.
      */
     private String determineTargetQueue(String stage) {
         return switch (stage) {
-            case "REQUEST_PARSER" -> requestParserQueue;
-            case "BUSINESS_VALIDATOR" -> businessValidatorQueue;
-            case "REQUEST_ENRICHER" -> requestEnricherQueue;
-            case "REQUEST_CONVERTER" -> requestConverterQueue;
-            case "API_CONNECTOR" -> apiConnectorsQueue;
+            case "REQUEST_PARSER" -> REQUEST_PARSER_QUEUE;
+            case "BUSINESS_VALIDATOR" -> BUSINESS_VALIDATOR_QUEUE;
+            case "REQUEST_ENRICHER" -> REQUEST_ENRICHER_QUEUE;
+            case "REQUEST_CONVERTER" -> REQUEST_CONVERTER_QUEUE;
+            case "API_CONNECTOR" -> API_CONNECTORS_QUEUE;
             default -> null;
         };
     }

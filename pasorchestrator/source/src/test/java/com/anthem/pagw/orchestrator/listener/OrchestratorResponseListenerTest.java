@@ -30,22 +30,17 @@ class OrchestratorResponseListenerTest {
 
     private OrchestratorResponseListener listener;
 
-    private static final String REQUEST_PARSER_QUEUE = "https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-request-parser-queue.fifo";
-    private static final String BUSINESS_VALIDATOR_QUEUE = "https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-business-validator-queue.fifo";
-    private static final String REQUEST_ENRICHER_QUEUE = "https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-request-enricher-queue.fifo";
-    private static final String REQUEST_CONVERTER_QUEUE = "https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-request-converter-queue.fifo";
-    private static final String API_CONNECTORS_QUEUE = "https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-api-connectors-queue.fifo";
+    private static final String REQUEST_PARSER_QUEUE = "pagw-request-parser-queue";
+    private static final String BUSINESS_VALIDATOR_QUEUE = "pagw-business-validator-queue";
+    private static final String REQUEST_ENRICHER_QUEUE = "pagw-request-enricher-queue";
+    private static final String REQUEST_CONVERTER_QUEUE = "pagw-request-converter-queue";
+    private static final String API_CONNECTORS_QUEUE = "pagw-api-connectors-queue";
 
     @BeforeEach
     void setUp() {
         listener = new OrchestratorResponseListener(
                 outboxService,
-                trackerService,
-                REQUEST_PARSER_QUEUE,
-                BUSINESS_VALIDATOR_QUEUE,
-                REQUEST_ENRICHER_QUEUE,
-                REQUEST_CONVERTER_QUEUE,
-                API_CONNECTORS_QUEUE
+                trackerService
         );
     }
 
