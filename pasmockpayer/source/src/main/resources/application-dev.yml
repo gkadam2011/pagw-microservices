@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: pas-mock-payer
-  profiles:
-    active: dev
 
 # Actuator endpoints for health checks
 management:
