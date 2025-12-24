@@ -7,23 +7,23 @@
 
  :: Spring Boot ::                (v3.3.0)
 
-2025-12-23T23:25:13.020-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Starting ResponseBuilderApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-23T23:25:13.025-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : The following 2 profiles are active: "pagw", "dev"
-2025-12-23T23:25:20.422-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8087 (http)
-2025-12-23T23:25:20.461-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-23T23:25:20.461-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-23T23:25:20.863-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-23T23:25:20.864-05:00  INFO 1 --- [pasresponsebuilder] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7640 ms
-2025-12-23T23:25:25.525-05:00  INFO 1 --- [pasresponsebuilder] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-23T23:25:32.265-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-23T23:25:32.627-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8087 (http) with context path '/'
-2025-12-23T23:25:32.731-05:00  INFO 1 --- [pasresponsebuilder] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-23T23:25:32.863-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Started ResponseBuilderApplication in 21.995 seconds (process running for 24.077)
-2025-12-23T23:25:40.372-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-23T23:25:40.373-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-23T23:25:40.374-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-12-24T12:55:53.569-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-12-24T12:55:54.770-05:00  WARN 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.b.a.jdbc.DataSourceHealthIndicator   : DataSource health check failed
+2025-12-24T13:07:48.291-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Starting ResponseBuilderApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-24T13:07:48.295-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : The following 2 profiles are active: "pagw", "dev"
+2025-12-24T13:07:55.680-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8087 (http)
+2025-12-24T13:07:55.688-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-24T13:07:55.689-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-24T13:07:56.177-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-24T13:07:56.178-05:00  INFO 1 --- [pasresponsebuilder] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7624 ms
+2025-12-24T13:08:00.679-05:00  INFO 1 --- [pasresponsebuilder] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-24T13:08:07.676-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-24T13:08:08.082-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8087 (http) with context path '/'
+2025-12-24T13:08:08.185-05:00  INFO 1 --- [pasresponsebuilder] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-24T13:08:08.280-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Started ResponseBuilderApplication in 22.124 seconds (process running for 24.402)
+2025-12-24T13:08:15.799-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-24T13:08:15.799-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-24T13:08:15.800-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-24T13:08:52.648-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-24T13:08:53.864-05:00  WARN 1 --- [pasresponsebuilder] [nio-8087-exec-6] o.s.b.a.jdbc.DataSourceHealthIndicator   : DataSource health check failed
 
 org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
 	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
@@ -52,7 +52,8 @@ org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC
 	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60) ~[spring-boot-actuator-3.3.0.jar!/:3.3.0]
 	at org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$ServletWebOperationAdapter.handle(AbstractWebMvcEndpointHandlerMapping.java:327) ~[spring-boot-actuator-3.3.0.jar!/:3.3.0]
 	at org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$OperationHandler.handle(AbstractWebMvcEndpointHandlerMapping.java:434) ~[spring-boot-actuator-3.3.0.jar!/:3.3.0]
-	at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255) ~[spring-web-6.1.8.jar!/:6.1.8]
@@ -126,4 +127,4 @@ Caused by: org.postgresql.util.PSQLException: The server requested SCRAM-based a
 	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 79 common frames omitted
+	... 80 common frames omitted
