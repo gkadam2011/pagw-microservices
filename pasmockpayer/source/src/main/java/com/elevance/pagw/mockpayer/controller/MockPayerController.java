@@ -36,6 +36,36 @@ public class MockPayerController {
         log.info("Received PA request - correlationId: {}, requestId: {}", correlationId, requestId);
         log.debug("Request body: {}", request);
         
+        return processPriorAuthRequest(request, correlationId);
+    }
+
+    /**
+     * Alternative PA submission endpoint for pasapiconnector
+     * POST /api/v1/claims/submit
+     */
+    @PostMapping("/v1/claims/submit")
+    public ResponseEntity<?> submitClaim(
+            @RequestBody Map<String, Object> request,
+            @RequestHeader(value = "X-PAGW-ID", required = false) String pagwId,
+            @RequestHeader(value = "X-Correlation-ID", required = false) String correlationId,
+            @RequestHeader(value = "X-Target-System", required = false) String targetSystem,
+            @RequestHeader(value = "X-Tenant", required = false) String tenant) {
+        
+        log.info("Received claim submission - pagwId: {}, correlationId: {}, targetSystem: {}, tenant: {}", 
+                pagwId, correlationId, targetSystem, tenant);
+        log.debug("Request body: {}", request);
+        
+        return processPriorAuthRequest(request, correlationId);
+    }
+
+    /**
+     * Common processing logic for both endpoints
+     */
+    private ResponseEntity<?> processPriorAuthRequest(Map<String, Object> request, String correlationId) {
+    /**
+     * Common processing logic for both endpoints
+     */
+    private ResponseEntity<?> processPriorAuthRequest(Map<String, Object> request, String correlationId) {
         // Check for test triggers in request body
         String requestJson = request.toString();
         

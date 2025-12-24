@@ -46,10 +46,11 @@ pagw:
     enabled: true
     encrypt-phi-fields: true
   external:
-    claims-pro-url: ${CLAIMS_PRO_URL}
-    claims-inst-url: ${CLAIMS_INST_URL}
-    carelon-url: ${CARELON_URL}
-    eapi-url: ${EAPI_URL}
+    claims-pro-url: ${CLAIMS_PRO_URL:http://localhost:8095}
+    claims-inst-url: ${CLAIMS_INST_URL:http://localhost:8095}
+    claims-rx-url: ${CLAIMS_RX_URL:http://localhost:8095}
+    carelon-url: ${CARELON_URL:http://localhost:8095}
+    eapi-url: ${EAPI_URL:http://localhost:8095}
 
 logging:
   level:

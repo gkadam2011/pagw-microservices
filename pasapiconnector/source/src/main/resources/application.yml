@@ -52,11 +52,11 @@ pagw:
     kms-enabled: ${PAGW_ENCRYPTION_KMS_ENABLED:false}
     kms-key-id: ${KMS_KEY_ID:}
   external:
-    claims-pro-url: ${CLAIMS_PRO_URL:http://claims-pro:8080}
-    claims-inst-url: ${CLAIMS_INST_URL:http://claims-inst:8080}
-    claims-rx-url: ${CLAIMS_RX_URL:http://claims-rx:8080}
-    carelon-url: ${CARELON_URL:http://carelon:8080}
-    eapi-url: ${EAPI_URL:http://eapi:8080}
+    claims-pro-url: ${CLAIMS_PRO_URL:http://pasmockpayer:8095}
+    claims-inst-url: ${CLAIMS_INST_URL:http://pasmockpayer:8095}
+    claims-rx-url: ${CLAIMS_RX_URL:http://pasmockpayer:8095}
+    carelon-url: ${CARELON_URL:http://pasmockpayer:8095}
+    eapi-url: ${EAPI_URL:http://pasmockpayer:8095}
 
 management:
   endpoints:
