@@ -1,0 +1,12 @@
+curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '@/Users/AG29266/pagw/pagw-ui/pagw-demos/pas/bundles/success/01-success-valid-bundle.json'
+
+{
+	"resourceType": "ClaimResponse",
+	"pagwId": "PAGW-20251224-00001-DBCC6FD5",
+	"status": "pended",
+	"message": "Request requires additional review. You will be notified when a decision is made. Use $inquiry operation with tracking ID: PAGW-20251224-00001-DBCC6FD5",
+	"timestamp": "2025-12-24T18:30:08.471914081Z",
+	"disposition": "Pended",
+	"payerTrackingId": "PAGW-20251224-00001-DBCC6FD5",
+	"processingTimeMs": 283
+}
