@@ -31,7 +31,21 @@ POST /introspect HTTP/1.1
  token=2YotnFZFEjr1zCsicMWpAA
 
 Token Introspection response
-
+{
+  "expires_in": 176381261,
+  "issued_at": 1763377661,
+  "id_token": "fCBC6k1m5NJBE5uRX+JxnozEn069FGRzmqulLddJ/Os3LyhMvPxSWSYEYShsg",
+  "scope": "profile thirdUser openid",
+  "clientId": "bdda3ee5-df8f-4c86-8d89-4a160e90764d",
+  "iss": "https://dev.totalview.healthos.carelon.com",
+  "sub": "TOTALVIEWMIDDLEWARE/HEALTHOS",
+  "active": true,
+  "patient": [
+    "3eaea72bcd7f9fd4f33366571f9ce758",
+    "d93eb14ace072a5eb7c431320b0abd4",
+    "4ad63761bbd1412bbc702dd07a0e38c"
+  ]
+}
 
 
 For Expired Token: -
@@ -46,7 +60,11 @@ POST /introspect HTTP/1.1
  token=2YotnFZFEjr1zCsicMWpAA
 
 Token Introspection response
-
+{
+  "expires_in": 1762933374,
+  "issued_at": 1762929774,
+  "active": false
+}
 
 
 For Invalid Token: -
@@ -61,4 +79,9 @@ POST /introspect HTTP/1.1
  token=2YotnFZFEjr1zCsicMWpAA
 
 Token Introspection response
-
+{
+  "status_code": 404,
+  "status": "failed",
+  "error": "invalid_token",
+  "error_description": "access token is invalid or has expired."
+}
