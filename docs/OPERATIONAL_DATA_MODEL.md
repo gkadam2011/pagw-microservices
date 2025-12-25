@@ -41,7 +41,9 @@ erDiagram
     REQUEST_TRACKER ||--o| IDEMPOTENCY : "has idempotency key"
     REQUEST_TRACKER ||--o{ OUTBOX : "generates events"
     REQUEST_TRACKER ||--o{ AUDIT_LOG : "creates audit trail"
-    PROVIDER_REGISTRY }o--|| PAYER_CONFIGURATION : "routes to"
+    REQUEST_TRACKER }o--|| OAUTH_PROVIDER_REGISTRY : "submitted by (client_id FK)"
+    REQUEST_TRACKER }o--|| PAYER_CONFIGURATION : "routes to (payer_id FK)"
+    OAUTH_PROVIDER_REGISTRY ||--o{ PROVIDER_REGISTRY : "routes via NPIs"
     SUBSCRIPTIONS }o--|| REQUEST_TRACKER : "notifies on"
     
     REQUEST_TRACKER {
@@ -110,10 +112,44 @@ erDiagram
     PROVIDER_REGISTRY {
         bigserial id PK "Registry entry ID"
         varchar provider_npi "Provider NPI"
+        varchar provider_tax_id "Provider tax ID"
+        varchar provider_name "Provider name"
         varchar payer_id FK "Target payer"
+        varchar payer_name "Payer display name"
         varchar endpoint_url "Payer API endpoint"
+        varchar api_version "API version"
+        varchar auth_type "oauth2|api_key|mtls"
+        varchar credentials_secret_name "AWS Secrets Manager"
         boolean supports_sync "Sync processing support"
+        boolean supports_attachments "Attachments supported"
+        boolean supports_subscriptions "FHIR subscriptions"
         boolean is_active "Active status"
+        timestamp created_at "Record creation"
+        timestamp updated_at "Last modification"
+    }
+    
+    OAUTH_PROVIDER_REGISTRY {
+        varchar client_id PK "OAuth clientId"
+        varchar tenant "elevance|carelon"
+        varchar entity_name "Organization name"
+        varchar entity_type "PROVIDER|FACILITY|CLEARINGHOUSE|EHR|VENDOR"
+        text[] npis "Multiple NPIs"
+        text[] tins "Multiple TINs"
+        varchar status "ACTIVE|SUSPENDED|REVOKED"
+        text[] allowed_apis "PAS_SUBMIT|PAS_INQUIRE|CDEX|SUBSCRIBE"
+        text[] scopes "OAuth scopes"
+        int rate_limit_per_minute "Rate limit"
+        varchar issuer_url "Token issuer URL"
+        varchar jwks_url "JWKS endpoint"
+        varchar cdex_callback_url "CDex callback"
+        varchar subscription_webhook_url "Subscription webhook"
+        varchar business_contact_email "Business contact"
+        varchar technical_contact_email "Technical contact"
+        varchar security_contact_email "Security contact"
+        varchar environment "dev|perf|prod"
+        timestamp registered_at "Registration date"
+        timestamp last_auth_at "Last authentication"
+        timestamp updated_at "Last modification"
     }
     
     PAYER_CONFIGURATION {
@@ -162,6 +198,7 @@ erDiagram
 | **event_tracker** | Stage-level event history | High | By pagw_id, stage |
 | **audit_log** | HIPAA compliance audit trail | Very High | By resource_id, timestamp |
 | **provider_registry** | Provider→Payer routing | Low (config changes) | By provider_npi, payer_id |
+| **oauth_provider_registry** | OAuth client registration | Low (config changes) | By client_id, tenant |
 | **payer_configuration** | Payer API settings | Low (config changes) | By payer_id |
 | **idempotency** | Duplicate prevention cache | High | By idempotency_key |
 | **subscriptions** | FHIR notification subscriptions | Low | By tenant_id, status |
@@ -200,10 +237,10 @@ erDiagram
 | `final_s3_key` | VARCHAR(500) | Final output path | `202512/PAGW-123/final/response.json` |
 | `external_request_id` | VARCHAR(100) | Payer's tracking ID | `AUTH-67890` (preAuthRef) |
 | `external_reference_id` | VARCHAR(100) | External system reference | Provider EHR claim ID |
-| `payer_id` | VARCHAR(50) | Target payer identifier | `CARELON`, `ANTHEM` |
-| `provider_npi` | VARCHAR(20) | Submitting provider NPI | `1234567890` |
+| `payer_id` | VARCHAR(50) FK | Target payer (FK to payer_configuration) | `CARELON`, `ANTHEM` |
+| `provider_npi` | VARCHAR(20) FK | Submitting provider NPI (denormalized from oauth_provider_registry) | `1234567890` |
 | `patient_member_id` | VARCHAR(100) | Patient/member identifier | Encrypted member ID |
-| `client_id` | VARCHAR(100) | OAuth client identifier | `epic-prod-client` |
+| `client_id` | VARCHAR(100) FK | OAuth client identifier (FK to oauth_provider_registry) | `bdda3ee5-df8f-4c86...` |
 | `member_id` | VARCHAR(100) | Member lookup key | For enrichment lookups |
 | `provider_id` | VARCHAR(100) | Provider lookup key | For enrichment lookups |
 | `contains_phi` | BOOLEAN | PHI present in request | `true` (almost always) |
@@ -249,7 +286,53 @@ idx_request_tracker_external_id   -- Payer reference lookups
 idx_request_tracker_patient       -- Patient inquiry
 idx_request_tracker_created       -- Time-based reporting
 idx_request_tracker_received      -- SLA tracking
+idx_request_tracker_client_id     -- FK to oauth_provider_registry
+idx_request_tracker_payer_id      -- FK to payer_configuration
 ```
+
+#### Denormalization Strategy
+
+**Foreign Key Relationships**:
+- `client_id` → `oauth_provider_registry.client_id` (source of truth for provider identity)
+- `provider_npi` → Denormalized from `oauth_provider_registry.npis[]` (which NPI was used for this request)
+- `payer_id` → `payer_configuration.payer_id` (target payer)
+
+**Why Denormalize provider_npi, payer_id in request_tracker?**
+
+✅ **Performance**: High-volume queries (dashboards, status APIs) avoid expensive JOINs
+- Query: `SELECT * FROM request_tracker WHERE status='pended'` (no JOIN needed)
+- With normalization: Would require JOIN to oauth_provider_registry for every query
+
+✅ **Historical Accuracy**: Captures provider context at time of submission
+- If provider registration changes (e.g., NPI removed from oauth_provider_registry), historical requests still show original NPI
+- Audit trail preservation
+
+✅ **Query Simplicity**: 
+- Provider activity report: `GROUP BY provider_npi` (direct)
+- Payer performance: `GROUP BY payer_id` (direct)
+
+**Master Data Integrity**:
+- `oauth_provider_registry` = source of truth for current provider entitlements
+- `provider_registry` = source of truth for NPI→payer routing config  
+- `request_tracker` = operational snapshot with denormalized fields for performance
+
+**Normalization Alternative** (if needed in future):
+```sql
+-- Remove denormalized fields from request_tracker
+ALTER TABLE pagw.request_tracker 
+  DROP COLUMN provider_npi;  -- Store only client_id FK
+
+-- Always JOIN for provider context
+SELECT 
+  rt.*,
+  opr.tenant,
+  unnest(opr.npis) as provider_npi,
+  opr.entity_name
+FROM pagw.request_tracker rt
+JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id;
+```
+
+**Current Design Decision**: Denormalize for performance, accept data duplication.
 
 ---
 
@@ -459,7 +542,129 @@ CONSTRAINT provider_registry_unique UNIQUE (provider_npi, payer_id)
 
 ---
 
-### 7. PAYER_CONFIGURATION
+### 7. OAUTH_PROVIDER_REGISTRY (V003)
+
+**Purpose**: OAuth provider registration and entitlements for API Gateway Lambda authorizer. Maps OAuth `clientId` (from TotalView introspection) to provider identity, tenant, and authorization policies.
+
+#### Key Columns
+
+| Column | Type | Purpose | Example |
+|--------|------|---------|------|
+| `client_id` | VARCHAR(255) PK | OAuth clientId from TotalView | `bdda3ee5-df8f-4c86-8d89-4a160e90764d` |
+| `tenant` | VARCHAR(50) | Tenant/brand identifier | `elevance`, `carelon` |
+| `entity_name` | VARCHAR(255) | Organization name | `Test Provider Organization` |
+| `entity_type` | VARCHAR(50) | Organization type | `PROVIDER`, `FACILITY`, `CLEARINGHOUSE`, `EHR`, `VENDOR` |
+| `npis` | TEXT[] | Array of NPIs | `{1234567890, 9876543210}` |
+| `tins` | TEXT[] | Array of tax IDs | `{12-3456789}` |
+| `status` | VARCHAR(30) | Registration status | `ACTIVE`, `SUSPENDED`, `REVOKED` |
+| `allowed_apis` | TEXT[] | Entitlements array | `{PAS_SUBMIT, PAS_INQUIRE, CDEX_SUBMIT_ATTACHMENT, PAS_SUBSCRIBE}` |
+| `scopes` | TEXT[] | OAuth scopes | For future scope-based authz |
+| `rate_limit_per_minute` | INT | Rate limit | 100 requests/minute |
+| `issuer_url` | VARCHAR(500) | Token issuer URL | `https://dev.totalview.healthos.carelon.com` |
+| `jwks_url` | VARCHAR(500) | JWKS endpoint | For local JWT validation |
+| `cdex_callback_url` | VARCHAR(500) | CDex attachment callback | Optional |
+| `subscription_webhook_url` | VARCHAR(500) | Subscription webhook | Optional |
+| `business_contact_name` | VARCHAR(255) | Business contact | |
+| `business_contact_email` | VARCHAR(255) | Business email | |
+| `technical_contact_name` | VARCHAR(255) | Technical contact | |
+| `technical_contact_email` | VARCHAR(255) | Technical email | |
+| `security_contact_email` | VARCHAR(255) | Security email | |
+| `environment` | VARCHAR(20) | Environment | `dev`, `perf`, `prod` |
+| `registered_at` | TIMESTAMP | Registration date | Auto-populated |
+| `last_auth_at` | TIMESTAMP | Last successful auth | Updated by Lambda |
+| `updated_at` | TIMESTAMP | Last modification | Auto-updated by trigger |
+| `notes` | TEXT | Additional notes | |
+
+#### Design Rationale
+
+**Separation of Concerns**: This table is separate from `provider_registry` because:
+- `provider_registry`: Maps provider NPI → payer endpoints (routing configuration)
+- `oauth_provider_registry`: Maps OAuth clientId → provider identity/entitlements (authentication/authorization)
+
+**Relationship with request_tracker**:
+- `request_tracker.client_id` is a **foreign key** to `oauth_provider_registry.client_id`
+- `request_tracker.provider_npi` is **denormalized** from `oauth_provider_registry.npis[]` for query performance
+- Master data lives here; request_tracker stores operational snapshot
+
+**Two-Phase Auth Pattern**:
+1. **Phase 1**: Lambda validates token via TotalView introspection → extracts `clientId`
+2. **Phase 2**: Lambda looks up `oauth_provider_registry` by `clientId` → gets tenant/NPIs/entitlements
+
+**Why TotalView Introspection Alone Isn't Enough**:
+- TotalView introspection returns: `active`, `clientId`, `iss`, `scope`, `expires_in`
+- **Missing critical fields**: tenant, NPI, TIN, allowed APIs, entity name
+- Registration Service provides the "who is this client" and "what can they do" context
+
+#### Indexes
+
+```sql
+idx_oauth_provider_tenant      -- Tenant filtering
+idx_oauth_provider_status      -- Active providers only (partial index)
+idx_oauth_provider_environment -- Environment isolation
+idx_oauth_provider_npis        -- GIN index for NPI array searches
+idx_oauth_provider_tins        -- GIN index for TIN array searches
+```
+
+#### Integration View
+
+```sql
+-- v_oauth_provider_routing: Join OAuth clients with NPI-to-payer routes
+CREATE OR REPLACE VIEW pagw.v_oauth_provider_routing AS
+SELECT 
+    opr.client_id,
+    opr.tenant,
+    opr.entity_name,
+    opr.entity_type,
+    opr.status AS oauth_status,
+    opr.allowed_apis,
+    unnest(opr.npis) AS provider_npi,
+    pr.payer_id,
+    pr.payer_name,
+    pr.endpoint_url,
+    pr.supports_sync,
+    pr.supports_attachments,
+    pr.is_active AS payer_route_active
+FROM pagw.oauth_provider_registry opr
+CROSS JOIN LATERAL unnest(opr.npis) AS npi
+LEFT JOIN pagw.provider_registry pr 
+    ON pr.provider_npi = npi
+WHERE opr.status = 'ACTIVE';
+```
+
+#### Usage in Lambda Authorizer
+
+```python
+# 1. Introspect token with TotalView
+introspection = introspect_token(access_token)
+if not introspection.get('active'):
+    return deny_policy()
+
+client_id = introspection.get('clientId')
+
+# 2. Lookup provider registration
+provider = lookup_oauth_provider(client_id)
+if not provider or provider['status'] != 'ACTIVE':
+    return deny_policy()
+
+# 3. Check entitlements
+if 'PAS_SUBMIT' not in provider['allowed_apis']:
+    return deny_policy()
+
+# 4. Pass context to API Gateway
+return allow_policy(
+    principalId=client_id,
+    context={
+        'tenant': provider['tenant'],
+        'npis': ','.join(provider['npis']),
+        'entityName': provider['entity_name'],
+        'allowedApis': ','.join(provider['allowed_apis'])
+    }
+)
+```
+
+---
+
+### 8. PAYER_CONFIGURATION
 
 **Purpose**: Store payer-specific API settings, timeouts, and feature flags.
 
@@ -487,7 +692,7 @@ CONSTRAINT provider_registry_unique UNIQUE (provider_npi, payer_id)
 
 ---
 
-### 8. IDEMPOTENCY
+### 9. IDEMPOTENCY
 
 **Purpose**: Prevent duplicate request processing using idempotency keys (typically FHIR Bundle.identifier).
 
@@ -518,7 +723,7 @@ WHERE idempotency_key = $1
 
 ---
 
-### 9. SUBSCRIPTIONS (FHIR R5 Backport)
+### 10. SUBSCRIPTIONS (FHIR R5 Backport)
 
 **Purpose**: Manage provider subscriptions for pended request notifications (Da Vinci PAS requirement).
 
@@ -550,7 +755,7 @@ CHECK (content_type IN ('id-only', 'full-resource'))
 
 ---
 
-### 10. SHEDLOCK
+### 11. SHEDLOCK
 
 **Purpose**: Distributed locking for scheduled tasks (prevents duplicate execution in multi-instance deployments).
 
@@ -1284,10 +1489,13 @@ The PAGW operational data model provides:
 
 **Key Design Principles**:
 - **Single Source of Truth** - `request_tracker` as central state machine
+- **Master Data Separation** - Registry tables (oauth_provider_registry, provider_registry, payer_configuration) own master data; request_tracker denormalizes for performance
+- **Foreign Key Integrity** - `client_id`, `payer_id` are FKs; `provider_npi` denormalized from oauth_provider_registry.npis[]
 - **Event Sourcing** - Complete audit trail in `event_tracker` and `audit_log`
 - **Idempotency** - Duplicate prevention at multiple layers
 - **Observability** - Rich metadata for debugging and analytics
 - **Security** - PHI encryption, access auditing, multi-tenant isolation
+- **Performance over Normalization** - Accept controlled redundancy for high-volume query performance
 
 ---
 
