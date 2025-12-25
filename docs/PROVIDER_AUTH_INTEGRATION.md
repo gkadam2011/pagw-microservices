@@ -73,12 +73,12 @@ accessToken={PROVIDER_TOKEN}
 
 ### Decision Matrix: Request Converter vs ACMP Mapping
 
-| Provider Type | Tenant | System | Action Required |
-|--------------|--------|--------|-----------------|
-| **Carelon** | carelon | Carelon subsidiary | ✅ Use Request Converter |
-| **Elevance Subsidiary** | elevance-subsidiary | Subsidiary payer | ✅ Use Request Converter |
-| **ElevanceHealth Payer** | elevance | ACMP payer system | ✅ Call ACMP Mapping API |
-| **BCBSA** | bcbsa | BCBS system | ✅ Use Request Converter |
+**Simple Rule**: Routing is based on **tenant** field from token introspection
+
+| Tenant | System | Action Required |
+|--------|--------|-----------------|
+| **elevance** | ACMP payer system | ✅ Call ACMP Mapping API |
+| **carelon** | Carelon endpoints | ✅ Use Request Converter |
 
 ### Routing Rules
 
@@ -87,32 +87,18 @@ def determine_routing_strategy(provider_context):
     """
     Determine if provider needs request converter or ACMP mapping.
     
+    Simple tenant-based routing:
+    - tenant=elevance → ACMP mapping API
+    - tenant=carelon → Request Converter
+    
     Returns:
         {
             "requires_converter": bool,
             "requires_acmp_mapping": bool,
-            "payer_system": str,  # "carelon", "acmp", "bcbsa"
+            "payer_system": str,  # "carelon", "acmp"
             "mapping_source": str  # "converter", "acmp_api"
         }
     """
-    
-    # Carelon subsidiaries - use converter
-    if provider_context.tenant in ['carelon', 'carelon-subsidiary']:
-        return {
-            "requires_converter": True,
-            "requires_acmp_mapping": False,
-            "payer_system": "carelon",
-            "mapping_source": "converter"
-        }
-    
-    # ElevanceHealth subsidiaries - use converter
-    if provider_context.tenant in ['elevance-subsidiary', 'elevance-regional']:
-        return {
-            "requires_converter": True,
-            "requires_acmp_mapping": False,
-            "payer_system": "elevance-subsidiary",
-            "mapping_source": "converter"
-        }
     
     # ElevanceHealth ACMP payer system - call ACMP API
     if provider_context.tenant == 'elevance':
@@ -123,20 +109,11 @@ def determine_routing_strategy(provider_context):
             "mapping_source": "acmp_api"
         }
     
-    # BCBSA - use converter
-    if provider_context.tenant == 'bcbsa':
-        return {
-            "requires_converter": True,
-            "requires_acmp_mapping": False,
-            "payer_system": "bcbsa",
-            "mapping_source": "converter"
-        }
-    
-    # Default: use converter
+    # Carelon - use converter (default for all other tenants)
     return {
         "requires_converter": True,
         "requires_acmp_mapping": False,
-        "payer_system": "unknown",
+        "payer_system": "carelon",
         "mapping_source": "converter"
     }
 ```
@@ -466,12 +443,14 @@ def test_token_introspection_expired():
     # Verify Deny policy returned
 
 def test_routing_carelon_provider():
-    """Test routing logic for Carelon provider."""
+    """Test routing logic for Carelon provider (tenant=carelon)."""
     # Verify requires_converter=true, requires_acmp_mapping=false
+    # Verify payer_system=carelon
 
 def test_routing_elevance_acmp():
-    """Test routing logic for ElevanceHealth ACMP payer."""
+    """Test routing logic for ElevanceHealth ACMP payer (tenant=elevance)."""
     # Verify requires_converter=false, requires_acmp_mapping=true
+    # Verify payer_system=acmp
 ```
 
 ### Phase 2: Lambda Integration Testing (DEV)
@@ -670,9 +649,10 @@ Provider Token → Lambda (introspect) → Orchestrator → ACMP Mapper → Pars
    - What is the actual ACMP API endpoint?
    - Authentication method?
    - Request/response format?
-   - SLA and rate limits?
-
-2. **Provider Differentiation**:
+   - Tenant Determination**:
+   - Confirmed: tenant field from TotalView introspection response
+   - tenant=elevance → ACMP
+   - tenant=carelon → Carelon endpoints
    - How to distinguish Elevance ACMP vs Elevance subsidiaries from token?
    - Is it in token claims? Entity type? Issuer URL?
 
