@@ -1,7 +1,9 @@
 package com.anthem.pagw.converter.listener;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -30,6 +32,7 @@ public class RequestConverterListener {
     private final RequestConverterService converterService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
     private final String nextQueueName;
 
@@ -37,11 +40,13 @@ public class RequestConverterListener {
             RequestConverterService converterService,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService,
             @Value("${pagw.aws.sqs.api-connector-queue}") String nextQueueName) {
         this.converterService = converterService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
         this.nextQueueName = nextQueueName;
     }
@@ -54,13 +59,19 @@ public class RequestConverterListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for conversion: pagwId={}, stage={}", 
                     pagwId, message.getStage());
+            
+            // Event tracking: CONVERT_START
+            eventTrackerService.logStageStart(pagwId, tenant, "CONVERTER", EventTracker.EVENT_CONVERT_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "CONVERTING", "request-converter");
@@ -102,6 +113,14 @@ public class RequestConverterListener {
             // Update tracker
             trackerService.updateStatus(pagwId, "CONVERTED", "request-converter");
             
+            // Event tracking: CONVERT_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"targetSystem\":\"%s\"}",
+                conversionResult.getTargetSystem());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "CONVERTER", EventTracker.EVENT_CONVERT_OK, duration, metadata
+            );
+            
             log.info("Converted successfully: pagwId={}, targetSystem={}", 
                     pagwId, conversionResult.getTargetSystem());
             
@@ -109,6 +128,12 @@ public class RequestConverterListener {
             log.error("Conversion error: pagwId={}", pagwId, e);
             
             if (pagwId != null) {
+                // Event tracking: CONVERT_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "CONVERTER", EventTracker.EVENT_CONVERT_FAIL,
+                    "CONVERSION_EXCEPTION", e.getMessage(), true, Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateError(pagwId, "CONVERSION_ERROR", 
                         e.getMessage(), "request-converter");
             }
