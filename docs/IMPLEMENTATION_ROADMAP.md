@@ -17,22 +17,224 @@
 
 ---
 
-## Tekton Build Rounds (3 Total)
+## Tekton Build Rounds (3 Total) - REVISED ORDER
 
 ### ✅ Round 0: Schema Only (COMPLETED)
-**Status**: Done - V003 and V004 migrations committed
+**Status**: Done - V003, V004, and V005 migrations committed
 **Build**: pasorchestrator only
-**Duration**: ~30 minutes
+**Duration**: ~45 minutes
 
 **What was deployed**:
 - V003: oauth_provider_registry table
 - V004: FK constraints, indexes, views, helper functions
+- V005: Operational model improvements
+  - ENUMs for status normalization (request_status, event_type, execution_status)
+  - Workflow versioning (workflow_version, scenario_id, ruleset_version)
+  - Event ordering (sequence_no, attempt, retryable, next_retry_at)
+  - Tenant isolation (tenant added to all tables)
+  - Attachment lifecycle (fetch_status, attachment_source)
+  - Logical destinations in outbox
+  - S3 pointers in idempotency
 
 **No code changes** - just schema ready for future use
 
 ---
 
-### 🔄 Round 1: pagwcore + Orchestrator (ALL SERVICES REBUILD)
+### 🔄 Round 1: Lambda Auth + Minimal Orchestrator (2 SERVICES)
+**When**: IMMEDIATELY after Round 0
+**Builds**: pas_provider_auth (Lambda) + pasorchestrator (minimal change)
+**Duration**: ~45 minutes
+**Why first**: Immediate business value, no pagwcore dependency, enables provider tracking
+
+#### Benefits of Lambda First:
+1. ✅ **Immediate provider tracking** - client_id field populated
+2. ✅ **Quick win** - Simple Lambda + 1 service rebuild (not all 10)
+3. ✅ **Business value** - Provider analytics available immediately
+4. ✅ **Independent testing** - Validate auth flow without event tracking
+5. ✅ **No pagwcore dependency** - Orchestrator uses simple JDBC update
+
+#### Tasks for Round 1:
+
+**1.1 Update Lambda Authorizer** ✅
+```python
+# pas_provider_auth/source/handler.py
+
+def lambda_handler(event, context):
+    """API Gateway Lambda Authorizer"""
+    try:
+        # Extract token
+        token = extract_token(event)
+        
+        # Introspect with TotalView
+        introspection = introspect_token(token)
+        if not introspection.get('active'):
+            return generate_deny_policy()
+        
+        client_id = introspection.get('clientId')
+        
+        # Lookup provider registration
+        provider = lookup_oauth_provider(client_id)
+        if not provider or provider['status'] != 'ACTIVE':
+            return generate_deny_policy()
+        
+        # Check entitlements
+        if 'PAS_SUBMIT' not in provider['allowed_apis']:
+            return generate_deny_policy()
+        
+        # Extract provider context
+        provider_npi = provider['npis'][0] if provider.get('npis') else None
+        
+        # Generate policy with context
+        return {
+            'principalId': client_id,
+            'policyDocument': generate_allow_policy(event['methodArn']),
+            'context': {
+                # IMPORTANT: These become headers in API Gateway
+                'providerId': client_id,              # → X-Provider-Id
+                'providerNpi': provider_npi or '',    # → X-Provider-Npi
+                'tenant': provider['tenant'],          # → X-Tenant
+                'entityName': provider['entity_name'], # → X-Entity-Name
+                'allowedApis': ','.join(provider['allowed_apis'])  # → X-Allowed-Apis
+            }
+        }
+    except Exception as e:
+        logger.error(f"Authorization failed: {str(e)}")
+        return generate_deny_policy()
+```
+
+**1.2 Deploy Lambda** ✅
+```bash
+# Package Lambda
+cd pagw-platform-lambdas/pas_provider_auth
+pip install -r requirements.txt -t package/
+cd package && zip -r ../lambda.zip . && cd ..
+zip -g lambda.zip source/*.py
+
+# Deploy to AWS
+aws lambda update-function-code \
+  --function-name pas-provider-auth-dev \
+  --zip-file fileb://lambda.zip \
+  --region us-east-2
+
+# Update environment variables
+aws lambda update-function-configuration \
+  --function-name pas-provider-auth-dev \
+  --environment Variables="{
+    TOTALVIEW_INTROSPECTION_URL=https://dev.totalview.healthos.carelon.com/introspection/api/v1/token/details,
+    DB_SECRET_ARN=arn:aws:secretsmanager:us-east-2:xxx:secret:pagw/dev/db,
+    ENVIRONMENT=dev
+  }"
+```
+
+**1.3 Update OrchestratorService (Minimal Change)** ✅
+```java
+// In OrchestratorService.processRequest() - after creating RequestTracker
+
+// Extract provider context from Lambda authorizer headers
+String clientId = request.getHeader("X-Provider-Id");
+String providerNpi = request.getHeader("X-Provider-Npi");
+String tenant = request.getHeader("X-Tenant");
+String correlationId = request.getHeader("X-Correlation-Id");
+
+// Simple JDBC update - no pagwcore dependency
+if (clientId != null) {
+    jdbcTemplate.update(
+        "UPDATE pagw.request_tracker SET client_id = ?, correlation_id = ?, expires_at = ? WHERE pagw_id = ?",
+        clientId,
+        correlationId,
+        Instant.now().plus(90, ChronoUnit.DAYS),
+        pagwId
+    );
+    log.info("Provider context updated: pagwId={}, clientId={}, npi={}", pagwId, clientId, providerNpi);
+}
+
+// If provider_npi not yet extracted from FHIR, store from header as fallback
+if (providerNpi != null) {
+    jdbcTemplate.update(
+        "UPDATE pagw.request_tracker SET provider_npi = ? WHERE pagw_id = ? AND provider_npi IS NULL",
+        providerNpi,
+        pagwId
+    );
+}
+```
+
+**1.4 Configure API Gateway Mapping** ✅
+```yaml
+# API Gateway stage settings
+# Map Lambda context to request headers:
+Context Mappings:
+  - context.providerId → $context.authorizer.providerId
+  - context.providerNpi → $context.authorizer.providerNpi
+  - context.tenant → $context.authorizer.tenant
+  - context.entityName → $context.authorizer.entityName
+
+Request Header Mappings:
+  - X-Provider-Id: $context.authorizer.providerId
+  - X-Provider-Npi: $context.authorizer.providerNpi
+  - X-Tenant: $context.authorizer.tenant
+  - X-Entity-Name: $context.authorizer.entityName
+  - X-Correlation-Id: $input.params('X-Correlation-Id')  # Pass through
+```
+
+**Build Order for Round 1**:
+```bash
+# 1. Deploy Lambda (no Tekton)
+aws lambda update-function-code ...
+
+# 2. Update API Gateway header mappings
+# Via AWS Console or Terraform
+
+# 3. Build and deploy pasorchestrator only
+cd pagw-microservices/pasorchestrator
+# Trigger Tekton build
+helm upgrade pasorchestrator pagwk8s/pasorchestrator \
+  -f tekton-values-dev.yaml \
+  --namespace pagw-srv-dev
+```
+
+**Testing After Round 1**:
+```bash
+# Get token from TotalView
+TOKEN=$(curl -X POST https://dev.totalview.healthos.carelon.com/oauth/token \
+  -d "grant_type=client_credentials" \
+  -d "client_id=bdda3ee5..." \
+  -d "client_secret=..." | jq -r '.access_token')
+
+# Submit request via APIGEE
+curl -X POST https://apigee-dev.elevancehealth.com/pas/v1/Claim/\$submit \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-Correlation-Id: test-$(uuidgen)" \
+  -d @test-bundle.json
+
+# Verify client_id populated
+psql -c "SELECT pagw_id, client_id, tenant, provider_npi, correlation_id, expires_at 
+         FROM pagw.request_tracker 
+         WHERE received_at > NOW() - INTERVAL '5 minutes';"
+
+# Should show:
+# client_id = 'bdda3ee5-df8f-4c86-8d89-4a160e90764d'
+# tenant = 'carelon'
+# provider_npi = '1234567890' (from header)
+# correlation_id = 'test-...'
+# expires_at = received_at + 90 days
+
+# Check provider analytics work
+psql -c "SELECT * FROM pagw.v_request_with_provider_context 
+         WHERE received_at > NOW() - INTERVAL '1 hour' LIMIT 5;"
+
+# Should see provider entity names, not just IDs
+```
+
+**Deliverables**:
+- ✅ Lambda passes provider context via headers
+- ✅ Orchestrator stores client_id, correlation_id, expires_at
+- ✅ Provider tracking enabled (via oauth_provider_registry FK)
+- ✅ Provider analytics queries work immediately
+- ✅ Gap 4 (Provider Auth Integration) - **COMPLETE**
+
+---
+
+### 🔄 Round 2: pagwcore + Event Tracking (ALL SERVICES REBUILD)
 **When**: After all shared library code is complete
 **Builds**: pagwcore + ALL 10 microservices
 **Duration**: ~2 hours (parallel builds)
@@ -159,8 +361,8 @@ psql -c "SELECT stage, event_type, status, duration_ms FROM pagw.event_tracker
 
 ---
 
-### 🔄 Round 2: FHIR Extraction (1 SERVICE REBUILD)
-**When**: After Round 1 is stable in DEV
+### 🔄 Round 3: FHIR Extraction (1 SERVICE REBUILD)
+**When**: After Round 2 is stable in DEV
 **Builds**: pasrequestparser only
 **Duration**: ~15 minutes
 **Why only parser**: FHIR extraction logic isolated to parser service
@@ -230,7 +432,7 @@ helm upgrade pasrequestparser pagwk8s/pasrequestparser \
   --namespace pagw-srv-dev
 ```
 
-**Testing After Round 2**:
+**Testing After Round 3**:
 ```bash
 # Submit test request
 # Check fields populated
@@ -251,137 +453,9 @@ WHERE received_at > NOW() - INTERVAL '1 day';"
 
 **Deliverables**:
 - ✅ FHIR extraction logic in parser
-- ✅ payer_id, provider_npi, patient_member_id populated
+- ✅ payer_id, provider_npi, patient_member_id populated from FHIR
 - ✅ 100% population rate for new requests
-
----
-
-### 🔄 Round 3: Lambda Integration (NO TEKTON - AWS LAMBDA DEPLOY)
-**When**: After Round 1 is stable
-**Builds**: None (Lambda update only)
-**Duration**: ~10 minutes
-**Why no Tekton**: Lambda deployed via AWS CLI/Console
-
-#### Tasks for Round 3:
-
-**3.1 Update Lambda Authorizer** ✅
-```python
-# pas_provider_auth/source/handler.py
-
-def lambda_handler(event, context):
-    """API Gateway Lambda Authorizer"""
-    try:
-        # Extract token
-        token = extract_token(event)
-        
-        # Introspect with TotalView
-        introspection = introspect_token(token)
-        if not introspection.get('active'):
-            return generate_deny_policy()
-        
-        client_id = introspection.get('clientId')
-        
-        # Lookup provider registration
-        provider = lookup_oauth_provider(client_id)
-        if not provider or provider['status'] != 'ACTIVE':
-            return generate_deny_policy()
-        
-        # Check entitlements
-        if 'PAS_SUBMIT' not in provider['allowed_apis']:
-            return generate_deny_policy()
-        
-        # Extract provider context
-        provider_npi = provider['npis'][0] if provider.get('npis') else None
-        
-        # Generate policy with context
-        return {
-            'principalId': client_id,
-            'policyDocument': generate_allow_policy(event['methodArn']),
-            'context': {
-                # IMPORTANT: These become headers in API Gateway
-                'providerId': client_id,              # → X-Provider-Id
-                'providerNpi': provider_npi or '',    # → X-Provider-Npi
-                'tenant': provider['tenant'],          # → X-Tenant
-                'entityName': provider['entity_name'], # → X-Entity-Name
-                'allowedApis': ','.join(provider['allowed_apis'])  # → X-Allowed-Apis
-            }
-        }
-    except Exception as e:
-        logger.error(f"Authorization failed: {str(e)}")
-        return generate_deny_policy()
-```
-
-**3.2 Configure API Gateway Mapping** ✅
-```yaml
-# API Gateway stage settings
-# Map Lambda context to request headers:
-Context Mappings:
-  - context.providerId → $context.authorizer.providerId
-  - context.providerNpi → $context.authorizer.providerNpi
-  - context.tenant → $context.authorizer.tenant
-  - context.entityName → $context.authorizer.entityName
-
-Request Header Mappings:
-  - X-Provider-Id: $context.authorizer.providerId
-  - X-Provider-Npi: $context.authorizer.providerNpi
-  - X-Tenant: $context.authorizer.tenant
-  - X-Entity-Name: $context.authorizer.entityName
-  - X-Correlation-Id: $input.params('X-Correlation-Id')  # Pass through
-```
-
-**Deploy Lambda**:
-```bash
-# Package Lambda
-cd pagw-platform-lambdas/pas_provider_auth
-pip install -r requirements.txt -t package/
-cd package && zip -r ../lambda.zip . && cd ..
-zip -g lambda.zip source/*.py
-
-# Deploy to AWS
-aws lambda update-function-code \
-  --function-name pas-provider-auth-dev \
-  --zip-file fileb://lambda.zip \
-  --region us-east-2
-
-# Update environment variables
-aws lambda update-function-configuration \
-  --function-name pas-provider-auth-dev \
-  --environment Variables="{
-    TOTALVIEW_INTROSPECTION_URL=https://dev.totalview.healthos.carelon.com/introspection/api/v1/token/details,
-    DB_SECRET_ARN=arn:aws:secretsmanager:us-east-2:xxx:secret:pagw/dev/db,
-    ENVIRONMENT=dev
-  }"
-```
-
-**Testing After Round 3**:
-```bash
-# Get token from TotalView
-TOKEN=$(curl -X POST https://dev.totalview.healthos.carelon.com/oauth/token \
-  -d "grant_type=client_credentials" \
-  -d "client_id=bdda3ee5..." \
-  -d "client_secret=..." | jq -r '.access_token')
-
-# Submit request via APIGEE
-curl -X POST https://apigee-dev.elevancehealth.com/pas/v1/Claim/\$submit \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "X-Correlation-Id: test-$(uuidgen)" \
-  -d @test-bundle.json
-
-# Verify client_id populated
-psql -c "SELECT pagw_id, client_id, tenant, provider_npi 
-         FROM pagw.request_tracker 
-         WHERE received_at > NOW() - INTERVAL '5 minutes';"
-
-# Should show:
-# client_id = 'bdda3ee5-df8f-4c86-8d89-4a160e90764d'
-# tenant = 'carelon'
-# provider_npi = '1234567890'
-```
-
-**Deliverables**:
-- ✅ Lambda passes provider context via headers
-- ✅ Orchestrator extracts and stores client_id
-- ✅ Complete provider tracking (client_id → oauth_provider_registry)
+- ✅ Gap 1 (REQUEST_TRACKER fields) - **COMPLETE**
 
 ---
 
@@ -513,28 +587,54 @@ SELECT pagw.get_request_story('PAGW-20251225-00001-...');
 ```
 
 ---
+ (REVISED - Lambda First)
 
-## Success Metrics
+| Round | Services Built | Duration | Parallel? | When | Value |
+|-------|---------------|----------|-----------|------|-------|
+| 0. Schema ✅ | pasorchestrator | 30 min | N/A | **DONE** | Foundation |
+| 1. Lambda Auth 🎯 | pas_provider_auth + orchestrator | 45 min | N/A | **DO FIRST** | Provider tracking |
+| 2. Event Tracking | pagwcore + ALL 10 services | 2 hours | Yes | Week 2 | Observability |
+| 3. FHIR Extract | pasrequestparser | 15 min | N/A | Week 3 | Field accuracy |
 
-### After Full Implementation:
+**Total Tekton Builds**: 
+- Round 0: 1 build (orchestrator) ✅
+- Round 1: 1 build (orchestrator) 🎯
+- Round 2: 11 builds (pagwcore + 10 services)
+- Round 3: 1 build (parser)
+- **Total: 14 builds across 4 rounds**
 
-| Metric | Target | Query |
-|--------|--------|-------|
-| Event tracking coverage | 100% | All stages have events |
-| Field population rate | >95% | payer_id, provider_npi, patient_member_id |
-| Provider identification | 100% | All requests linked to oauth_provider_registry |
-| Performance impact | <5% | Compare avg duration before/after |
-| Event_tracker size | <10MB/day | ~10 events × 1KB × 1000 requests/day |
-
-### Monitoring Alerts:
-
-```sql
--- Alert if event tracking drops
-SELECT COUNT(*) FROM pagw.request_tracker rt
-LEFT JOIN pagw.event_tracker et ON et.pagw_id = rt.pagw_id
-WHERE rt.received_at > NOW() - INTERVAL '1 hour'
+**Why Lambda first?**
+1. ✅ Schema ready (V003, V004) ✅
+2. 🎯 **Quick win** - Provider tracking works with just Lambda + orchestrator
+3. 🎯 **Business value** - Provider analytics available immediately
+4. 🎯 **No pagwcore dependency** - Orchestrator uses simple JDBC
+5. 🎯 **Independent testing** - Validate auth flow without waiting for event tracking
+6. **Event tracking later** - pagwcore batched changes (all services rebuild once)
+7. **FHIR extraction last** - Parser isolated, refines existing data1 hour'
   AND et.id IS NULL;
--- Alert if > 10
+-- Alert if > 10Lambda Auth):
+```sql
+-- Check provider tracking works
+SELECT 
+    rt.pagw_id,
+    rt.client_id,
+    opr.entity_name,
+    opr.tenant,
+    rt.provider_npi,
+    rt.correlation_id,
+    rt.expires_at
+FROM pagw.request_tracker rt
+LEFT JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id
+WHERE rt.received_at > NOW() - INTERVAL '1 hour';
+
+-- Should see:
+-- - client_id populated
+-- - entity_name from oauth_provider_registry
+-- - correlation3id set
+-- - expires_at = received_at + 90 days
+```
+
+### After Round 2 (
 
 -- Alert if field population drops
 SELECT COUNT(*) FROM pagw.request_tracker
@@ -556,3 +656,41 @@ WHERE received_at > NOW() - INTERVAL '1 hour'
 
 **Last Updated**: December 25, 2025  
 **Status**: Round 0 Complete ✅ | Round 1 Pending | Round 2 Pending | Round 3 Pending
+Complete Request Story (After All Rounds) (Lambda):
+```bash
+# Rollback Lambda to previous version
+# Rollback orchestrator to previous version
+# client_id remains NULL (acceptable - can retry)
+# No other services affected
+```
+
+### If Round 2 Fails (Event Tracking):
+```bash
+# Rollback pagwcore to previous version
+# Rebuild all services with old pagwcore
+# Schema remains (backward compatible)
+# Provider tracking still works from Round 1
+```
+
+### If Round 3 Fails (FHIR Extraction):
+```bash
+# Just rollback pasrequestparser
+# Other services unaffected
+# Fields remain NULL or from headers (acceptable temporarily)
+# Provider tracking still works from Round 1## Why Lambda First is Better
+
+| Aspect | Original Plan | Lambda First ✅ |
+|--------|--------------|-----------------|
+| **Initial value** | No value until Round 3 | Provider tracking from Round 1 |
+| **Risk** | High (all services at once) | Low (incremental) |
+| **Testing** | Must wait for all rounds | Can test Lambda independently |
+| **Business** | No analytics until end | Provider analytics immediately |
+| **Dependencies** | Event tracking blocks Lambda | Lambda blocks nothing |
+| **Rollback** | Hard (10 services) | Easy (2 services) |
+
+**Recommendation**: ✅ **Do Lambda first (Round 1), then event tracking (Round 2)**
+
+---
+
+**Last Updated**: December 25, 2025  
+**Status**: Round 0 Complete ✅ | Round 1 (Lambda) **RECOMMENDED NEXT** 🎯
