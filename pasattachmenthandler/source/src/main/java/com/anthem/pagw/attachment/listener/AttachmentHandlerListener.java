@@ -3,7 +3,9 @@ package com.anthem.pagw.attachment.listener;
 import com.anthem.pagw.attachment.model.AttachmentInfo;
 import com.anthem.pagw.attachment.service.AttachmentHandlerService;
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
 import com.anthem.pagw.core.util.JsonUtils;
@@ -34,14 +36,17 @@ public class AttachmentHandlerListener {
     private final AttachmentHandlerService attachmentService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
 
     public AttachmentHandlerListener(
             AttachmentHandlerService attachmentService,
             S3Service s3Service,
-            RequestTrackerService trackerService) {
+            RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService) {
         this.attachmentService = attachmentService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
     }
 
     @SqsListener(value = "${pagw.aws.sqs.attachment-handler-queue}")
@@ -52,13 +57,19 @@ public class AttachmentHandlerListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for attachment processing: pagwId={}, attachmentCount={}", 
                     pagwId, message.getAttachmentCount());
+            
+            // Event tracking: ATTACH_START
+            eventTrackerService.logStageStart(pagwId, tenant, "ATTACHMENT_HANDLER", EventTracker.EVENT_ATTACH_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "PROCESSING_ATTACHMENTS", "attachment-handler");
@@ -89,6 +100,14 @@ public class AttachmentHandlerListener {
             // Update tracker - attachment processing is complete (parallel path ends here)
             trackerService.updateStatus(pagwId, "ATTACHMENTS_PROCESSED", "attachment-handler");
             
+            // Event tracking: ATTACH_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"attachmentCount\":%d}",
+                processedAttachments.size());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "ATTACHMENT_HANDLER", EventTracker.EVENT_ATTACH_OK, duration, metadata
+            );
+            
             log.info("Attachment processing complete: pagwId={}, attachmentCount={} (parallel path complete, main flow continues independently)", 
                     pagwId, processedAttachments.size());
             
@@ -99,6 +118,12 @@ public class AttachmentHandlerListener {
         } catch (Exception e) {
             log.error("Error processing attachments: pagwId={}", pagwId, e);
             if (pagwId != null) {
+                // Event tracking: ATTACH_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "ATTACHMENT_HANDLER", EventTracker.EVENT_ATTACH_FAIL,
+                    "ATTACHMENT_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateError(pagwId, "ATTACHMENT_ERROR", e.getMessage(), "attachment-handler");
             }
             throw new RuntimeException("Failed to process attachments", e);

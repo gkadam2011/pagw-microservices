@@ -3,7 +3,9 @@ package com.anthem.pagw.callback.listener;
 import com.anthem.pagw.callback.model.CallbackRequest;
 import com.anthem.pagw.callback.service.CallbackHandlerService;
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -32,16 +34,19 @@ public class CallbackHandlerListener {
     private final CallbackHandlerService callbackService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
 
     public CallbackHandlerListener(
             CallbackHandlerService callbackService,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService) {
         this.callbackService = callbackService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
     }
 
@@ -53,13 +58,19 @@ public class CallbackHandlerListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received callback message: pagwId={}, externalRef={}", 
                     pagwId, message.getExternalReferenceId());
+            
+            // Event tracking: CALLBACK_START
+            eventTrackerService.logStageStart(pagwId, tenant, "CALLBACK_HANDLER", EventTracker.EVENT_CALLBACK_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "PROCESSING_CALLBACK", "callback-handler");
@@ -110,12 +121,26 @@ public class CallbackHandlerListener {
             // Update tracker
             trackerService.updateStatus(pagwId, "CALLBACK_PROCESSED", "callback-handler");
             
+            // Event tracking: CALLBACK_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"status\":\"%s\",\"isError\":%b}",
+                callbackResult.getStatus(), callbackResult.isError());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "CALLBACK_HANDLER", EventTracker.EVENT_CALLBACK_OK, duration, metadata
+            );
+            
             log.info("Callback processing complete: pagwId={}, status={}", 
                     pagwId, callbackResult.getStatus());
             
         } catch (Exception e) {
             log.error("Error processing callback: pagwId={}", pagwId, e);
             if (pagwId != null) {
+                // Event tracking: CALLBACK_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "CALLBACK_HANDLER", EventTracker.EVENT_CALLBACK_FAIL,
+                    "CALLBACK_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateStatus(pagwId, "CALLBACK_ERROR", "callback-handler",
                         "EXCEPTION", e.getMessage());
             }
