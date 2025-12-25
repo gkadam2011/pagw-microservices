@@ -1,7 +1,9 @@
 package com.anthem.pagw.validator.listener;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -33,16 +35,19 @@ public class BusinessValidatorListener {
     private final BusinessValidatorService validatorService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
 
     public BusinessValidatorListener(
             BusinessValidatorService validatorService,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService) {
         this.validatorService = validatorService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
     }
 
@@ -54,13 +59,19 @@ public class BusinessValidatorListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for validation: pagwId={}, stage={}", 
                     pagwId, message.getStage());
+            
+            // Event tracking: VAL_START
+            eventTrackerService.logStageStart(pagwId, tenant, "VALIDATOR", EventTracker.EVENT_VAL_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "VALIDATING", "business-validator");
@@ -85,6 +96,15 @@ public class BusinessValidatorListener {
             if (!result.isValid()) {
                 log.warn("Validation failed for pagwId={}: {} errors", 
                         pagwId, result.getErrors().size());
+                
+                // Event tracking: VAL_FAIL
+                String errorDetails = result.getSummary();
+                String metadata = String.format("{\"errorCount\":%d,\"warningCount\":%d}",
+                    result.getErrors().size(), result.getWarnings().size());
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "VALIDATOR", EventTracker.EVENT_VAL_FAIL,
+                    "VALIDATION_FAILED", errorDetails, false, null
+                );
                 
                 trackerService.updateStatus(pagwId, "VALIDATION_FAILED", "business-validator",
                         "VALIDATION_ERROR", result.getSummary());
@@ -127,12 +147,26 @@ public class BusinessValidatorListener {
             // Update tracker
             trackerService.updateStatus(pagwId, "VALIDATED", "business-validator");
             
+            // Event tracking: VAL_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"errorCount\":0,\"warningCount\":%d}",
+                result.getWarnings().size());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "VALIDATOR", EventTracker.EVENT_VAL_OK, duration, metadata
+            );
+            
             log.info("Validation complete: pagwId={}, valid={}, warnings={}", 
                     pagwId, result.isValid(), result.getWarnings().size());
             
         } catch (Exception e) {
             log.error("Error processing message: pagwId={}", pagwId, e);
             if (pagwId != null) {
+                // Event tracking: VAL_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "VALIDATOR", EventTracker.EVENT_VAL_FAIL,
+                    "VALIDATION_EXCEPTION", e.getMessage(), true, Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateStatus(pagwId, "VALIDATION_ERROR", "business-validator",
                         "EXCEPTION", e.getMessage());
             }
