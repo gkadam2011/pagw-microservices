@@ -1,7 +1,9 @@
 package com.anthem.pagw.parser.listener;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -36,16 +38,19 @@ public class RequestParserListener {
     private final RequestParserService parserService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
 
     public RequestParserListener(
             RequestParserService parserService,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService) {
         this.parserService = parserService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
     }
 
@@ -57,13 +62,19 @@ public class RequestParserListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for parsing: pagwId={}, stage={}", 
                     pagwId, message.getStage());
+            
+            // Event tracking: PARSE_START
+            eventTrackerService.logStageStart(pagwId, tenant, "PARSER", EventTracker.EVENT_PARSE_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "PARSING", "request-parser");
@@ -79,8 +90,15 @@ public class RequestParserListener {
             
             if (!parseResult.isValid()) {
                 log.error("Parse failed for pagwId={}: {}", pagwId, parseResult.getErrors());
-                trackerService.updateError(pagwId, "PARSE_FAILED", 
-                        String.join("; ", parseResult.getErrors()), "request-parser");
+                
+                // Event tracking: PARSE_FAIL
+                String errorMessage = String.join("; ", parseResult.getErrors());
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "PARSER", EventTracker.EVENT_PARSE_FAIL,
+                    "PARSE_VALIDATION_ERROR", errorMessage, false, null
+                );
+                
+                trackerService.updateError(pagwId, "PARSE_FAILED", errorMessage, "request-parser");
                 return;
             }
             
@@ -133,12 +151,26 @@ public class RequestParserListener {
             
             outboxService.writeOutbox(BUSINESS_VALIDATOR_QUEUE, businessMessage);
             
+            // Event tracking: PARSE_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"attachmentCount\":%d,\"hasAttachments\":%b}",
+                parseResult.getAttachmentCount(), parseResult.hasAttachments());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "PARSER", EventTracker.EVENT_PARSE_OK, duration, metadata
+            );
+            
             log.info("Parse complete: pagwId={}, sentTo=business-validator, hasAttachments={}", 
                     pagwId, parseResult.hasAttachments());
             
         } catch (Exception e) {
             log.error("Error processing message: pagwId={}", pagwId, e);
             if (pagwId != null) {
+                // Event tracking: PARSE_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "PARSER", EventTracker.EVENT_PARSE_FAIL,
+                    "PARSE_EXCEPTION", e.getMessage(), true, Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateError(pagwId, "PARSE_EXCEPTION", e.getMessage(), "request-parser");
             }
             throw new RuntimeException("Failed to process message", e);
