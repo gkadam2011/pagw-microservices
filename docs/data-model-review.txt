@@ -1,0 +1,140 @@
+Yes — I reviewed OPERATIONAL_DATA_MODEL.md. Overall it’s a solid foundation (Request-centric state table + Event/Audit + Outbox + Idempotency), and it maps well to your event-driven PAS pipeline. Below are the main gaps + efficiency/scalability optimizations I recommend, assuming Aurora PostgreSQL 15.x and AWS EKS + SQS/S3/Redis.
+
+⸻
+
+1) Big-picture strengths (keep these)
+	•	REQUEST_TRACKER as the “source of truth” for lifecycle + pointers to S3 objects is the right pattern.
+	•	EVENT_TRACKER for step-by-step history is exactly what ops/support needs.
+	•	OUTBOX pattern is the right way to avoid “DB committed but message not published”.
+	•	IDEMPOTENCY table is essential for PAS $submit retries / duplicate submissions.
+
+⸻
+
+2) Highest-impact gaps to address
+
+A) Add a first-class “workflow/scenario” identity
+
+Right now you have request_type, source_system, payer_id, etc. Since you want workflow.json-driven processing and custom scenarios, add:
+	•	workflow_id (string) and workflow_version (string/int)
+	•	scenario_id (string) and scenario_tags (jsonb or text[])
+	•	ruleset_id (validator rules version)
+
+This makes it possible to answer: “Which workflow produced these failures?” without parsing payloads.
+
+B) Enforce tenant isolation in ALL operational tables
+
+REQUEST_TRACKER has tenant, but EVENT_TRACKER / ATTACHMENT_TRACKER / OUTBOX / IDEMPOTENCY should also carry:
+	•	tenant (or tenant_id) as a required column
+	•	and be included in primary/unique keys and indexes where applicable
+
+Reason: prevents cross-tenant data leakage and speeds up queries by avoiding joins.
+
+C) Normalize “status/stage/event_type” into enums (or strict domains)
+
+You currently store free-text status, stage, event_type. This becomes messy fast.
+Recommended:
+	•	PostgreSQL ENUM types (or strict check constraints) for:
+	•	request status
+	•	event event_type
+	•	stage stage
+	•	execution status (success/failure/error)
+This improves data quality and analytics.
+
+D) Add a proper “attempt” model for retries
+
+You have retry_count on REQUEST_TRACKER and OUTBOX, but you will need per-stage attempt visibility.
+Add to EVENT_TRACKER:
+	•	attempt (int)
+	•	retryable (boolean)
+	•	next_retry_at (timestamp)
+	•	worker_id / pod_name (optional but great for ops)
+This makes debugging retries and DLQ handling far easier.
+
+E) Don’t store full SQS Queue URL in OUTBOX
+
+In OUTBOX you store destination_queue as URL. Better:
+	•	store a logical name: destination = 'pas-request-parser-validator'
+	•	resolve to URL via config at publish time
+This avoids painful migrations when URLs change across envs/accounts.
+
+⸻
+
+3) Data volume and performance improvements
+
+A) Partitioning: EVENT_TRACKER and REQUEST_TRACKER history grow fast
+
+You already partition AUDIT_LOG monthly (good). Do the same for:
+	•	EVENT_TRACKER (monthly partitions by created_at)
+	•	optional: “completed” REQUEST_TRACKER records into a historical partition/table if you expect huge volume
+
+B) Indexing improvements (most important)
+
+Your current index list is good, but add composite indexes that match real queries, for example:
+
+REQUEST_TRACKER
+	•	(tenant, status, received_at desc) → dashboards
+	•	(tenant, pagw_id) (if pagw_id isn’t globally unique or you query by tenant)
+	•	(tenant, external_request_id) → payer lookups
+	•	(tenant, client_id, received_at desc) → provider usage
+
+EVENT_TRACKER
+	•	(tenant, pagw_id, created_at) → request timeline
+	•	(tenant, stage, created_at desc) → stage failures & latency tracking
+	•	(tenant, event_type, created_at desc)
+
+C) Keep PHI out of operational DB as much as possible
+
+You already store S3 pointers (raw_s3_key, etc.) and contains_phi. Good.
+Recommendation:
+	•	Don’t add more PHI fields than necessary (member/patient/provider). If you must store identifiers, store:
+	•	hashed tokenized forms (e.g., SHA-256 of member id with salt)
+	•	or encrypted columns with KMS envelope encryption (you already note phi_encrypted)
+
+⸻
+
+4) Event/Audit model tweaks (to reduce clutter + improve observability)
+
+A) EVENT_TRACKER should support structured details
+
+Add:
+	•	details JSONB (e.g., counts, validation profile list, attachment counts, routing decision, downstream latency)
+	•	op_outcome_s3_key for large OperationOutcome bodies (don’t bloat DB)
+
+B) Standardize event naming
+
+You listed great event names (VAL_OK/FAIL, AUTHN_OK/FAIL, etc.). Make them consistent:
+	•	STAGE_STARTED, STAGE_COMPLETED, STAGE_FAILED
+	•	plus BUSINESS_EVENT types like PROVIDER_AUTH_FAILED, FHIR_VALIDATION_FAILED, etc.
+
+This will matter when you build dashboards/alerts.
+
+⸻
+
+5) Idempotency improvements
+
+Current idempotency table stores response_body JSONB. That works for small payloads, but ClaimResponse bundles can get big.
+
+Recommendation:
+	•	store response_s3_key (and maybe response_hash) instead of the full JSONB
+	•	keep a small “cached summary” JSONB for quick replies
+
+Also, consider making idempotency key composite:
+	•	(tenant, idempotency_key) rather than idempotency_key alone.
+
+⸻
+
+6) What I’d change minimally (quick wins)
+
+If you want the shortest path to “more efficient” without rewriting:
+	1.	Add tenant to every table + index it.
+	2.	Add workflow_id, workflow_version, scenario_id to REQUEST_TRACKER (+ EVENT_TRACKER optionally).
+	3.	Add details JSONB + attempt INT to EVENT_TRACKER.
+	4.	Replace OUTBOX destination_queue URL with logical queue name.
+	5.	Partition EVENT_TRACKER monthly.
+
+⸻
+
+If you want, paste the current table DDLs (or tell me if you want Aurora PG 15-specific DDL) and I’ll:
+	•	propose the exact column additions,
+	•	show the recommended composite indexes,
+	•	and give you a “v1 → v2 migration plan” (Flyway scripts) with minimal downtime.
