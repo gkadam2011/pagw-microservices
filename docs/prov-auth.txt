@@ -1,0 +1,136 @@
+Token Introspection response
+{
+  "expires_in": 176381261,
+  "issued_at": 1763377661,
+  "id_token": "fCBC6k1m5NJBE5uRX+JxnozEn069FGRzmqulLddJ/Os3LyhMvPxSWSYEYShsg",
+  "scope": "profile thirdUser openid",
+  "clientId": "bdda3ee5-df8f-4c86-8d89-4a160e90764d",
+  "iss": "https://dev.totalview.healthos.carelon.com",
+  "sub": "TOTALVIEWMIDDLEWARE/HEALTHOS",
+  "active": true,
+  "patient": [
+    "3eaea72bcd7f9fd4f33366571f9ce758",
+    "d93eb14ace072a5eb7c431320b0abd4",
+    "4ad63761bbd1412bbc702dd07a0e38c"
+  ]
+
+So the right design is:
+	1.	Use introspection only to confirm the token is active and belongs to the expected issuer/audience.
+	2.	Use Registration Service (or a PAGW-owned Provider Directory) to fetch NPI/TIN/name/tenant/allowed APIs keyed by clientId.
+
+Below is the exact mapping + what to build.
+
+⸻
+
+1) What you can trust / use from this introspection response
+
+Use these fields
+	•	active: true → token valid right now
+	•	iss: https://dev.totalview.healthos.carelon.com → which environment issued it
+	•	clientId: "bdda3ee5-..." → this is your best stable key to look up provider registration
+	•	sub: "TOTALVIEWMIDDLEWARE/HEALTHOS" → indicates token owner/system, not a provider NPI/TIN
+	•	issued_at, expires_in → compute expiry, Redis TTL
+
+Do not treat these as provider identity
+	•	patient: [...] → unrelated to provider identity (and you shouldn’t rely on it for authorization anyway)
+
+Scope mismatch
+	•	scope: "profile thirdUser openid" → not enough for PAS access control.
+	•	For PAS you should have something like pas.submit (or SMART-style scopes if you go that route).
+	•	If your issuer won’t provide PAS scopes, then authorization must come from registration lookup (allowed APIs) + maybe Apigee policies.
+
+⸻
+
+2) Recommended “ProviderContext” derivation (the missing piece)
+
+Key decision
+
+Use clientId from introspection as the lookup key.
+
+You should create a ProviderContext by calling Registration Service:
+
+Example contract (what your Registration team should provide):
+GET /registration/v1/clients/{clientId}
+
+Response should include:
+	•	tenant/brand: elevance | carelon
+	•	org identity: legal name, DBA, addresses
+	•	identifiers: NPI(s), TIN(s)
+	•	allowed capabilities: submit/inquire/attachments/subscription
+	•	callback URLs (CDex, subscription)
+	•	status: active/suspended
+
+If you can’t get this API yet, then you need a PAGW “provider directory” table in Aurora keyed by client_id.
+
+⸻
+
+3) The exact flow you should implement in Orchestrator
+
+Step A — Token validation
+	1.	Call introspection endpoint
+	2.	Check:
+	•	active == true
+	•	iss matches expected env (dev/perf)
+	•	expires_in > 0
+	3.	Extract clientId
+
+If fails → 401
+
+Step B — Provider authorization & enrichment (where NPI/TIN comes from)
+	1.	Redis cache lookup:
+	•	key: reg:client:<clientId>
+	2.	If cache miss → call Registration Service and store result in Redis
+	3.	Validate provider allowed to call /pas/v1/submit
+	•	either: allowedApis contains PAS_SUBMIT
+	•	or: allowedScopes contains pas.submit
+	4.	Set tenant from registration record
+	5.	Attach npis, tins, entityName into your workflow context
+
+If provider not allowed → 403
+
+⸻
+
+4) What to ask Registration team to add (minimum)
+
+From your response you must request these in the registration lookup response:
+	•	tenant (Carelon/Elevance)
+	•	entityName
+	•	npis[]
+	•	tins[]
+	•	allowedApis[] (submit/inquire/attachments/subscription)
+	•	cdexEndpoints (optional for now)
+
+Without this, you can’t correctly route and enforce your PAS requirements.
+
+⸻
+
+5) Redis caching strategy based on your fields
+
+Compute TTL safely:
+	•	ttlSeconds = min(900, expires_in - 60)
+(cap at 15 min, keep a 60s safety buffer)
+
+Key patterns:
+	•	token:introspect:<sha256(token)> → store introspection result (short TTL)
+	•	reg:client:<clientId> → store provider registration (longer TTL e.g. 1–24h)
+
+⸻
+
+6) Immediate action items for you (to unblock dev now)
+
+For now (until registration API is ready)
+
+Create a simple Aurora table or YAML config:
+
+Table: provider_registry
+	•	client_id (PK) = introspection.clientId
+	•	tenant
+	•	entity_name
+	•	npis (jsonb)
+	•	tins (jsonb)
+	•	allowed_apis (jsonb)
+	•	status
+
+Then your Orchestrator can proceed with the right design today.
+
+⸻
