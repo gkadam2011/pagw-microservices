@@ -26,7 +26,8 @@ import java.util.UUID;
 public class CallbackHandlerListener {
 
     private static final Logger log = LoggerFactory.getLogger(CallbackHandlerListener.class);
-    private static final String RESPONSE_QUEUE = "pagw-response-builder-queue";
+    // AWS SQS queue names (include environment prefix and .fifo suffix)
+    private static final String RESPONSE_QUEUE = "dev-PAGW-pagw-response-builder-queue.fifo";
 
     private final CallbackHandlerService callbackService;
     private final S3Service s3Service;

@@ -29,8 +29,9 @@ import java.util.UUID;
 public class RequestParserListener {
 
     private static final Logger log = LoggerFactory.getLogger(RequestParserListener.class);
-    private static final String BUSINESS_VALIDATOR_QUEUE = "pagw-business-validator-queue";
-    private static final String ATTACHMENT_HANDLER_QUEUE = "pagw-attachment-handler-queue";
+    // AWS SQS queue names (include environment prefix and .fifo suffix)
+    private static final String BUSINESS_VALIDATOR_QUEUE = "dev-PAGW-pagw-business-validator-queue.fifo";
+    private static final String ATTACHMENT_HANDLER_QUEUE = "dev-PAGW-pagw-attachment-handler-queue.fifo";
 
     private final RequestParserService parserService;
     private final S3Service s3Service;

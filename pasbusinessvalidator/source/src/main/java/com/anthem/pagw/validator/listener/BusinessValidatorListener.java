@@ -26,8 +26,9 @@ import java.util.UUID;
 public class BusinessValidatorListener {
 
     private static final Logger log = LoggerFactory.getLogger(BusinessValidatorListener.class);
-    private static final String NEXT_QUEUE = "pagw-request-enricher-queue";
-    private static final String ERROR_QUEUE = "pagw-response-builder-queue";
+    // AWS SQS queue names (include environment prefix and .fifo suffix)
+    private static final String NEXT_QUEUE = "dev-PAGW-pagw-request-enricher-queue.fifo";
+    private static final String ERROR_QUEUE = "dev-PAGW-pagw-response-builder-queue.fifo";
 
     private final BusinessValidatorService validatorService;
     private final S3Service s3Service;

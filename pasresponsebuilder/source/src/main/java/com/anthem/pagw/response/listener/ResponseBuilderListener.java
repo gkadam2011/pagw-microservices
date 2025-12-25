@@ -23,7 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResponseBuilderListener {
 
     private static final Logger log = LoggerFactory.getLogger(ResponseBuilderListener.class);
-    private static final String NEXT_QUEUE = "pagw-subscription-handler-queue";
+    // AWS SQS queue names (include environment prefix and .fifo suffix)
+    private static final String NEXT_QUEUE = "dev-PAGW-pagw-subscription-handler-queue.fifo";
 
     private final ResponseBuilderService responseBuilderService;
     private final S3Service s3Service;
