@@ -1,7 +1,9 @@
 package com.anthem.pagw.enricher.listener;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -30,6 +32,7 @@ public class RequestEnricherListener {
     private final RequestEnricherService enricherService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
     private final String nextQueueName;
 
@@ -37,11 +40,13 @@ public class RequestEnricherListener {
             RequestEnricherService enricherService,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService,
             @Value("${pagw.aws.sqs.request-converter-queue}") String nextQueueName) {
         this.enricherService = enricherService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
         this.nextQueueName = nextQueueName;
     }
@@ -54,13 +59,19 @@ public class RequestEnricherListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for enrichment: pagwId={}, stage={}", 
                     pagwId, message.getStage());
+            
+            // Event tracking: ENRICH_START
+            eventTrackerService.logStageStart(pagwId, tenant, "ENRICHER", EventTracker.EVENT_ENRICH_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "ENRICHING", "request-enricher");
@@ -102,12 +113,26 @@ public class RequestEnricherListener {
             // Update tracker
             trackerService.updateStatus(pagwId, "ENRICHED", "request-enricher");
             
+            // Event tracking: ENRICH_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"sourcesUsed\":\"%s\",\"sourceCount\":%d}",
+                String.join(",", enrichedResult.getSourcesUsed()), enrichedResult.getSourcesUsed().size());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "ENRICHER", EventTracker.EVENT_ENRICH_OK, duration, metadata
+            );
+            
             log.info("Enrichment complete: pagwId={}, sourcesUsed={}", 
                     pagwId, enrichedResult.getSourcesUsed());
             
         } catch (Exception e) {
             log.error("Error processing message: pagwId={}", pagwId, e);
             if (pagwId != null) {
+                // Event tracking: ENRICH_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "ENRICHER", EventTracker.EVENT_ENRICH_FAIL,
+                    "ENRICHMENT_EXCEPTION", e.getMessage(), true, Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateStatus(pagwId, "ENRICHMENT_ERROR", "request-enricher",
                         "EXCEPTION", e.getMessage());
             }
