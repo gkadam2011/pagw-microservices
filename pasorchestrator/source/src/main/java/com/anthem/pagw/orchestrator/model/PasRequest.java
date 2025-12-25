@@ -27,10 +27,34 @@ public class PasRequest {
     private String requestType;
     
     /**
-     * Provider identifier from OAuth token.
+     * Provider identifier from OAuth token (Lambda Authorizer context: X-Provider-Id).
      * Used to validate Claim.provider.identifier matches per Da Vinci PAS requirements.
      */
     private String authenticatedProviderId;
+    
+    /**
+     * Provider NPI from OAuth token (Lambda Authorizer context: X-Provider-Npi).
+     * Extracted from oauth_provider_registry.npis array by Lambda.
+     */
+    private String providerNpi;
+    
+    /**
+     * Tenant from OAuth token (Lambda Authorizer context: X-Tenant).
+     * Used for tenant isolation (elevance, carelon, etc.).
+     */
+    private String providerTenant;
+    
+    /**
+     * Entity name from OAuth provider registry (Lambda Authorizer context: X-Entity-Name).
+     * Human-readable provider organization name.
+     */
+    private String entityName;
+    
+    /**
+     * Allowed APIs from OAuth provider registry (Lambda Authorizer context: X-Allowed-Apis).
+     * Comma-separated list of entitled APIs (PAS_SUBMIT, PAS_INQUIRE, SUBSCRIBE, CDEX).
+     */
+    private String allowedApis;
     
     /**
      * Whether to process synchronously (Da Vinci PAS default) or queue for async.

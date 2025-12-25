@@ -82,10 +82,14 @@ public class OrchestratorController {
             @RequestHeader(value = "X-Tenant-Id", required = false) String tenant,
             @RequestHeader(value = "X-Correlation-Id", required = false) String correlationId,
             @RequestHeader(value = "X-Provider-Id", required = false) String authenticatedProviderId,
+            @RequestHeader(value = "X-Provider-Npi", required = false) String providerNpi,
+            @RequestHeader(value = "X-Tenant", required = false) String providerTenant,
+            @RequestHeader(value = "X-Entity-Name", required = false) String entityName,
+            @RequestHeader(value = "X-Allowed-Apis", required = false) String allowedApis,
             @RequestHeader(value = "X-Sync-Processing", required = false, defaultValue = "true") boolean syncProcessing) {
         
-        log.info("Received PAS submit request: tenant={}, correlationId={}, syncMode={}", 
-                tenant, correlationId, syncProcessing);
+        log.info("Received PAS submit request: tenant={}, correlationId={}, providerId={}, syncMode={}", 
+                tenant, correlationId, authenticatedProviderId, syncProcessing);
         
         PasRequest request = PasRequest.builder()
                 .fhirBundle(fhirBundle)
@@ -94,6 +98,10 @@ public class OrchestratorController {
                 .correlationId(correlationId)
                 .requestType(PasRequest.TYPE_SUBMIT)
                 .authenticatedProviderId(authenticatedProviderId)
+                .providerNpi(providerNpi)
+                .providerTenant(providerTenant)
+                .entityName(entityName)
+                .allowedApis(allowedApis)
                 .syncProcessing(syncProcessing)
                 .build();
         

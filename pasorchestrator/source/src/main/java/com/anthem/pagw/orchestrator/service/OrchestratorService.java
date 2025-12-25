@@ -1,6 +1,7 @@
 package com.anthem.pagw.orchestrator.service;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
 import com.anthem.pagw.core.model.RequestTracker;
 import com.anthem.pagw.core.service.*;
@@ -41,6 +42,7 @@ public class OrchestratorService {
     
     private final S3Service s3Service;
     private final RequestTrackerService requestTrackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
     @Nullable
     private final PhiEncryptionService phiEncryptionService;
@@ -53,6 +55,7 @@ public class OrchestratorService {
     public OrchestratorService(
             S3Service s3Service,
             RequestTrackerService requestTrackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService,
             @Nullable PhiEncryptionService phiEncryptionService,
             AuditService auditService,
@@ -61,6 +64,7 @@ public class OrchestratorService {
             PagwProperties properties) {
         this.s3Service = s3Service;
         this.requestTrackerService = requestTrackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
         this.phiEncryptionService = phiEncryptionService;
         this.auditService = auditService;
@@ -86,9 +90,17 @@ public class OrchestratorService {
         String pagwId = PagwIdGenerator.generate();
         String messageId = UUID.randomUUID().toString();
         Instant receivedAt = Instant.now();
+        long startTime = System.currentTimeMillis();
+        String tenant = request.getTenant() != null ? request.getTenant() : "default";
         
         log.info("Processing request: pagwId={}, type={}, tenant={}, syncMode={}", 
-                pagwId, request.getRequestType(), request.getTenant(), request.isSyncProcessing());
+                pagwId, request.getRequestType(), tenant, request.isSyncProcessing());
+        
+        // Log request received event
+        eventTrackerService.logStageStart(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION, 
+                EventTracker.EVENT_REQUEST_RECEIVED,
+                String.format("{\"requestType\":\"%s\",\"syncMode\":%b}", 
+                        request.getRequestType(), request.isSyncProcessing()));
         
         // Check idempotency (Da Vinci PAS requires unique Bundle.identifier)
         String idempotencyKey = request.getIdempotencyKey() != null ? 
@@ -137,15 +149,27 @@ public class OrchestratorService {
                     .containsPhi(true)
                     .idempotencyKey(idempotencyKey)
                     .receivedAt(receivedAt)
+                    .clientId(request.getAuthenticatedProviderId())  // From X-Provider-Id header (Lambda Authorizer)
                     .build();
             
             requestTrackerService.create(tracker);
+            
+            // Extract provider context from Lambda Authorizer headers (Round 1)
+            // API Gateway maps Lambda context to X-* headers
+            if (request.getAuthenticatedProviderId() != null) {
+                updateProviderContext(pagwId, request);
+            }
             
             // Log audit event
             auditService.logRequestCreated(pagwId, "pasorchestrator", request.getCorrelationId());
             
             // Attempt synchronous processing first (Da Vinci PAS default)
             if (request.isSyncProcessing() && syncProcessingService.isSyncEnabled()) {
+                // Log workflow start
+                eventTrackerService.logStageStart(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                        EventTracker.EVENT_WORKFLOW_START,
+                        "{\"mode\":\"SYNC\"}");
+                
                 SyncProcessingResult syncResult = syncProcessingService.processSync(
                         pagwId,
                         processedBundle,
@@ -161,11 +185,25 @@ public class OrchestratorService {
                     if (syncResult.isValid()) {
                         log.info("Synchronous processing completed: pagwId={}, disposition={}, timeMs={}", 
                                 pagwId, syncResult.getDisposition(), syncResult.getProcessingTimeMs());
+                        
+                        // Log workflow completion
+                        long duration = System.currentTimeMillis() - startTime;
+                        eventTrackerService.logStageComplete(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                                EventTracker.EVENT_WORKFLOW_COMPLETE, duration,
+                                String.format("{\"mode\":\"SYNC\",\"disposition\":\"%s\"}", syncResult.getDisposition()));
+                        
                         return buildSyncResponse(pagwId, syncResult);
                     } else {
                         // Validation error - return OperationOutcome
                         log.warn("Validation errors: pagwId={}, errors={}, details={}", 
                                 pagwId, syncResult.getValidationErrors().size(), syncResult.getValidationErrors());
+                        
+                        // Log validation failure
+                        eventTrackerService.logStageError(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                                EventTracker.EVENT_WORKFLOW_COMPLETE, "VALIDATION_FAILED",
+                                String.format("%d validation errors", syncResult.getValidationErrors().size()),
+                                false, null);
+                        
                         return buildValidationErrorResponse(pagwId, syncResult);
                     }
                 } else {
@@ -174,6 +212,19 @@ public class OrchestratorService {
                     // The sync task may have completed between timeout and this check
                     log.info("Request pended, queueing for async: pagwId={}, lastStage={}", 
                             pagwId, syncResult.getLastStage());
+            
+            // Log error event
+            eventTrackerService.logStageError(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                    EventTracker.EVENT_WORKFLOW_COMPLETE, "ORCHESTRATION_ERROR",
+                    e.getMessage(), false, null);
+            
+                    
+                    // Log workflow pended (switching to async)
+                    long duration = System.currentTimeMillis() - startTime;
+                    eventTrackerService.logStageComplete(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                            EventTracker.EVENT_WORKFLOW_COMPLETE, duration,
+                            "{\"mode\":\"SYNC_PENDED_TO_ASYNC\"}");
+                    
                     boolean queued = tryQueueForAsyncProcessing(pagwId, processedBundle, request, requestBucket, rawKey, messageId);
                     if (!queued) {
                         log.warn("Request already processed or queued, skipping async queue: pagwId={}", pagwId);
@@ -182,11 +233,26 @@ public class OrchestratorService {
                 }
             } else {
                 // Async-only mode (legacy or explicit async request)
+                eventTrackerService.logStageStart(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                        EventTracker.EVENT_WORKFLOW_START,
+                        "{\"mode\":\"ASYNC\"}");
+                
                 boolean queued = tryQueueForAsyncProcessing(pagwId, processedBundle, request, requestBucket, rawKey, messageId);
                 if (queued) {
                     log.info("Request queued for async processing: pagwId={}", pagwId);
+                    
+                    // Log workflow queued
+                    long duration = System.currentTimeMillis() - startTime;
+                    eventTrackerService.logStageComplete(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                            EventTracker.EVENT_WORKFLOW_COMPLETE, duration,
+                            "{\"mode\":\"ASYNC_QUEUED\"}");
                 } else {
                     log.warn("Failed to queue request (already processed?): pagwId={}", pagwId);
+                    
+                    // Log queueing failure
+                    eventTrackerService.logStageError(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
+                            EventTracker.EVENT_WORKFLOW_COMPLETE, "QUEUE_FAILED",
+                            "Request already processed or queued", false, null);
                 }
                 return buildQueuedResponse(pagwId, receivedAt);
             }
@@ -272,6 +338,52 @@ public class OrchestratorService {
                 .build();
         
         outboxService.writeOutbox(properties.getQueues().getRequestParser(), message);
+    }
+    
+    /**
+     * Update provider context from Lambda Authorizer headers (Round 1).
+     * API Gateway automatically maps Lambda context to X-* headers.
+     * 
+     * @param pagwId The request ID
+     * @param request The PAS request containing provider headers
+     */
+    private void updateProviderContext(String pagwId, PasRequest request) {
+        try {
+            // Extract provider context from headers set by Lambda Authorizer
+            String clientId = request.getAuthenticatedProviderId();      // X-Provider-Id
+            String providerNpi = request.getProviderNpi();                // X-Provider-Npi
+            String correlationId = request.getCorrelationId();            // X-Correlation-Id
+            
+            // Simple JDBC update - no pagwcore dependency needed for Round 1
+            if (clientId != null) {
+                String sql = """
+                    UPDATE pagw.request_tracker 
+                    SET client_id = ?,
+                        correlation_id = ?,
+                        expires_at = NOW() + INTERVAL '90 days',
+                        updated_at = NOW()
+                    WHERE pagw_id = ?
+                    """;
+                requestTrackerService.getJdbcTemplate().update(sql, clientId, correlationId, pagwId);
+            }
+            
+            // Update provider_npi if not already set (might come from FHIR bundle too)
+            if (providerNpi != null) {
+                String sql = """
+                    UPDATE pagw.request_tracker 
+                    SET provider_npi = ?
+                    WHERE pagw_id = ? AND provider_npi IS NULL
+                    """;
+                requestTrackerService.getJdbcTemplate().update(sql, providerNpi, pagwId);
+            }
+            
+            log.debug("Provider context updated: pagwId={}, clientId={}, providerNpi={}", 
+                    pagwId, clientId, providerNpi);
+                    
+        } catch (Exception e) {
+            log.error("Failed to update provider context for pagwId={}: {}", pagwId, e.getMessage(), e);
+            // Don't fail the request if provider context update fails
+        }
     }
     
     /**
