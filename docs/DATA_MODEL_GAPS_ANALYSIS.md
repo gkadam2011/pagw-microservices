@@ -2,15 +2,110 @@
 
 ## Executive Summary
 
-The PAGW data model has **3 critical gaps** that prevent comprehensive request tracking and observability:
+The PAGW data model has **4 critical gaps** that prevent comprehensive request tracking and observability:
 
-1. ❌ **EVENT_TRACKER not populated** - Table exists but only CallbackHandler writes to it
-2. ❌ **Sync flow not tracked** - No differentiation between sync and async processing in audit trail
-3. ❌ **Provider auth not integrated** - Provider authentication happens in Lambda, disconnected from request tracking
+1. ❌ **REQUEST_TRACKER fields not populated** - 15 out of 34 columns are NEVER set, 6 partially used
+2. ❌ **EVENT_TRACKER not populated** - Table exists but only CallbackHandler writes to it
+3. ❌ **Sync flow not tracked** - No differentiation between sync and async processing in audit trail
+4. ❌ **Provider auth not integrated** - Provider authentication happens in Lambda, disconnected from request tracking
 
 ---
 
-## Gap 1: EVENT_TRACKER Table Not Populated
+## Gap 1: REQUEST_TRACKER Fields Not Populated
+
+### Schema vs Reality
+
+**request_tracker has 34 columns** but only **13 are actively used**. Here's the breakdown:
+
+#### ✅ Fields Actually Used (13)
+
+| Field | Usage | Set By |
+|-------|-------|--------|
+| `pagw_id` | ✅ Primary key | OrchestratorService (create) |
+| `status` | ✅ Workflow state | All services (updateStatus) |
+| `tenant` | ✅ Tenant ID | OrchestratorService (create) |
+| `source_system` | ✅ Origin system | OrchestratorService (create) |
+| `request_type` | ✅ submit/inquiry/cancel | OrchestratorService (create) |
+| `last_stage` | ✅ Current stage | All services (updateStatus) |
+| `workflow_id` | ✅ Workflow tracking | OrchestratorService (create) |
+| `raw_s3_bucket` | ✅ Raw request location | OrchestratorService (create) |
+| `raw_s3_key` | ✅ Raw request key | OrchestratorService (create) |
+| `enriched_s3_bucket` | ✅ Enriched location | RequestEnricherService |
+| `enriched_s3_key` | ✅ Enriched key | RequestEnricherService |
+| `final_s3_bucket` | ✅ Response location | ResponseBuilderService |
+| `final_s3_key` | ✅ Response key | ResponseBuilderService |
+
+#### ❌ Fields NEVER Set (15)
+
+| Field | Purpose | Why Not Set | Impact |
+|-------|---------|-------------|--------|
+| `payer_id` | Which payer (ANTHEM, UHC, etc.) | No extraction from bundle | ❌ Can't query by payer |
+| `provider_npi` | Submitting provider NPI | Not extracted from FHIR | ❌ Can't track provider activity |
+| `patient_member_id` | Patient member ID | Not extracted | ❌ Can't find patient's requests |
+| `client_id` | API client identifier | Auth in Lambda, not passed | ❌ Can't track client usage |
+| `member_id` | Alternate member ID | Not used | ❌ Duplicate of patient_member_id? |
+| `provider_id` | Alternate provider ID | Not used | ❌ Duplicate of provider_npi? |
+| `phi_encrypted` | PHI encryption flag | Always false | ❌ Compliance gap |
+| `expires_at` | Request expiration | Not calculated | ❌ Can't cleanup old requests |
+| `correlation_id` | Request correlation | Not passed through | ❌ Can't trace distributed calls |
+| `next_stage` | Next processing stage | Not used | ❌ Workflow visibility gap |
+| `idempotency_key` | Duplicate prevention | Set but not used for checks | ⚠️ Partial implementation |
+| `external_request_id` | Payer's request ID | Only read, never set | ❌ Can't correlate with payer |
+| `callback_sent_at` | Callback timestamp | Set but unused | ⚠️ Tracked but not queried |
+| `sync_processed_at` | Sync completion time | Flag set, timestamp not | ⚠️ Missing timing data |
+| `async_queued_at` | Queue time | Flag set, timestamp not | ⚠️ Missing timing data |
+
+#### ⚠️ Fields Partially Used (6)
+
+| Field | Usage | Gap |
+|-------|-------|-----|
+| `contains_phi` | Set to true by default | Never set to false - always assumes PHI |
+| `idempotency_key` | Stored on create | Not used to check duplicates |
+| `last_error_code` | Set on errors | Not always set consistently |
+| `last_error_msg` | Set on errors | Not always set consistently |
+| `retry_count` | Incremented on errors | Not used for retry logic |
+| `external_reference_id` | Set by CallbackHandler | Only for callbacks, not payer references |
+
+### Impact of Missing Fields
+
+**Query Limitations**:
+```sql
+-- ❌ CANNOT DO: Find all requests for a provider
+SELECT * FROM request_tracker WHERE provider_npi = '1234567890';
+-- Result: provider_npi is always NULL
+
+-- ❌ CANNOT DO: Find all requests for a payer
+SELECT * FROM request_tracker WHERE payer_id = 'ANTHEM';
+-- Result: payer_id is always NULL
+
+-- ❌ CANNOT DO: Find all requests for a patient
+SELECT * FROM request_tracker WHERE patient_member_id = 'MEM123';
+-- Result: patient_member_id is always NULL
+
+-- ❌ CANNOT DO: Find expired requests to cleanup
+SELECT * FROM request_tracker WHERE expires_at < NOW();
+-- Result: expires_at is always NULL
+
+-- ❌ CANNOT DO: Analyze by correlation
+SELECT * FROM request_tracker WHERE correlation_id = 'trace-123';
+-- Result: correlation_id is always NULL
+```
+
+**Compliance Gaps**:
+- No tracking of which provider submitted request
+- No tracking of which patient the request is for
+- PHI encryption status not tracked
+- Can't generate provider-specific audit reports
+
+**Operational Gaps**:
+- Can't identify hot providers (high volume)
+- Can't identify problematic providers (high errors)
+- Can't cleanup expired requests
+- Can't correlate requests across systems
+
+---
+
+## Gap 2: EVENT_TRACKER Table Not Populated
 
 ### Current State
 
@@ -77,7 +172,7 @@ SELECT * FROM pagw.event_tracker WHERE pagw_id = 'PAGW-20251225-00001-3E6D0FD7';
 
 ---
 
-## Gap 2: Sync Flow Not Tracked in Event Trail
+## Gap 3: Sync Flow Not Tracked in Event Trail
 
 ### Current State
 
@@ -138,7 +233,7 @@ eventTrackerService.logStageComplete(pagwId, "REQUEST_PARSER", "SYNC", "SUCCESS"
 
 ---
 
-## Gap 3: Provider Auth Not Integrated in Request Tracking
+## Gap 4: Provider Auth Not Integrated in Request Tracking
 
 ### Current State
 
@@ -218,7 +313,75 @@ tracker.setProviderNpi(provider.getNpi());
 
 ## Recommended Fixes
 
-### Priority 1: Implement EventTrackerService
+### Priority 1: Populate Critical request_tracker Fields
+
+**Extract from FHIR Bundle during parsing**:
+
+```java
+// RequestParserService.java - during bundle parsing
+public ParseResult parse(String fhirBundle, PagwMessage message) {
+    Bundle bundle = fhirContext.newJsonParser().parseResource(Bundle.class, fhirBundle);
+    
+    // Extract key identifiers
+    String payerId = extractPayerId(bundle);  // From Coverage.payor
+    String providerNpi = extractProviderNpi(bundle);  // From Practitioner.identifier
+    String patientMemberId = extractPatientMemberId(bundle);  // From Patient.identifier
+    
+    // Update request_tracker with extracted data
+    requestTrackerService.updateIdentifiers(
+        message.getPagwId(),
+        payerId,
+        providerNpi,
+        patientMemberId
+    );
+    
+    // Continue with parsing...
+}
+```
+
+**Add RequestTrackerService method**:
+```java
+@Transactional
+public void updateIdentifiers(String pagwId, String payerId, 
+                              String providerNpi, String patientMemberId) {
+    String sql = """
+        UPDATE request_tracker
+        SET payer_id = ?, provider_npi = ?, patient_member_id = ?, updated_at = NOW()
+        WHERE pagw_id = ?
+        """;
+    
+    jdbcTemplate.update(sql, payerId, providerNpi, patientMemberId, pagwId);
+    log.info("Identifiers updated: pagwId={}, payer={}, npi={}", 
+             pagwId, payerId, providerNpi);
+}
+```
+
+**Set correlation_id from request headers**:
+```java
+// OrchestratorService - on create
+tracker.setCorrelationId(request.getHeader("X-Correlation-ID"));
+```
+
+**Calculate expires_at based on business rules**:
+```java
+// OrchestratorService - on create
+tracker.setExpiresAt(Instant.now().plus(90, ChronoUnit.DAYS));  // 90 day retention
+```
+
+**Set timestamps properly**:
+```java
+// RequestTrackerService.tryMarkAsyncQueued()
+UPDATE request_tracker 
+SET async_queued = true, async_queued_at = NOW()
+WHERE pagw_id = ? AND sync_processed = false AND async_queued = false
+
+// RequestTrackerService.markSyncProcessed() - NEW METHOD
+UPDATE request_tracker
+SET sync_processed = true, sync_processed_at = NOW()
+WHERE pagw_id = ?
+```
+
+### Priority 2: Implement EventTrackerService
 
 **Create EventTrackerService in pagwcore**:
 ```java
@@ -284,7 +447,7 @@ public void handleMessage(String messageBody, @Header String pagwIdHeader) {
 }
 ```
 
-### Priority 2: Add Provider Tracking Fields
+### Priority 3: Add Provider Tracking Fields
 
 **Migration**: V004__add_provider_tracking.sql
 ```sql
@@ -329,7 +492,7 @@ tracker.setProviderNpi(providerNpi);
 tracker.setAuthMethod(request.getHeader("X-Auth-Method"));
 ```
 
-### Priority 3: Sync Flow Event Tracking
+### Priority 4: Sync Flow Event Tracking
 
 **Update Sync Processing** to log events:
 ```java
@@ -427,15 +590,93 @@ WHERE completed_at IS NOT NULL
 GROUP BY sync_processed;
 ```
 
+**NEW: Provider Activity Report**:
+```sql
+SELECT 
+    provider_npi,
+    payer_id,
+    COUNT(*) as total_requests,
+    SUM(CASE WHEN status = 'COMPLETED' THEN 1 ELSE 0 END) as completed,
+    SUM(CASE WHEN status = 'ERROR' THEN 1 ELSE 0 END) as errors,
+    AVG(EXTRACT(EPOCH FROM (completed_at - received_at))) as avg_duration_sec
+FROM pagw.request_tracker
+WHERE created_at > NOW() - INTERVAL '30 days'
+  AND provider_npi IS NOT NULL
+GROUP BY provider_npi, payer_id
+ORDER BY total_requests DESC;
+```
+
+**NEW: Patient Request History**:
+```sql
+SELECT 
+    pagw_id,
+    status,
+    provider_npi,
+    payer_id,
+    received_at,
+    completed_at,
+    EXTRACT(EPOCH FROM (completed_at - received_at)) as duration_sec
+FROM pagw.request_tracker
+WHERE patient_member_id = ?
+ORDER BY received_at DESC;
+```
+
+**NEW: Expiring Requests Cleanup**:
+```sql
+-- Find requests ready for archival
+SELECT 
+    pagw_id,
+    status,
+    received_at,
+    expires_at
+FROM pagw.request_tracker
+WHERE expires_at < NOW()
+  AND status IN ('COMPLETED', 'ERROR')
+ORDER BY expires_at
+LIMIT 1000;
+```
+
+**NEW: Correlation Tracing**:
+```sql
+-- Trace distributed requests by correlation_id
+SELECT 
+    pagw_id,
+    status,
+    last_stage,
+    correlation_id,
+    received_at
+FROM pagw.request_tracker
+WHERE correlation_id = ?
+ORDER BY received_at;
+```
+
 ---
 
 ## Implementation Plan
 
-1. **Week 1**: Create EventTrackerService in pagwcore
-2. **Week 2**: Update 3 high-volume services (orchestrator, parser, validator)
-3. **Week 3**: Update remaining services + add provider tracking
-4. **Week 4**: Testing and validation queries
+1. **Week 1**: 
+   - Populate critical request_tracker fields (payer_id, provider_npi, patient_member_id)
+   - Add extraction logic in RequestParserService
+   - Set correlation_id and expires_at in OrchestratorService
 
-**Effort**: ~3-4 days of development + testing
+2. **Week 2**: 
+   - Create EventTrackerService in pagwcore
+   - Update 3 high-volume services (orchestrator, parser, validator)
 
-**Value**: Complete observability and compliance audit trail
+3. **Week 3**: 
+   - Update remaining services with event tracking
+   - Add provider auth integration (Lambda → Orchestrator)
+
+4. **Week 4**: 
+   - Add sync flow event tracking
+   - Testing and validation queries
+   - Performance testing
+
+**Effort**: ~4-5 days of development + testing
+
+**Value**: 
+- ✅ Complete request traceability (provider, patient, payer)
+- ✅ Compliance-ready audit trail
+- ✅ Performance analytics by provider/payer
+- ✅ Proper request lifecycle management (expiration)
+- ✅ Full observability for troubleshooting
