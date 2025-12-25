@@ -1,0 +1,123 @@
+{
+  "PagwEventEnvelope.v1": {
+    "description": "Standard SQS message envelope for PAGW pipeline events",
+    "type": "object",
+    "required": [
+      "schemaVersion",
+      "tenant",
+      "pagwId",
+      "eventType",
+      "stage",
+      "timestamp",
+      "correlationId",
+      "payload"
+    ],
+    "properties": {
+      "schemaVersion": {
+        "type": "string",
+        "example": "1.0"
+      },
+      "tenant": {
+        "type": "string",
+        "example": "elevance"
+      },
+      "pagwId": {
+        "type": "string",
+        "example": "PAGW-123"
+      },
+      "correlationId": {
+        "type": "string",
+        "example": "corr-uuid"
+      },
+      "traceId": {
+        "type": "string",
+        "example": "trace-uuid"
+      },
+      "workflowId": {
+        "type": "string"
+      },
+      "workflowVersion": {
+        "type": "string"
+      },
+      "scenarioId": {
+        "type": "string"
+      },
+      "rulesetVersion": {
+        "type": "string"
+      },
+      "eventType": {
+        "type": "string",
+        "example": "VAL_OK"
+      },
+      "stage": {
+        "type": "string",
+        "example": "PAS_REQUEST_VALIDATOR"
+      },
+      "sequenceNo": {
+        "type": "integer",
+        "example": 10
+      },
+      "attempt": {
+        "type": "integer",
+        "example": 1
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "replyTo": {
+        "type": "string",
+        "description": "logical destination for next hop"
+      },
+      "s3": {
+        "type": "object",
+        "properties": {
+          "bucket": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "payload": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "CommonEventTypes": [
+    "SUBMIT_RECEIVED",
+    "VAL_OK",
+    "VAL_FAIL",
+    "AUTHN_OK",
+    "AUTHN_FAIL",
+    "BUSI_VAL_OK",
+    "BUSI_VAL_FAIL",
+    "REQ_ENRICH_OK",
+    "REQ_ENRICH_FAIL",
+    "ATTACH_OK",
+    "ATTACH_ERROR",
+    "REQ_CONV_DONE",
+    "REQ_CONV_FAIL",
+    "DOWNSTREAM_REQ",
+    "DOWNSTREAM_RESP",
+    "DOWNSTREAM_ERROR",
+    "RESPONSE_BUILT",
+    "RESPONSE_SAVED",
+    "PIPELINE_FAILED"
+  ],
+  "LogicalDestinations": [
+    "PAS_ORCHESTRATOR",
+    "PAS_REQUEST_VALIDATOR",
+    "PAS_BUSINESS_VALIDATOR",
+    "PAS_REQUEST_ENRICHER",
+    "PAS_ATTACHMENT_HANDLER",
+    "CANONICAL_MAPPER",
+    "DOWNSTREAM_CONNECTOR",
+    "PAS_RESPONSE_BUILDER",
+    "CALLBACK_HANDLER",
+    "AUDIT_SINK",
+    "ERROR_SINK"
+  ]
+}
