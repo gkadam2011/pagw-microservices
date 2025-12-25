@@ -1,7 +1,9 @@
 package com.anthem.pagw.subscription.listener;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
 import com.anthem.pagw.core.util.JsonUtils;
@@ -34,16 +36,19 @@ public class SubscriptionHandlerListener {
     private final NotificationDeliveryService deliveryService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
 
     public SubscriptionHandlerListener(
             SubscriptionService subscriptionService,
             NotificationDeliveryService deliveryService,
             S3Service s3Service,
-            RequestTrackerService trackerService) {
+            RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService) {
         this.subscriptionService = subscriptionService;
         this.deliveryService = deliveryService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
     }
 
     @SqsListener(value = "${pagw.aws.sqs.subscription-handler-queue}")
@@ -54,6 +59,7 @@ public class SubscriptionHandlerListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
@@ -62,6 +68,9 @@ public class SubscriptionHandlerListener {
             
             log.info("Received subscription notification request: pagwId={}, tenant={}", 
                     pagwId, tenant);
+            
+            // Event tracking: NOTIFY_START
+            eventTrackerService.logStageStart(pagwId, tenant, "SUBSCRIPTION_HANDLER", EventTracker.EVENT_NOTIFY_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "NOTIFYING_SUBSCRIBERS", "subscription-handler");
@@ -102,6 +111,14 @@ public class SubscriptionHandlerListener {
             }
             
             trackerService.updateStatus(pagwId, "COMPLETED", "subscription-handler");
+            
+            // Event tracking: NOTIFY_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"subscriptionCount\":%d}", subscriptions.size());
+            eventTrackerService.logStageComplete(
+                pagwId, message.getTenant(), "SUBSCRIPTION_HANDLER", EventTracker.EVENT_NOTIFY_OK, duration, metadata
+            );
+            
             log.info("Subscription notifications initiated: pagwId={}, subscriptions={}", 
                     pagwId, subscriptions.size());
             
@@ -109,6 +126,12 @@ public class SubscriptionHandlerListener {
             log.error("Error processing subscription notification: pagwId={}, error={}", 
                     pagwId, e.getMessage(), e);
             if (pagwId != null) {
+                // Event tracking: NOTIFY_FAIL (exception)
+                eventTrackerService.logStageError(
+                    pagwId, message != null ? message.getTenant() : null, "SUBSCRIPTION_HANDLER", EventTracker.EVENT_NOTIFY_FAIL,
+                    "NOTIFICATION_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateStatus(pagwId, "SUBSCRIPTION_ERROR", "subscription-handler");
                 trackerService.recordError(pagwId, "SUBSCRIPTION_DELIVERY_ERROR", e.getMessage());
             }

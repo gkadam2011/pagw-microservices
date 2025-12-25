@@ -3,7 +3,9 @@ package com.anthem.pagw.connector.listener;
 import com.anthem.pagw.connector.client.ExternalApiClient;
 import com.anthem.pagw.connector.model.ApiResponse;
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -37,6 +39,7 @@ public class ApiConnectorListener {
     private final ExternalApiClient externalApiClient;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
+    private final EventTrackerService eventTrackerService;
     private final OutboxService outboxService;
     private final String callbackQueueName;
 
@@ -44,11 +47,13 @@ public class ApiConnectorListener {
             ExternalApiClient externalApiClient,
             S3Service s3Service,
             RequestTrackerService trackerService,
+            EventTrackerService eventTrackerService,
             OutboxService outboxService,
             @Value("${pagw.aws.sqs.callback-handler-queue}") String callbackQueueName) {
         this.externalApiClient = externalApiClient;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
+        this.eventTrackerService = eventTrackerService;
         this.outboxService = outboxService;
         this.callbackQueueName = callbackQueueName;
     }
@@ -61,13 +66,19 @@ public class ApiConnectorListener {
         
         PagwMessage message = null;
         String pagwId = null;
+        String tenant = null;
+        long startTime = System.currentTimeMillis();
         
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
+            tenant = message.getTenant();
             
             log.info("Received message for API submission: pagwId={}, targetSystem={}", 
                     pagwId, message.getTargetSystem());
+            
+            // Event tracking: DOWNSTREAM_START
+            eventTrackerService.logStageStart(pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "SUBMITTING", "api-connector");
@@ -124,6 +135,14 @@ public class ApiConnectorListener {
             // Write to outbox - always route to callback-handler
             outboxService.writeOutbox(callbackQueueName, callbackMessage);
             
+            // Event tracking: DOWNSTREAM_OK
+            long duration = System.currentTimeMillis() - startTime;
+            String metadata = String.format("{\"targetSystem\":\"%s\",\"externalId\":\"%s\",\"isAsync\":%b,\"status\":\"%s\"}",
+                message.getTargetSystem(), apiResponse.getExternalId(), apiResponse.isAsync(), apiResponse.getStatus());
+            eventTrackerService.logStageComplete(
+                pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_OK, duration, metadata
+            );
+            
             log.info("API submission complete: pagwId={}, externalId={}, async={}, routedTo=callback-handler", 
                     pagwId, apiResponse.getExternalId(), apiResponse.isAsync());
             
@@ -131,6 +150,12 @@ public class ApiConnectorListener {
             log.error("API connector error: pagwId={}", pagwId, e);
             
             if (pagwId != null) {
+                // Event tracking: DOWNSTREAM_ERROR (exception)
+                eventTrackerService.logStageError(
+                    pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_ERROR,
+                    "API_CONNECTOR_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
+                );
+                
                 trackerService.updateError(pagwId, "API_CONNECTOR_ERROR", 
                         e.getMessage(), "api-connector");
             }
