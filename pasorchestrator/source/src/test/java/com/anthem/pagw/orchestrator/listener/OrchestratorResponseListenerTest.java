@@ -30,11 +30,12 @@ class OrchestratorResponseListenerTest {
 
     private OrchestratorResponseListener listener;
 
-    private static final String REQUEST_PARSER_QUEUE = "pagw-request-parser-queue";
-    private static final String BUSINESS_VALIDATOR_QUEUE = "pagw-business-validator-queue";
-    private static final String REQUEST_ENRICHER_QUEUE = "pagw-request-enricher-queue";
-    private static final String REQUEST_CONVERTER_QUEUE = "pagw-request-converter-queue";
-    private static final String API_CONNECTORS_QUEUE = "pagw-api-connectors-queue";
+    // AWS SQS queue names (must match actual queue names in AWS)
+    private static final String REQUEST_PARSER_QUEUE = "dev-PAGW-pagw-request-parser-queue.fifo";
+    private static final String BUSINESS_VALIDATOR_QUEUE = "dev-PAGW-pagw-business-validator-queue.fifo";
+    private static final String REQUEST_ENRICHER_QUEUE = "dev-PAGW-pagw-request-enricher-queue.fifo";
+    private static final String REQUEST_CONVERTER_QUEUE = "dev-PAGW-pagw-request-converter-queue.fifo";
+    private static final String API_CONNECTORS_QUEUE = "dev-PAGW-pagw-api-connectors-queue.fifo";
 
     @BeforeEach
     void setUp() {
