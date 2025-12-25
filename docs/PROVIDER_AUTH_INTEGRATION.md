@@ -29,6 +29,12 @@ Request Flow (PAGW):
                                               ↓
                                       TotalView API
                                     (Token Introspection)
+
+Payer System Integration (Testing):
+    For tenant=elevance → pasmockpayer (simulating ACMP)
+    For tenant=carelon → pasmockpayer (simulating Carelon endpoints)
+    
+    Note: Using pasmockpayer for both until actual endpoints are available
 ```
 
 ### TotalView Token Introspection
@@ -48,22 +54,38 @@ accessToken={PROVIDER_TOKEN}
 **Response** (Active Token):
 ```json
 {
-  "active": true,
-  "client_id": "bdda3ee5-df8f-4c86-8d89-4a160e90764d",
-  "entity_name": "b2b_test",
-  "entity_type": "B2B",
-  "scope": "patient/*.read openid profile",
-  "exp": 1763381261,
-  "iat": 1763377661,
+  "expires_in": 176381261,
+  "issued_at": 1763377661,
+  "id_token": "fCBC6k1m5NJBE5uRX+JxnozEn069FGRzmqulLddJ/Os3LyhMvPxSWSYEYShsg",
+  "scope": "profile thirdUser openid",
+  "clientId": "bdda3ee5-df8f-4c86-8d89-4a160e90764d",
   "iss": "https://dev.totalview.healthos.carelon.com",
-  "sub": "TOTALVIEWMIDDLEWARE/HEALTHOS"
+  "sub": "TOTALVIEWMIDDLEWARE/HEALTHOS",
+  "active": true,
+  "patient": [
+    "3eaea72bcd7f9fd4f33366571f9ce758",
+    "d93eb14ace072a5eb7c431320b0abd4",
+    "4ad63761bbd1412bbc702dd07a0e38c"
+  ]
 }
 ```
 
-**Response** (Expired/Invalid Token):
+**Response** (Expired Token):
 ```json
 {
+  "expires_in": 1762933374,
+  "issued_at": 1762929774,
   "active": false
+}
+```
+
+**Response** (Invalid Token):
+```json
+{
+  "status_code": 404,
+  "status": "failed",
+  "error": "invalid_token",
+  "error_description": "access token is invalid or has expired."
 }
 ```
 
@@ -122,9 +144,11 @@ def determine_routing_strategy(provider_context):
 
 **Purpose**: Get provider-to-payer mappings for ElevanceHealth ACMP system
 
-**Endpoint**: TBD - Need ACMP API documentation
+**Status**: ⚠️ **Using pasmockpayer for testing** - Actual ACMP endpoint not available yet
+
+**Mock Endpoint** (pasmockpayer service):
 ```
-GET /acmp/api/v1/provider/mappings?npi={NPI}&payer_id={PAYER_ID}
+GET /mock/acmp/mappings?npi={NPI}&payer_id={PAYER_ID}
 ```
 
 **Expected Response**:
@@ -143,6 +167,8 @@ GET /acmp/api/v1/provider/mappings?npi={NPI}&payer_id={PAYER_ID}
   }
 }
 ```
+
+**Future**: Replace with actual ACMP API endpoint when available
 
 ---
 
@@ -259,29 +285,39 @@ class TokenValidator:
         
         Args:
             introspection_data: Response from introspection API
+                {
+                  "active": true,
+                  "clientId": "bdda3ee5-df8f-4c86-8d89-4a160e90764d",
+                  "iss": "https://dev.totalview.healthos.carelon.com",
+                  "sub": "TOTALVIEWMIDDLEWARE/HEALTHOS",
+                  "expires_in": 176381261,
+                  "issued_at": 1763377661,
+                  "scope": "profile thirdUser openid",
+                  "patient": ["id1", "id2"]
+                }
         
         Returns:
             ProviderContext with provider details
         """
-        client_id = introspection_data.get('client_id', '')
-        entity_name = introspection_data.get('entity_name', '')
-        entity_type = introspection_data.get('entity_type', 'B2B')
+        client_id = introspection_data.get('clientId', '')
         
         # Determine tenant from issuer URL
         issuer = introspection_data.get('iss', '')
-        tenant = self._determine_tenant(issuer, entity_type)
+        tenant = self._determine_tenant(issuer)
         
-        # Extract expiry
-        exp_timestamp = introspection_data.get('exp')
+        # Extract expiry - TotalView returns issued_at and expires_in
+        issued_at = introspection_data.get('issued_at')
+        expires_in = introspection_data.get('expires_in')
         token_expiry = None
-        if exp_timestamp:
-            token_expiry = datetime.fromtimestamp(exp_timestamp, tz=timezone.utc)
+        if issued_at and expires_in:
+            # expires_in is the absolute expiry timestamp, not duration
+            token_expiry = datetime.fromtimestamp(expires_in, tz=timezone.utc)
         
         return ProviderContext(
             client_id=client_id,
             tenant=tenant,
-            provider_name=entity_name,
-            provider_type=entity_type,
+            provider_name=f"Provider-{client_id[:8]}",  # Use client_id prefix as name
+            provider_type="B2B",
             issuer=issuer,
             subject=introspection_data.get('sub', ''),
             token_expiry=token_expiry,
@@ -500,15 +536,17 @@ curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit'
   -H "Authorization: Bearer invalid-token" \
   -H 'Content-Type: application/json' \
   -d '@test-bundle.json'
-
-# Expected: 401 Unauthorized
+→ pasmockpayer
+```
+Provider Token → Lambda (introspect) → Orchestrator → Request Converter → Parser → Validator → ... → pasmockpayer
 ```
 
-### Phase 3: End-to-End Testing
-
-**Scenario 1**: Carelon Provider → Request Converter Flow
+**Scenario 2**: ElevanceHealth ACMP → Mapping via pasmockpayer
 ```
-Provider Token → Lambda (introspect) → Orchestrator → Request Converter → Parser → Validator → ...
+Provider Token → Lambda (introspect) → Orchestrator → ACMP Mapper (calls pasmockpayer) → Parser → Validator → ... → pasmockpayer
+```
+
+**Note**: pasmockpayer will simulate both ACMP mapping API and payer submission endpointsvider Token → Lambda (introspect) → Orchestrator → Request Converter → Parser → Validator → ...
 ```
 
 **Scenario 2**: ElevanceHealth ACMP → Mapping API Flow
