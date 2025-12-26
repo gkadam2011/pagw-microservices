@@ -405,6 +405,7 @@ public class OrchestratorService {
     
     /**
      * Get status of a request.
+     * For completed requests, fetches and returns the actual FHIR ClaimResponse.
      */
     public PasResponse getStatus(String pagwId) {
         Optional<RequestTracker> trackerOpt = requestTrackerService.findByPagwId(pagwId);
@@ -419,15 +420,35 @@ public class OrchestratorService {
         
         RequestTracker tracker = trackerOpt.get();
         
-        return PasResponse.builder()
+        PasResponse.PasResponseBuilder responseBuilder = PasResponse.builder()
                 .pagwId(pagwId)
                 .status(tracker.getStatus())
                 .stage(tracker.getLastStage())
                 .message(getStatusMessage(tracker.getStatus()))
-                .timestamp(tracker.getUpdatedAt())
-                .finalS3Bucket(tracker.getFinalS3Bucket())
-                .finalS3Key(tracker.getFinalS3Key())
-                .build();
+                .timestamp(tracker.getUpdatedAt());
+        
+        // For completed requests, fetch the actual ClaimResponse from S3
+        if (RequestTracker.STATUS_COMPLETED.equals(tracker.getStatus()) 
+                && tracker.getFinalS3Bucket() != null 
+                && tracker.getFinalS3Key() != null) {
+            try {
+                String claimResponseBundle = s3Service.getObject(
+                        tracker.getFinalS3Bucket(), 
+                        tracker.getFinalS3Key());
+                responseBuilder
+                        .resourceType("ClaimResponse")
+                        .claimResponseBundle(claimResponseBundle)
+                        .disposition("Certified"); // TODO: Extract from actual response
+            } catch (Exception e) {
+                log.warn("Failed to fetch ClaimResponse from S3 for pagwId={}: {}", pagwId, e.getMessage());
+                // Still return status, but without the bundle
+                responseBuilder
+                        .finalS3Bucket(tracker.getFinalS3Bucket())
+                        .finalS3Key(tracker.getFinalS3Key());
+            }
+        }
+        
+        return responseBuilder.build();
     }
     
     private PasResponse buildQueuedResponse(String pagwId, Instant receivedAt) {

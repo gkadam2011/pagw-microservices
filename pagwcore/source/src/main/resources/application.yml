@@ -1,0 +1,14 @@
+# PAGW Core Default Configuration
+pagw:
+  application-id: pagw
+  aws:
+    region: us-east-1
+    sqs:
+      enabled: true
+    s3:
+      enabled: true
+    secrets:
+      enabled: true
+    dynamodb:
+      enabled: false
+      idempotency-table: pagw-idempotency
