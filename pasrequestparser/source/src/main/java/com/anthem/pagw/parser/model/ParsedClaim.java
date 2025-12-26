@@ -196,4 +196,24 @@ public class ParsedClaim {
     public void setOrganizationData(Map<String, Object> organizationData) {
         this.organizationData = organizationData;
     }
+
+    // Bundle metadata
+    private String bundleType;
+    private String bundleId;
+
+    public String getBundleType() {
+        return bundleType;
+    }
+
+    public void setBundleType(String bundleType) {
+        this.bundleType = bundleType;
+    }
+
+    public String getBundleId() {
+        return bundleId;
+    }
+
+    public void setBundleId(String bundleId) {
+        this.bundleId = bundleId;
+    }
 }

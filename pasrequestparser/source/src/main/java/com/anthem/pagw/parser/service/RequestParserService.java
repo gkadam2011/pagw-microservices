@@ -34,8 +34,17 @@ public class RequestParserService {
     public ParseResult parse(String rawBundle, PagwMessage message) {
         ParseResult result = new ParseResult();
         List<String> errors = new ArrayList<>();
+        List<String> warnings = new ArrayList<>();
         
         try {
+            // Check for null/empty input
+            if (rawBundle == null || rawBundle.trim().isEmpty()) {
+                errors.add("Bundle is null or empty");
+                result.setValid(false);
+                result.setErrors(errors);
+                return result;
+            }
+            
             JsonNode bundle = JsonUtils.parseJson(rawBundle);
             
             // Validate bundle structure
@@ -45,7 +54,7 @@ public class RequestParserService {
                 return result;
             }
             
-            // Extract resource type
+            // Extract and validate resource type
             String resourceType = bundle.path("resourceType").asText();
             if (!"Bundle".equals(resourceType)) {
                 errors.add("Invalid resourceType: expected 'Bundle', got '" + resourceType + "'");
@@ -54,24 +63,61 @@ public class RequestParserService {
                 return result;
             }
             
+            // Validate bundle type (should be 'collection' for PAS)
+            String bundleType = bundle.path("type").asText();
+            if (!bundleType.isEmpty() && !"collection".equals(bundleType) && !"batch".equals(bundleType)) {
+                warnings.add("Unexpected bundle type: '" + bundleType + "'. Expected 'collection' or 'batch' for PAS.");
+            }
+            
             // Parse bundle entries
             ArrayNode entries = (ArrayNode) bundle.path("entry");
             ParsedClaim parsedClaim = new ParsedClaim();
             List<Map<String, Object>> attachments = new ArrayList<>();
+            boolean hasClaim = false;
+            boolean hasPatient = false;
+            boolean hasPractitioner = false;
             
             for (JsonNode entry : entries) {
                 JsonNode resource = entry.path("resource");
+                
+                // Skip entries without resources
+                if (resource.isMissingNode()) {
+                    warnings.add("Bundle entry found without 'resource' element");
+                    continue;
+                }
+                
                 String entryType = resource.path("resourceType").asText();
+                
+                // Skip entries without resourceType
+                if (entryType.isEmpty()) {
+                    warnings.add("Resource found without 'resourceType'");
+                    continue;
+                }
                 
                 switch (entryType) {
                     case "Claim":
-                        parsedClaim = parseClaim(resource);
+                        if (hasClaim) {
+                            warnings.add("Multiple Claim resources found - using first one");
+                        } else {
+                            parsedClaim = parseClaim(resource);
+                            hasClaim = true;
+                        }
                         break;
                     case "Patient":
-                        parsedClaim.setPatientData(parsePatient(resource));
+                        if (hasPatient) {
+                            warnings.add("Multiple Patient resources found - using first one");
+                        } else {
+                            parsedClaim.setPatientData(parsePatient(resource));
+                            hasPatient = true;
+                        }
                         break;
                     case "Practitioner":
-                        parsedClaim.setPractitionerData(parsePractitioner(resource));
+                        if (hasPractitioner) {
+                            warnings.add("Multiple Practitioner resources found - using first one");
+                        } else {
+                            parsedClaim.setPractitionerData(parsePractitioner(resource));
+                            hasPractitioner = true;
+                        }
                         break;
                     case "Organization":
                         parsedClaim.setOrganizationData(parseOrganization(resource));
@@ -82,24 +128,56 @@ public class RequestParserService {
                     case "Binary":
                         attachments.add(parseBinaryAttachment(resource));
                         break;
+                    case "Coverage":
+                        // Coverage resource - extract insurance info
+                        log.debug("Found Coverage resource");
+                        break;
+                    case "ServiceRequest":
+                        // ServiceRequest - common in prior auth
+                        log.debug("Found ServiceRequest resource");
+                        break;
                     default:
                         log.debug("Skipping resource type: {}", entryType);
                 }
+            }
+            
+            // Validate required resources
+            if (!hasClaim) {
+                errors.add("Bundle must contain a Claim resource for prior authorization");
+                result.setValid(false);
+                result.setErrors(errors);
+                result.setWarnings(warnings);
+                return result;
+            }
+            
+            if (!hasPatient) {
+                warnings.add("No Patient resource found - patient data may be incomplete");
+            }
+            
+            if (!hasPractitioner) {
+                warnings.add("No Practitioner resource found - provider data may be incomplete");
             }
             
             // Set parsed data
             parsedClaim.setPagwId(message.getPagwId());
             parsedClaim.setTenant(message.getTenant());
             parsedClaim.setAttachments(attachments);
+            parsedClaim.setBundleType(bundleType);
             
             result.setValid(true);
             result.setParsedData(parsedClaim);
             result.setHasAttachments(!attachments.isEmpty());
             result.setAttachmentCount(attachments.size());
+            result.setWarnings(warnings);
             
-            log.info("Parsed bundle: pagwId={}, claimType={}, attachments={}", 
-                    message.getPagwId(), parsedClaim.getClaimType(), attachments.size());
+            log.info("Parsed bundle: pagwId={}, claimType={}, attachments={}, warnings={}", 
+                    message.getPagwId(), parsedClaim.getClaimType(), attachments.size(), warnings.size());
             
+        } catch (com.fasterxml.jackson.core.JsonParseException e) {
+            log.error("JSON parse error: {}", e.getMessage(), e);
+            errors.add("Invalid JSON format: " + e.getOriginalMessage());
+            result.setValid(false);
+            result.setErrors(errors);
         } catch (Exception e) {
             log.error("Parse error: {}", e.getMessage(), e);
             errors.add("Parse exception: " + e.getMessage());

@@ -10,6 +10,7 @@ public class ParseResult {
     
     private boolean valid;
     private List<String> errors = new ArrayList<>();
+    private List<String> warnings = new ArrayList<>();
     private ParsedClaim parsedData;
     private boolean hasAttachments;
     private int attachmentCount;
@@ -28,6 +29,18 @@ public class ParseResult {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
+    }
+
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    public void setWarnings(List<String> warnings) {
+        this.warnings = warnings;
+    }
+
+    public boolean hasWarnings() {
+        return warnings != null && !warnings.isEmpty();
     }
 
     public ParsedClaim getParsedData() {
