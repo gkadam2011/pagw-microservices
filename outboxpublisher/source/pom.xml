@@ -32,6 +32,14 @@
             <artifactId>pagwcore</artifactId>
             <version>${pagwcore.version}</version>
         </dependency>
+
+        <!-- HAPI FHIR for FhirExtractionService runtime dependency -->
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-structures-r4</artifactId>
+            <version>6.8.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
