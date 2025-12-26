@@ -85,10 +85,6 @@ public class PasResponse {
      */
     private Instant authorizationEnd;
     
-    // Optional - included when completed via async path
-    private String finalS3Bucket;
-    private String finalS3Key;
-    
     // Error details
     private String errorCode;
     private String errorMessage;

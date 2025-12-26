@@ -406,6 +406,7 @@ public class OrchestratorService {
     /**
      * Get status of a request.
      * For completed requests, fetches and returns the actual FHIR ClaimResponse.
+     * Note: S3 details are never exposed to external providers.
      */
     public PasResponse getStatus(String pagwId) {
         Optional<RequestTracker> trackerOpt = requestTrackerService.findByPagwId(pagwId);
@@ -441,10 +442,8 @@ public class OrchestratorService {
                         .disposition("Certified"); // TODO: Extract from actual response
             } catch (Exception e) {
                 log.warn("Failed to fetch ClaimResponse from S3 for pagwId={}: {}", pagwId, e.getMessage());
-                // Still return status, but without the bundle
-                responseBuilder
-                        .finalS3Bucket(tracker.getFinalS3Bucket())
-                        .finalS3Key(tracker.getFinalS3Key());
+                // Return error message without exposing S3 details
+                responseBuilder.message("Response temporarily unavailable. Please retry.");
             }
         }
         
