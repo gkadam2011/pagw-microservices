@@ -77,8 +77,8 @@ public class ApiConnectorListener {
             log.info("Received message for API submission: pagwId={}, targetSystem={}", 
                     pagwId, message.getTargetSystem());
             
-            // Event tracking: DOWNSTREAM_START
-            eventTrackerService.logStageStart(pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_START, null);
+            // Event tracking: API_CON_START
+            eventTrackerService.logStageStart(pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_API_CON_START, null);
             
             // Update tracker status
             trackerService.updateStatus(pagwId, "SUBMITTING", "api-connector");
@@ -135,12 +135,12 @@ public class ApiConnectorListener {
             // Write to outbox - always route to callback-handler
             outboxService.writeOutbox(callbackQueueName, callbackMessage);
             
-            // Event tracking: DOWNSTREAM_OK
+            // Event tracking: API_CON_OK
             long duration = System.currentTimeMillis() - startTime;
             String metadata = String.format("{\"targetSystem\":\"%s\",\"externalId\":\"%s\",\"isAsync\":%b,\"status\":\"%s\"}",
                 message.getTargetSystem(), apiResponse.getExternalId(), apiResponse.isAsync(), apiResponse.getStatus());
             eventTrackerService.logStageComplete(
-                pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_OK, duration, metadata
+                pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_API_CON_OK, duration, metadata
             );
             
             log.info("API submission complete: pagwId={}, externalId={}, async={}, routedTo=callback-handler", 
@@ -150,9 +150,9 @@ public class ApiConnectorListener {
             log.error("API connector error: pagwId={}", pagwId, e);
             
             if (pagwId != null) {
-                // Event tracking: DOWNSTREAM_ERROR (exception)
+                // Event tracking: API_CON_ERROR (exception)
                 eventTrackerService.logStageError(
-                    pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_DOWNSTREAM_ERROR,
+                    pagwId, tenant, "API_CONNECTOR", EventTracker.EVENT_API_CON_ERROR,
                     "API_CONNECTOR_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
                 );
                 
