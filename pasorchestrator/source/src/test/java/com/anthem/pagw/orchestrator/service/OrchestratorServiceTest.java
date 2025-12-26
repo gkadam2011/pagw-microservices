@@ -32,6 +32,9 @@ class OrchestratorServiceTest {
     private RequestTrackerService requestTrackerService;
 
     @Mock(lenient = true)
+    private EventTrackerService eventTrackerService;
+
+    @Mock(lenient = true)
     private OutboxService outboxService;
 
     @Mock(lenient = true)
@@ -77,6 +80,7 @@ class OrchestratorServiceTest {
         orchestratorService = new OrchestratorService(
                 s3Service,
                 requestTrackerService,
+                eventTrackerService,
                 outboxService,
                 phiEncryptionService,
                 auditService,

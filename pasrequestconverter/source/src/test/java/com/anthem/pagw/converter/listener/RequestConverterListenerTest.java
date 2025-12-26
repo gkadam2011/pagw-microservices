@@ -4,6 +4,7 @@ import com.anthem.pagw.converter.model.ConversionResult;
 import com.anthem.pagw.converter.model.ConvertedPayload;
 import com.anthem.pagw.converter.service.RequestConverterService;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -38,6 +39,9 @@ class RequestConverterListenerTest {
     private RequestTrackerService trackerService;
 
     @Mock
+    private EventTrackerService eventTrackerService;
+
+    @Mock
     private OutboxService outboxService;
 
     private RequestConverterListener listener;
@@ -50,6 +54,7 @@ class RequestConverterListenerTest {
                 converterService,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 NEXT_QUEUE
         );
@@ -200,6 +205,7 @@ class RequestConverterListenerTest {
                 converterService,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 customQueue
         );

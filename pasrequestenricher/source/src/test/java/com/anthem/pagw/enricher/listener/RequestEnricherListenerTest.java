@@ -2,6 +2,7 @@ package com.anthem.pagw.enricher.listener;
 
 import com.anthem.pagw.core.PagwProperties;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -41,6 +42,9 @@ class RequestEnricherListenerTest {
     private RequestTrackerService trackerService;
 
     @Mock
+    private EventTrackerService eventTrackerService;
+
+    @Mock
     private OutboxService outboxService;
 
     private RequestEnricherListener listener;
@@ -54,6 +58,7 @@ class RequestEnricherListenerTest {
                 enricherService,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 NEXT_QUEUE_NAME
         );
@@ -172,6 +177,7 @@ class RequestEnricherListenerTest {
                 enricherService,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 customQueueName
         );
