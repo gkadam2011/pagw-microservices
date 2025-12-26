@@ -305,7 +305,8 @@ ALTER TABLE pagw.outbox
 -- Add logical destination (replace physical queue URL)
 ALTER TABLE pagw.outbox
     ADD COLUMN IF NOT EXISTS destination VARCHAR(100),
-    ADD COLUMN IF NOT EXISTS destination_type VARCHAR(20) DEFAULT 'SQS';
+    ADD COLUMN IF NOT EXISTS destination_type VARCHAR(20) DEFAULT 'SQS',
+    ADD COLUMN IF NOT EXISTS published_at TIMESTAMP WITH TIME ZONE;
 
 -- Migrate existing destination_queue to logical names
 UPDATE pagw.outbox
@@ -431,12 +432,20 @@ ALTER TABLE pagw.subscriptions
 CREATE INDEX IF NOT EXISTS idx_subscriptions_tenant_status 
     ON pagw.subscriptions(tenant, status, created_at DESC);
 
--- Add tenant to subscription_events
-ALTER TABLE pagw.subscription_events
-    ADD COLUMN IF NOT EXISTS tenant VARCHAR(50) NOT NULL DEFAULT 'elevance';
-
-CREATE INDEX IF NOT EXISTS idx_subscription_events_tenant 
-    ON pagw.subscription_events(tenant, created_at DESC);
+-- Add tenant to subscription_events (only if table exists)
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'pagw' 
+        AND table_name = 'subscription_events'
+    ) THEN
+        ALTER TABLE pagw.subscription_events
+            ADD COLUMN IF NOT EXISTS tenant VARCHAR(50) NOT NULL DEFAULT 'elevance';
+        CREATE INDEX IF NOT EXISTS idx_subscription_events_tenant 
+            ON pagw.subscription_events(tenant, created_at DESC);
+    END IF;
+END $$;
 
 
 -- ============================================================================
@@ -455,9 +464,9 @@ CREATE INDEX IF NOT EXISTS idx_request_tracker_tenant_payer_status
     ON pagw.request_tracker(tenant, payer_id, status) 
     WHERE payer_id IS NOT NULL;
 
--- Audit log composite indexes
-CREATE INDEX IF NOT EXISTS idx_audit_log_tenant_user_action 
-    ON pagw.audit_log(tenant, user_id, action, created_at DESC);
+-- Audit log composite indexes (use renamed columns from V002)
+CREATE INDEX IF NOT EXISTS idx_audit_log_tenant_actor_action 
+    ON pagw.audit_log(tenant, actor_id, action_description, created_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_audit_log_tenant_resource 
     ON pagw.audit_log(tenant, resource_type, resource_id, created_at DESC);
@@ -578,7 +587,4 @@ COMMENT ON MATERIALIZED VIEW pagw.mv_workflow_performance IS 'Workflow performan
 -- Migration Complete
 -- ============================================================================
 
--- Add migration tracking
-INSERT INTO pagw.migration_log (version, description, applied_at)
-VALUES ('V005', 'Operational data model improvements: workflow versioning, event ordering, retry context, tenant isolation, attachment lifecycle, status normalization', NOW())
-ON CONFLICT (version) DO NOTHING;
+-- Note: migration_log table insert removed - table does not exist in V001 schema

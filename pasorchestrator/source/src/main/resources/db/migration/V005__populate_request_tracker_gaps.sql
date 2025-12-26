@@ -37,18 +37,29 @@ END $$;
 -- ============================================================================
 -- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
 --       if a provider registration is removed
+-- Note: Only creates FK if oauth_provider_registry table exists (created in V004)
 DO $$
 BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints 
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
+    -- Check if the referenced table exists first
+    IF EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'pagw' 
+        AND table_name = 'oauth_provider_registry'
     ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id) 
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
+        -- Only add FK if constraint doesn't exist
+        IF NOT EXISTS (
+            SELECT 1 FROM information_schema.table_constraints 
+            WHERE constraint_name = 'fk_request_tracker_oauth_provider'
+            AND table_schema = 'pagw'
+        ) THEN
+            ALTER TABLE pagw.request_tracker
+                ADD CONSTRAINT fk_request_tracker_oauth_provider
+                FOREIGN KEY (client_id) 
+                REFERENCES pagw.oauth_provider_registry(client_id)
+                ON DELETE SET NULL;
+        END IF;
+    ELSE
+        RAISE NOTICE 'Skipping FK creation: oauth_provider_registry table does not exist yet';
     END IF;
 END $$;
 
@@ -121,98 +132,137 @@ COMMENT ON COLUMN pagw.request_tracker.expires_at IS
 -- ============================================================================
 -- 11. Create view for complete request context (combines with provider info)
 -- ============================================================================
-CREATE OR REPLACE VIEW pagw.v_request_with_provider_context AS
-SELECT 
-    -- Request tracking fields
-    rt.pagw_id,
-    rt.tenant,
-    rt.status,
-    rt.request_type,
-    rt.last_stage,
-    rt.received_at,
-    rt.completed_at,
-    
-    -- OAuth provider context (from oauth_provider_registry)
-    opr.client_id,
-    opr.entity_name as provider_entity_name,
-    opr.entity_type as provider_entity_type,
-    opr.tenant as provider_tenant,
-    opr.status as provider_status,
-    opr.allowed_apis as provider_allowed_apis,
-    
-    -- Denormalized fields (for query performance)
-    rt.provider_npi,
-    rt.payer_id,
-    rt.patient_member_id,
-    
-    -- Timing
-    EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at)) as duration_seconds,
-    rt.sync_processed,
-    rt.async_queued,
-    
-    -- Error tracking
-    rt.last_error_code,
-    rt.last_error_msg,
-    rt.retry_count
-FROM pagw.request_tracker rt
-LEFT JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id;
-
-COMMENT ON VIEW pagw.v_request_with_provider_context IS 
-    'Complete request context including OAuth provider registration details. Use for analytics and reporting.';
+-- Only create if oauth_provider_registry table exists
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'pagw' 
+        AND table_name = 'oauth_provider_registry'
+    ) THEN
+        EXECUTE '
+        CREATE OR REPLACE VIEW pagw.v_request_with_provider_context AS
+        SELECT 
+            rt.pagw_id,
+            rt.tenant,
+            rt.status,
+            rt.request_type,
+            rt.last_stage,
+            rt.received_at,
+            rt.completed_at,
+            opr.client_id,
+            opr.entity_name as provider_entity_name,
+            opr.entity_type as provider_entity_type,
+            opr.tenant as provider_tenant,
+            opr.status as provider_status,
+            opr.allowed_apis as provider_allowed_apis,
+            rt.provider_npi,
+            rt.payer_id,
+            rt.patient_member_id,
+            EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at)) as duration_seconds,
+            rt.sync_processed,
+            rt.async_queued,
+            rt.last_error_code,
+            rt.last_error_msg,
+            rt.retry_count
+        FROM pagw.request_tracker rt
+        LEFT JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id';
+        
+        COMMENT ON VIEW pagw.v_request_with_provider_context IS 
+            'Complete request context including OAuth provider registration details. Use for analytics and reporting.';
+    ELSE
+        -- Create a simpler view without oauth_provider_registry
+        EXECUTE '
+        CREATE OR REPLACE VIEW pagw.v_request_with_provider_context AS
+        SELECT 
+            rt.pagw_id,
+            rt.tenant,
+            rt.status,
+            rt.request_type,
+            rt.last_stage,
+            rt.received_at,
+            rt.completed_at,
+            rt.client_id,
+            NULL::varchar as provider_entity_name,
+            NULL::varchar as provider_entity_type,
+            NULL::varchar as provider_tenant,
+            NULL::varchar as provider_status,
+            NULL::text[] as provider_allowed_apis,
+            rt.provider_npi,
+            rt.payer_id,
+            rt.patient_member_id,
+            EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at)) as duration_seconds,
+            rt.sync_processed,
+            rt.async_queued,
+            rt.last_error_code,
+            rt.last_error_msg,
+            rt.retry_count
+        FROM pagw.request_tracker rt';
+        
+        RAISE NOTICE 'Created v_request_with_provider_context without oauth_provider_registry (table does not exist yet)';
+    END IF;
+END $$;
 
 -- ============================================================================
 -- 12. Create materialized view for provider activity analytics
 -- ============================================================================
-CREATE MATERIALIZED VIEW IF NOT EXISTS pagw.mv_provider_activity_summary AS
-SELECT 
-    rt.provider_npi,
-    rt.payer_id,
-    opr.entity_name as provider_name,
-    opr.tenant,
-    DATE_TRUNC('day', rt.received_at) as activity_date,
-    
-    -- Volume metrics
-    COUNT(*) as total_requests,
-    COUNT(*) FILTER (WHERE rt.sync_processed = true) as sync_requests,
-    COUNT(*) FILTER (WHERE rt.async_queued = true) as async_requests,
-    
-    -- Status breakdown
-    COUNT(*) FILTER (WHERE rt.status = 'approved') as approved_count,
-    COUNT(*) FILTER (WHERE rt.status = 'denied') as denied_count,
-    COUNT(*) FILTER (WHERE rt.status = 'pended') as pended_count,
-    COUNT(*) FILTER (WHERE rt.status = 'failed') as failed_count,
-    
-    -- Performance metrics
-    AVG(EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at))) 
-        FILTER (WHERE rt.completed_at IS NOT NULL) as avg_duration_seconds,
-    MAX(EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at))) 
-        FILTER (WHERE rt.completed_at IS NOT NULL) as max_duration_seconds,
-    
-    -- Error rate
-    ROUND(
-        100.0 * COUNT(*) FILTER (WHERE rt.status = 'failed') / NULLIF(COUNT(*), 0),
-        2
-    ) as error_rate_pct
-FROM pagw.request_tracker rt
-LEFT JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id
-WHERE rt.received_at >= CURRENT_DATE - INTERVAL '90 days'
-  AND rt.provider_npi IS NOT NULL
-GROUP BY 
-    rt.provider_npi,
-    rt.payer_id,
-    opr.entity_name,
-    opr.tenant,
-    DATE_TRUNC('day', rt.received_at);
-
--- Index for fast queries
-CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_provider_activity_unique
-    ON pagw.mv_provider_activity_summary(provider_npi, payer_id, activity_date);
-
-CREATE INDEX IF NOT EXISTS idx_mv_provider_activity_date
-    ON pagw.mv_provider_activity_summary(activity_date DESC);
-
-COMMENT ON MATERIALIZED VIEW pagw.mv_provider_activity_summary IS 
-    'Provider activity analytics - Refresh daily via scheduled job. Use for dashboards and reporting.';
+-- Only create if oauth_provider_registry table exists
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'pagw' 
+        AND table_name = 'oauth_provider_registry'
+    ) THEN
+        -- Drop if exists to recreate
+        DROP MATERIALIZED VIEW IF EXISTS pagw.mv_provider_activity_summary;
+        
+        EXECUTE '
+        CREATE MATERIALIZED VIEW pagw.mv_provider_activity_summary AS
+        SELECT 
+            rt.provider_npi,
+            rt.payer_id,
+            opr.entity_name as provider_name,
+            opr.tenant,
+            DATE_TRUNC(''day'', rt.received_at) as activity_date,
+            COUNT(*) as total_requests,
+            COUNT(*) FILTER (WHERE rt.sync_processed = true) as sync_requests,
+            COUNT(*) FILTER (WHERE rt.async_queued = true) as async_requests,
+            COUNT(*) FILTER (WHERE rt.status = ''approved'') as approved_count,
+            COUNT(*) FILTER (WHERE rt.status = ''denied'') as denied_count,
+            COUNT(*) FILTER (WHERE rt.status = ''pended'') as pended_count,
+            COUNT(*) FILTER (WHERE rt.status = ''failed'') as failed_count,
+            AVG(EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at))) 
+                FILTER (WHERE rt.completed_at IS NOT NULL) as avg_duration_seconds,
+            MAX(EXTRACT(EPOCH FROM (rt.completed_at - rt.received_at))) 
+                FILTER (WHERE rt.completed_at IS NOT NULL) as max_duration_seconds,
+            ROUND(
+                100.0 * COUNT(*) FILTER (WHERE rt.status = ''failed'') / NULLIF(COUNT(*), 0),
+                2
+            ) as error_rate_pct
+        FROM pagw.request_tracker rt
+        LEFT JOIN pagw.oauth_provider_registry opr ON opr.client_id = rt.client_id
+        WHERE rt.received_at >= CURRENT_DATE - INTERVAL ''90 days''
+          AND rt.provider_npi IS NOT NULL
+        GROUP BY 
+            rt.provider_npi,
+            rt.payer_id,
+            opr.entity_name,
+            opr.tenant,
+            DATE_TRUNC(''day'', rt.received_at)';
+        
+        -- Create indexes
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_provider_activity_unique
+            ON pagw.mv_provider_activity_summary(provider_npi, payer_id, activity_date);
+        CREATE INDEX IF NOT EXISTS idx_mv_provider_activity_date
+            ON pagw.mv_provider_activity_summary(activity_date DESC);
+            
+        COMMENT ON MATERIALIZED VIEW pagw.mv_provider_activity_summary IS 
+            'Provider activity analytics - Refresh daily via scheduled job. Use for dashboards and reporting.';
+    ELSE
+        RAISE NOTICE 'Skipping mv_provider_activity_summary: oauth_provider_registry table does not exist yet';
+    END IF;
+END $$;
 
 -- ============================================================================
 -- 13. Add helpful queries as SQL functions
