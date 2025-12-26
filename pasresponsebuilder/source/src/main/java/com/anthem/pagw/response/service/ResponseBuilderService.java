@@ -34,8 +34,9 @@ public class ResponseBuilderService {
     public ClaimResponse buildSuccessResponse(String responseData, PagwMessage message) {
         ClaimResponse response = createBaseResponse(message);
         
-        response.setOutcome("complete");
-        response.setDisposition("Claim received and processing");
+        // Default to approved per Da Vinci PAS
+        response.setOutcome("approved");
+        response.setDisposition("Certified");
         
         if (responseData != null) {
             try {
@@ -47,14 +48,29 @@ public class ResponseBuilderService {
                     response.setPreAuthRef(externalId);
                 }
                 
-                // Set status from API response
+                // Map API status to Da Vinci PAS outcomes
                 String apiStatus = apiResponse.path("status").asText();
-                if ("ACCEPTED".equals(apiStatus)) {
-                    response.setOutcome("complete");
-                    response.setDisposition("Claim accepted for processing");
-                } else if ("PENDING".equals(apiStatus)) {
-                    response.setOutcome("queued");
-                    response.setDisposition("Claim queued for review");
+                switch (apiStatus) {
+                    case "ACCEPTED", "APPROVED" -> {
+                        response.setOutcome("approved");
+                        response.setDisposition("Certified");
+                    }
+                    case "DENIED" -> {
+                        response.setOutcome("denied");
+                        response.setDisposition("Not Certified");
+                    }
+                    case "PENDING", "PENDED" -> {
+                        response.setOutcome("pended");
+                        response.setDisposition("Pended");
+                    }
+                    case "PARTIAL" -> {
+                        response.setOutcome("partial");
+                        response.setDisposition("Partially Certified");
+                    }
+                    case "MODIFIED" -> {
+                        response.setOutcome("approved");
+                        response.setDisposition("Certified with Modifications");
+                    }
                 }
                 
             } catch (Exception e) {
@@ -63,7 +79,7 @@ public class ResponseBuilderService {
         }
         
         // Add processing note
-        response.addProcessNote(1, "Request received and acknowledged", "display");
+        response.addProcessNote(1, "Prior authorization request processed", "display");
         response.addProcessNote(2, "PAGW ID: " + message.getPagwId(), "print");
         
         return response;
@@ -78,8 +94,8 @@ public class ResponseBuilderService {
     public ClaimResponse buildErrorResponse(PagwMessage message) {
         ClaimResponse response = createBaseResponse(message);
         
-        response.setOutcome("error");
-        response.setDisposition("Claim processing failed");
+        response.setOutcome("denied");
+        response.setDisposition("Not Certified - Processing Error");
         
         // Add error details
         ClaimResponse.ClaimError error = new ClaimResponse.ClaimError();
