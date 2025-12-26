@@ -9,47 +9,17 @@
 CREATE SCHEMA IF NOT EXISTS pagw;
 
 -- ============================================================================
--- SECTION 1: ENUM TYPES
+-- SECTION 1: STATUS/TYPE COLUMNS
+-- Using VARCHAR instead of ENUM types for flexibility with Java/JDBC
+-- Valid values documented in comments for reference
 -- ============================================================================
 
--- Request status lifecycle
-CREATE TYPE pagw.request_status_enum AS ENUM (
-    'RECEIVED', 'PARSING', 'PARSING_FAILED', 'VALIDATING', 'VALIDATION_FAILED',
-    'ENRICHING', 'CONVERTING', 'SUBMITTING', 'PENDING', 'APPROVED', 'DENIED',
-    'PENDED', 'FAILED', 'CANCELLED', 'COMPLETED'
-);
-
--- Event types for tracking
-CREATE TYPE pagw.event_type_enum AS ENUM (
-    'STAGE_STARTED', 'STAGE_COMPLETED', 'STAGE_FAILED', 'STAGE_SKIPPED',
-    'PARSE_STARTED', 'PARSE_OK', 'PARSE_FAIL',
-    'VAL_STARTED', 'VAL_OK', 'VAL_FAIL', 'VAL_WARN',
-    'AUTHN_STARTED', 'AUTHN_OK', 'AUTHN_FAIL', 'AUTHZ_OK', 'AUTHZ_FAIL',
-    'ENRICH_STARTED', 'ENRICH_OK', 'ENRICH_FAIL',
-    'CONVERT_STARTED', 'CONVERT_OK', 'CONVERT_FAIL',
-    'SUBMIT_STARTED', 'SUBMIT_OK', 'SUBMIT_FAIL', 'SUBMIT_RETRY',
-    'RESPONSE_RECEIVED', 'RESPONSE_PARSED', 'RESPONSE_BUILT',
-    'ATTACH_REQUESTED', 'ATTACH_UPLOADED', 'ATTACH_VALIDATED', 'ATTACH_FAILED',
-    'CALLBACK_SENT', 'CALLBACK_ACK', 'CALLBACK_FAIL',
-    'SUBSCRIPTION_CREATED', 'SUBSCRIPTION_UPDATED', 'SUBSCRIPTION_DELETED', 'NOTIFICATION_SENT',
-    'PROVIDER_AUTH_FAILED', 'FHIR_VALIDATION_FAILED', 'PAYER_TIMEOUT', 'PAYER_ERROR',
-    'IDEMPOTENCY_HIT', 'DUPLICATE_REQUEST', 'WORKFLOW_DECISION', 'ROUTING_DECISION', 'RATE_LIMIT_EXCEEDED'
-);
-
--- Execution status for events
-CREATE TYPE pagw.execution_status_enum AS ENUM (
-    'SUCCESS', 'FAILURE', 'ERROR', 'TIMEOUT', 'SKIPPED', 'IN_PROGRESS'
-);
-
--- Attachment source types
-CREATE TYPE pagw.attachment_source_enum AS ENUM (
-    'INLINE', 'CDEX_PULL', 'PRESIGNED_UPLOAD', 'EXTERNAL_REFERENCE'
-);
-
--- Attachment fetch status
-CREATE TYPE pagw.fetch_status_enum AS ENUM (
-    'PENDING', 'IN_PROGRESS', 'SUCCESS', 'FAILED', 'CANCELLED', 'NOT_REQUIRED'
-);
+-- request_status: RECEIVED, PARSING, PARSING_FAILED, VALIDATING, VALIDATION_FAILED,
+--   ENRICHING, CONVERTING, SUBMITTING, PENDING, APPROVED, DENIED, PENDED, FAILED, CANCELLED, COMPLETED
+-- event_type: Dynamic - any string value from Java constants
+-- execution_status: SUCCESS, FAILURE, ERROR, TIMEOUT, SKIPPED, IN_PROGRESS
+-- attachment_source: INLINE, CDEX_PULL, PRESIGNED_UPLOAD, EXTERNAL_REFERENCE
+-- fetch_status: PENDING, IN_PROGRESS, SUCCESS, FAILED, CANCELLED, NOT_REQUIRED
 
 -- ============================================================================
 -- SECTION 2: TRIGGER FUNCTION
@@ -75,7 +45,7 @@ CREATE TABLE IF NOT EXISTS pagw.request_tracker (
     correlation_id          VARCHAR(100),
     
     -- Processing status
-    status                  pagw.request_status_enum NOT NULL DEFAULT 'RECEIVED',
+    status                  VARCHAR(30) NOT NULL DEFAULT 'RECEIVED',
     last_stage              VARCHAR(50),
     next_stage              VARCHAR(50),
     workflow_id             VARCHAR(100),
@@ -244,8 +214,8 @@ CREATE TABLE IF NOT EXISTS pagw.attachment_tracker (
     s3_key                  VARCHAR(500),
     status                  VARCHAR(30) NOT NULL DEFAULT 'pending',
     error_message           TEXT,
-    attachment_source       pagw.attachment_source_enum DEFAULT 'INLINE',
-    fetch_status            pagw.fetch_status_enum DEFAULT 'NOT_REQUIRED',
+    attachment_source       VARCHAR(30) DEFAULT 'INLINE',
+    fetch_status            VARCHAR(30) DEFAULT 'NOT_REQUIRED',
     fetch_attempts          INT DEFAULT 0,
     fetch_last_error        TEXT,
     fetch_started_at        TIMESTAMP WITH TIME ZONE,
@@ -365,7 +335,7 @@ CREATE TABLE IF NOT EXISTS pagw.event_tracker (
     stage                   VARCHAR(50) NOT NULL,
     event_type              VARCHAR(50) NOT NULL,
     status                  VARCHAR(30) NOT NULL,
-    execution_status        pagw.execution_status_enum DEFAULT 'SUCCESS',
+    execution_status        VARCHAR(30) DEFAULT 'SUCCESS',
     external_reference      VARCHAR(100),
     duration_ms             BIGINT,
     error_code              VARCHAR(50),
