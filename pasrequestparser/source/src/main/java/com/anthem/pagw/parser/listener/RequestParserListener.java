@@ -3,7 +3,9 @@ package com.anthem.pagw.parser.listener;
 import com.anthem.pagw.core.PagwProperties;
 import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.model.fhir.ParsedFhirData;
 import com.anthem.pagw.core.service.EventTrackerService;
+import com.anthem.pagw.core.service.FhirExtractionService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -36,6 +38,7 @@ public class RequestParserListener {
     private static final String ATTACHMENT_HANDLER_QUEUE = "dev-PAGW-pagw-attachment-handler-queue.fifo";
 
     private final RequestParserService parserService;
+    private final FhirExtractionService fhirExtractionService;
     private final S3Service s3Service;
     private final RequestTrackerService trackerService;
     private final EventTrackerService eventTrackerService;
@@ -43,11 +46,13 @@ public class RequestParserListener {
 
     public RequestParserListener(
             RequestParserService parserService,
+            FhirExtractionService fhirExtractionService,
             S3Service s3Service,
             RequestTrackerService trackerService,
             EventTrackerService eventTrackerService,
             OutboxService outboxService) {
         this.parserService = parserService;
+        this.fhirExtractionService = fhirExtractionService;
         this.s3Service = s3Service;
         this.trackerService = trackerService;
         this.eventTrackerService = eventTrackerService;
@@ -102,6 +107,31 @@ public class RequestParserListener {
                 return;
             }
             
+            // Extract structured FHIR data (Round 3)
+            ParsedFhirData parsedFhirData = null;
+            String parsedDataS3Path = null;
+            try {
+                parsedFhirData = fhirExtractionService.extractFromBundle(rawBundle, pagwId, tenant);
+                
+                // Store parsed data to S3
+                parsedDataS3Path = s3Service.putParsedData(
+                    message.getPayloadBucket(),
+                    tenant,
+                    pagwId,
+                    JsonUtils.toJson(parsedFhirData)
+                );
+                
+                log.info("FHIR extraction complete: pagwId={}, patient={}, diagnosisCount={}, procedureCount={}, urgent={}", 
+                    pagwId,
+                    parsedFhirData.getPatient() != null ? parsedFhirData.getPatient().getMemberId() : "null",
+                    parsedFhirData.getTotalDiagnosisCodes(),
+                    parsedFhirData.getTotalProcedureCodes(),
+                    parsedFhirData.isHasUrgentIndicator());
+            } catch (Exception e) {
+                log.warn("FHIR extraction failed (non-blocking): pagwId={}, error={}", pagwId, e.getMessage());
+                // Continue processing - extraction failure is not fatal
+            }
+            
             // Store parsed result in S3 using standardized path
             String parsedKey = PagwProperties.S3Paths.parsed(pagwId);
             s3Service.putObject(
@@ -123,6 +153,7 @@ public class RequestParserListener {
                         .tenant(message.getTenant())
                         .payloadBucket(message.getPayloadBucket())
                         .payloadKey(parsedKey)
+                        .parsedDataS3Path(parsedDataS3Path)
                         .hasAttachments(true)
                         .attachmentCount(parseResult.getAttachmentCount())
                         .metadata(message.getMetadata())
@@ -143,6 +174,7 @@ public class RequestParserListener {
                     .tenant(message.getTenant())
                     .payloadBucket(message.getPayloadBucket())
                     .payloadKey(parsedKey)
+                    .parsedDataS3Path(parsedDataS3Path)
                     .hasAttachments(parseResult.hasAttachments())
                     .attachmentCount(parseResult.getAttachmentCount())
                     .metadata(message.getMetadata())
@@ -153,8 +185,12 @@ public class RequestParserListener {
             
             // Event tracking: PARSE_OK
             long duration = System.currentTimeMillis() - startTime;
-            String metadata = String.format("{\"attachmentCount\":%d,\"hasAttachments\":%b}",
-                parseResult.getAttachmentCount(), parseResult.hasAttachments());
+            String metadata = parsedFhirData != null 
+                ? String.format("{\"attachmentCount\":%d,\"hasAttachments\":%b,\"diagnosisCount\":%d,\"procedureCount\":%d,\"hasUrgent\":%b}",
+                    parseResult.getAttachmentCount(), parseResult.hasAttachments(),
+                    parsedFhirData.getTotalDiagnosisCodes(), parsedFhirData.getTotalProcedureCodes(), parsedFhirData.isHasUrgentIndicator())
+                : String.format("{\"attachmentCount\":%d,\"hasAttachments\":%b}",
+                    parseResult.getAttachmentCount(), parseResult.hasAttachments());
             eventTrackerService.logStageComplete(
                 pagwId, tenant, "PARSER", EventTracker.EVENT_PARSE_OK, duration, metadata
             );
