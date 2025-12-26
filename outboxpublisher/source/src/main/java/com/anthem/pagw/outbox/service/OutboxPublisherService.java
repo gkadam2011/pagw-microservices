@@ -1,8 +1,10 @@
 package com.anthem.pagw.outbox.service;
 
 import com.anthem.pagw.core.PagwProperties;
+import com.anthem.pagw.core.model.EventTracker;
 import com.anthem.pagw.core.model.OutboxEntry;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.SqsService;
 import com.anthem.pagw.core.util.JsonUtils;
@@ -36,14 +38,17 @@ public class OutboxPublisherService {
     
     private final OutboxService outboxService;
     private final SqsService sqsService;
+    private final EventTrackerService eventTrackerService;
     private final PagwProperties properties;
     
     public OutboxPublisherService(
             OutboxService outboxService,
             SqsService sqsService,
+            EventTrackerService eventTrackerService,
             PagwProperties properties) {
         this.outboxService = outboxService;
         this.sqsService = sqsService;
+        this.eventTrackerService = eventTrackerService;
         this.properties = properties;
     }
     
@@ -77,7 +82,19 @@ public class OutboxPublisherService {
         int failed = 0;
         
         for (OutboxEntry entry : entries) {
+            long startTime = System.currentTimeMillis();
+            String pagwId = null;
+            String tenant = null;
+            
             try {
+                // Extract pagwId and tenant from message
+                PagwMessage message = JsonUtils.fromJson(entry.getPayload(), PagwMessage.class);
+                pagwId = message.getPagwId();
+                tenant = message.getTenant();
+                
+                // Event tracking: PUBLISH_START
+                eventTrackerService.logStageStart(pagwId, tenant, "OUTBOX_PUBLISHER", EventTracker.EVENT_PUBLISH_START, null);
+                
                 // Check if max retries exceeded
                 if (entry.getRetryCount() >= maxRetries) {
                     log.error("Outbox entry exceeded max retries: id={}, destinationQueue={}, retries={}",
@@ -88,18 +105,34 @@ public class OutboxPublisherService {
                 
                 // Publish to SQS
                 String queueUrl = getQueueUrl(entry.getDestinationQueue());
-                PagwMessage message = JsonUtils.fromJson(entry.getPayload(), PagwMessage.class);
                 sqsService.sendMessage(queueUrl, message);
                 
                 // Mark as published
                 outboxService.markCompleted(entry.getId());
                 published++;
                 
+                // Event tracking: PUBLISH_OK
+                long duration = System.currentTimeMillis() - startTime;
+                String metadata = String.format("{\"destinationQueue\":\"%s\",\"retryCount\":%d}",
+                    entry.getDestinationQueue(), entry.getRetryCount());
+                eventTrackerService.logStageComplete(
+                    pagwId, tenant, "OUTBOX_PUBLISHER", EventTracker.EVENT_PUBLISH_OK, duration, metadata
+                );
+                
                 log.debug("Published outbox entry: id={}, destinationQueue={}", entry.getId(), entry.getDestinationQueue());
                 
             } catch (Exception e) {
                 log.error("Failed to publish outbox entry: id={}, destinationQueue={}, error={}",
                         entry.getId(), entry.getDestinationQueue(), e.getMessage());
+                
+                // Event tracking: PUBLISH_FAIL (retryable)
+                if (pagwId != null) {
+                    eventTrackerService.logStageError(
+                        pagwId, tenant, "OUTBOX_PUBLISHER", EventTracker.EVENT_PUBLISH_FAIL,
+                        "PUBLISH_EXCEPTION", e.getMessage(), true, java.time.Instant.now().plusSeconds(300)
+                    );
+                }
+                
                 outboxService.incrementRetry(entry.getId(), e.getMessage());
                 failed++;
             }
