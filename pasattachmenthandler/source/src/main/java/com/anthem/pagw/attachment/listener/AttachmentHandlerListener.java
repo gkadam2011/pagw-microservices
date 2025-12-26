@@ -63,7 +63,7 @@ public class AttachmentHandlerListener {
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
-            tenant = message.getTenant();
+            tenant = message.getEffectiveTenant();
             
             log.info("Received message for attachment processing: pagwId={}, attachmentCount={}", 
                     pagwId, message.getAttachmentCount());

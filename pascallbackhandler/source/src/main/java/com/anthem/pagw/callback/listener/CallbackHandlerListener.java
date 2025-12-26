@@ -64,7 +64,7 @@ public class CallbackHandlerListener {
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
-            tenant = message.getTenant();
+            tenant = message.getEffectiveTenant();
             
             log.info("Received callback message: pagwId={}, externalRef={}", 
                     pagwId, message.getExternalReferenceId());

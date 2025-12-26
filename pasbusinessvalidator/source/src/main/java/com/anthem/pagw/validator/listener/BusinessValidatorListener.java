@@ -65,7 +65,7 @@ public class BusinessValidatorListener {
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
-            tenant = message.getTenant();
+            tenant = message.getEffectiveTenant();
             
             log.info("Received message for validation: pagwId={}, stage={}", 
                     pagwId, message.getStage());

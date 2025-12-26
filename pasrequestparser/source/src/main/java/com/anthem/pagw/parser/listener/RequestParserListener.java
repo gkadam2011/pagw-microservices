@@ -73,7 +73,7 @@ public class RequestParserListener {
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
-            tenant = message.getTenant();
+            tenant = message.getEffectiveTenant();
             
             log.info("Received message for parsing: pagwId={}, stage={}", 
                     pagwId, message.getStage());
