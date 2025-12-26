@@ -7,49 +7,57 @@
 
  :: Spring Boot ::                (v3.3.0)
 
-2025-12-26 02:49:14.586 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-26 02:49:14.677 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
-2025-12-26 02:49:23.481 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-12-26 02:49:23.490 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-26 02:49:23.491 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-26 02:49:24.078 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-26 02:49:24.080 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9201 ms
-2025-12-26 02:49:29.817 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-26 02:49:30.819 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
-2025-12-26 02:49:30.920 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-26 02:49:32.120 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
-2025-12-26 02:49:32.121 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-26 02:49:32.277 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
-2025-12-26 02:49:32.523 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
-2025-12-26 02:49:32.624 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.240s).
-2025-12-26 02:49:32.684 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
-2025-12-26 02:49:32.781 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.055s)
-2025-12-26 02:49:32.826 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 001
-2025-12-26 02:49:32.829 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
-2025-12-26 02:49:32.879 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
-2025-12-26 02:49:34.093 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
-2025-12-26 02:49:34.119 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
-2025-12-26 02:49:41.677 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-12-26 02:49:42.126 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-12-26 02:49:42.289 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-26 02:49:42.479 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 30.458 seconds (process running for 33.18)
+2025-12-26 03:05:53.442 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26 03:05:53.531 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-26 03:06:02.438 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-26 03:06:02.530 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-26 03:06:02.530 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26 03:06:02.944 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-26 03:06:02.945 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9208 ms
+2025-12-26 03:06:08.246 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26 03:06:09.142 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
+2025-12-26 03:06:09.243 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-26 03:06:10.441 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
+2025-12-26 03:06:10.443 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-26 03:06:10.630 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-26 03:06:10.742 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary as table doesn't exist.
+2025-12-26 03:06:10.838 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "pagw"."flyway_schema_history" does not exist yet
+2025-12-26 03:06:10.842 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.106s).
+2025-12-26 03:06:10.935 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
+2025-12-26 03:06:11.033 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "pagw"."flyway_schema_history" does not exist yet
+2025-12-26 03:06:11.034 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.089s)
+2025-12-26 03:06:11.132 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "pagw"."flyway_schema_history" ...
+2025-12-26 03:06:11.334 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": << Empty Schema >>
+2025-12-26 03:06:11.629 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "pagw" to version "001 - pagw schema"
+2025-12-26 03:06:11.634 [main] [] [] WARN  o.f.c.i.s.DefaultSqlScriptExecutor - DB: schema "pagw" already exists, skipping (SQL State: 42P06 - Error Code: 0)
+2025-12-26 03:06:11.847 [main] [] [] INFO  o.f.c.i.s.DefaultSqlScriptExecutor - DB: trigger "request_tracker_updated_at" for relation "pagw.request_tracker" does not exist, skipping
+2025-12-26 03:06:11.916 [main] [] [] INFO  o.f.c.i.s.DefaultSqlScriptExecutor - DB: trigger "oauth_provider_registry_updated_at" for relation "pagw.oauth_provider_registry" does not exist, skipping
+2025-12-26 03:06:12.115 [main] [] [] INFO  o.f.c.i.s.DefaultSqlScriptExecutor - DB: trigger "provider_registry_updated_at" for relation "pagw.provider_registry" does not exist, skipping
+2025-12-26 03:06:12.133 [main] [] [] INFO  o.f.c.i.s.DefaultSqlScriptExecutor - DB: trigger "payer_configuration_updated_at" for relation "pagw.payer_configuration" does not exist, skipping
+2025-12-26 03:06:12.432 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "pagw", now at version v001 (execution time 00:00.709s)
+2025-12-26 03:06:12.437 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-26 03:06:13.643 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26 03:06:13.647 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
+2025-12-26 03:06:20.944 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26 03:06:21.340 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-26 03:06:21.534 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26 03:06:21.737 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 30.906 seconds (process running for 33.59)
 === Application Context Status ===
 Context is active: true
 Context is running: true
 Application started on port 8080. Press Ctrl+C to stop.
-2025-12-26 02:49:50.793 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-26 02:49:50.793 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-12-26 02:49:50.794 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-12-26 02:50:30.267 [http-nio-8080-exec-7] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, providerId=null, syncMode=true
-2025-12-26 02:50:30.278 [http-nio-8080-exec-7] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251226-00001-B37A9689, type=SUBMIT, tenant=ANTHEM, syncMode=true
-2025-12-26 02:50:30.330 [http-nio-8080-exec-7] [] [] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26 03:06:30.044 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26 03:06:30.044 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-26 03:06:30.045 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-26 03:07:38.966 [http-nio-8080-exec-3] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, providerId=null, syncMode=true
+2025-12-26 03:07:38.978 [http-nio-8080-exec-3] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251226-00001-AECB574F, type=SUBMIT, tenant=ANTHEM, syncMode=true
+2025-12-26 03:07:39.044 [http-nio-8080-exec-3] [] [] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
 ) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]] with root cause
-org.postgresql.util.PSQLException: ERROR: column "metadata" of relation "event_tracker" does not exist
-  Position: 135
+]; ERROR: invalid input value for enum event_type_enum: "REQUEST_RECEIVED"] with root cause
+org.postgresql.util.PSQLException: ERROR: invalid input value for enum event_type_enum: "REQUEST_RECEIVED"
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
