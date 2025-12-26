@@ -82,11 +82,11 @@ public class NpiValidationRule implements ValidationRule {
         }
         
         // Luhn algorithm check for NPI
-        int sum = 0;
-        boolean alternate = false;
-        
         // NPI uses modified Luhn with prefix 80840
-        String checkString = "80840" + npi.substring(0, 9);
+        String checkString = "80840" + npi;
+        
+        int sum = 0;
+        boolean alternate = true; // Start with doubling for rightmost digit position
         
         for (int i = checkString.length() - 1; i >= 0; i--) {
             int digit = Character.getNumericValue(checkString.charAt(i));
@@ -102,8 +102,7 @@ public class NpiValidationRule implements ValidationRule {
             alternate = !alternate;
         }
         
-        int checkDigit = (10 - (sum % 10)) % 10;
-        return checkDigit == Character.getNumericValue(npi.charAt(9));
+        return sum % 10 == 0;
     }
 
     @Override
