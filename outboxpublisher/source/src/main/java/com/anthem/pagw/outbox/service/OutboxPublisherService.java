@@ -90,7 +90,16 @@ public class OutboxPublisherService {
                 // Extract pagwId and tenant from message
                 PagwMessage message = JsonUtils.fromJson(entry.getPayload(), PagwMessage.class);
                 pagwId = message.getPagwId();
+                // Try top-level tenant first, then fall back to meta.tenant
                 tenant = message.getTenant();
+                if (tenant == null && message.getMeta() != null) {
+                    tenant = message.getMeta().getTenant();
+                }
+                // Final fallback to prevent NOT NULL constraint violations
+                if (tenant == null) {
+                    tenant = "UNKNOWN";
+                    log.warn("No tenant found in message for pagwId={}, using default: UNKNOWN", pagwId);
+                }
                 
                 // Event tracking: PUBLISH_START
                 eventTrackerService.logStageStart(pagwId, tenant, "OUTBOX_PUBLISHER", EventTracker.EVENT_PUBLISH_START, null);

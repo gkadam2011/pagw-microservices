@@ -289,6 +289,7 @@ public class OrchestratorService {
                 .schemaVersion("v1")
                 .source("pasorchestrator")
                 .stage(RequestTracker.STAGE_REQUEST_PARSER)
+                .tenant(request.getTenant())  // Top-level tenant for OutboxPublisher
                 .payloadBucket(requestBucket)
                 .payloadKey(rawKey)
                 .meta(PagwMessage.MessageMeta.builder()
@@ -322,6 +323,7 @@ public class OrchestratorService {
                 .schemaVersion("v1")
                 .source("pasorchestrator")
                 .stage(RequestTracker.STAGE_REQUEST_PARSER)
+                .tenant(request.getTenant())  // Top-level tenant for OutboxPublisher
                 .payloadBucket(requestBucket)
                 .payloadKey(rawKey)
                 .meta(PagwMessage.MessageMeta.builder()
