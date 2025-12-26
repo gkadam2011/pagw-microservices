@@ -1,23 +1,15 @@
-
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+  Detail: Failing row contains (13, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:38.786531-05, null, null, {}, null, null, 2025-12-26 04:56:38.789071-05, 2025-12-26 04:56:38.789071-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -32,7 +24,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService.publishOutboxEntries(OutboxPublisherService.java:130) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -45,7 +38,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
@@ -59,49 +53,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (13, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:38.786531-05, null, null, {}, null, null, 2025-12-26 04:56:38.789071-05, 2025-12-26 04:56:38.789071-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	... 49 common frames omitted
 
-2025-12-26T04:42:07.295-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:07.300-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:56:48.808-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:56:48.814-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:07.308-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (14, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:56:48.812295-05, null, 2025-12-26 04:56:48.812295-05).
+2025-12-26T04:56:48.823-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (15, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:48.814284-05, null, null, {}, null, null, 2025-12-26 04:56:48.816805-05, 2025-12-26 04:56:48.816805-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -116,7 +110,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService.publishOutboxEntries(OutboxPublisherService.java:130) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -129,7 +124,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
@@ -143,49 +139,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (15, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:48.814284-05, null, null, {}, null, null, 2025-12-26 04:56:48.816805-05, 2025-12-26 04:56:48.816805-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	... 49 common frames omitted
 
-2025-12-26T04:42:17.320-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:17.324-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:56:58.834-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:56:58.840-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:17.332-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (16, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:56:58.838257-05, null, 2025-12-26 04:56:58.838257-05).
+2025-12-26T04:56:58.849-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (17, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:58.840497-05, null, null, {}, null, null, 2025-12-26 04:56:58.843044-05, 2025-12-26 04:56:58.843044-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -200,7 +196,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService.publishOutboxEntries(OutboxPublisherService.java:130) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -213,7 +210,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
@@ -227,49 +225,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (17, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:01:58.840497-05, null, null, {}, null, null, 2025-12-26 04:56:58.843044-05, 2025-12-26 04:56:58.843044-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	... 49 common frames omitted
 
-2025-12-26T04:42:27.344-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:27.348-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:08.862-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:08.868-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:27.355-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (18, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:08.86624-05, null, 2025-12-26 04:57:08.86624-05).
+2025-12-26T04:57:08.879-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (19, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:08.868186-05, null, null, {}, null, null, 2025-12-26 04:57:08.870676-05, 2025-12-26 04:57:08.870676-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -284,7 +282,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService.publishOutboxEntries(OutboxPublisherService.java:130) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -297,7 +296,8 @@ WHERE pagw_id = ?
 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720) ~[spring-aop-6.1.8.jar!/:6.1.8]
 	at com.anthem.pagw.outbox.service.OutboxPublisherService$$SpringCGLIB$$0.publishOutboxEntries(<generated>) ~[!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor5.invoke(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.scheduling.support.ScheduledMethodRunnable.runInternal(ScheduledMethodRunnable.java:130) ~[spring-context-6.1.8.jar!/:6.1.8]
@@ -311,49 +311,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (19, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:08.868186-05, null, null, {}, null, null, 2025-12-26 04:57:08.870676-05, 2025-12-26 04:57:08.870676-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	... 49 common frames omitted
 
-2025-12-26T04:42:37.368-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:37.373-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:18.890-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:18.895-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:37.382-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (20, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:18.893483-05, null, 2025-12-26 04:57:18.893483-05).
+2025-12-26T04:57:18.904-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (21, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:18.895383-05, null, null, {}, null, null, 2025-12-26 04:57:18.897855-05, 2025-12-26 04:57:18.897855-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -395,49 +395,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (21, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:18.895383-05, null, null, {}, null, null, 2025-12-26 04:57:18.897855-05, 2025-12-26 04:57:18.897855-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:42:47.394-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:47.398-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:28.916-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:28.921-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:47.406-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (22, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:28.919874-05, null, 2025-12-26 04:57:28.919874-05).
+2025-12-26T04:57:28.930-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (23, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:28.921709-05, null, null, {}, null, null, 2025-12-26 04:57:28.924185-05, 2025-12-26 04:57:28.924185-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -479,49 +479,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (23, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:28.921709-05, null, null, {}, null, null, 2025-12-26 04:57:28.924185-05, 2025-12-26 04:57:28.924185-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:42:57.418-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:42:57.423-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:38.941-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:38.946-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:42:57.431-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (24, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:38.944984-05, null, 2025-12-26 04:57:38.944984-05).
+2025-12-26T04:57:38.956-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (25, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:38.946868-05, null, null, {}, null, null, 2025-12-26 04:57:38.94944-05, 2025-12-26 04:57:38.94944-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -563,49 +563,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (25, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:38.946868-05, null, null, {}, null, null, 2025-12-26 04:57:38.94944-05, 2025-12-26 04:57:38.94944-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:43:07.441-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:43:07.445-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:48.969-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:48.974-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:43:07.452-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (26, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:48.972344-05, null, 2025-12-26 04:57:48.972344-05).
+2025-12-26T04:57:48.984-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (27, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:48.9752-05, null, null, {}, null, null, 2025-12-26 04:57:48.977946-05, 2025-12-26 04:57:48.977946-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -647,49 +647,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (27, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:48.9752-05, null, null, {}, null, null, 2025-12-26 04:57:48.977946-05, 2025-12-26 04:57:48.977946-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:43:17.464-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:43:17.469-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:57:58.995-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:57:59.000-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:43:17.476-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (28, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:57:58.998608-05, null, 2025-12-26 04:57:58.998608-05).
+2025-12-26T04:57:59.009-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (29, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:59.000532-05, null, null, {}, null, null, 2025-12-26 04:57:59.003034-05, 2025-12-26 04:57:59.003034-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -731,49 +731,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (29, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:02:59.000532-05, null, null, {}, null, null, 2025-12-26 04:57:59.003034-05, 2025-12-26 04:57:59.003034-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:43:27.487-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:43:27.492-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:58:09.020-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:58:09.025-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:43:27.498-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (30, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:58:09.023839-05, null, 2025-12-26 04:58:09.023839-05).
+2025-12-26T04:58:09.034-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (31, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:09.025592-05, null, null, {}, null, null, 2025-12-26 04:58:09.028121-05, 2025-12-26 04:58:09.028121-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -815,49 +815,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (31, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:09.025592-05, null, null, {}, null, null, 2025-12-26 04:58:09.028121-05, 2025-12-26 04:58:09.028121-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:43:37.510-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:43:37.515-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:58:19.045-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:58:19.050-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:43:37.522-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (32, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:58:19.048632-05, null, 2025-12-26 04:58:19.048632-05).
+2025-12-26T04:58:19.060-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (33, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:19.050438-05, null, null, {}, null, null, 2025-12-26 04:58:19.052892-05, 2025-12-26 04:58:19.052892-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -899,49 +899,49 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (33, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:19.050438-05, null, null, {}, null, null, 2025-12-26 04:58:19.052892-05, 2025-12-26 04:58:19.052892-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
 
-2025-12-26T04:43:47.534-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
-2025-12-26T04:43:47.539-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+2025-12-26T04:58:29.072-05:00  INFO 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Processing 1 outbox entries
+2025-12-26T04:58:29.082-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] c.a.p.o.service.OutboxPublisherService   : Failed to publish outbox entry: id=8f62b973-04f0-4edf-a3b4-7afe791ba239, destinationQueue=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo, error=PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
     tenant, pagw_id, stage, event_type, status,
     sequence_no, attempt, retryable,
     started_at, metadata, created_at
-) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
-]
-2025-12-26T04:43:47.547-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (34, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_START, STARTED, SUCCESS, null, null, null, null, 4, 0, f, null, null, null, null, null, 2025-12-26 04:58:29.0808-05, null, 2025-12-26 04:58:29.0808-05).
+2025-12-26T04:58:29.091-05:00 ERROR 1 --- [outboxpublisher] [   scheduling-1] o.s.s.s.TaskUtils$LoggingErrorHandler    : Unexpected error occurred in scheduled task
 
-org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(attempt), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
-  AND stage = ?::pagw.event_type_enum
-  AND event_type = ?
-]
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:112) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable, next_retry_at,
+    error_code, error_message, completed_at, created_at
+) VALUES (?, ?, ?, ?, 'FAILURE', ?, ?, ?, ?, ?, ?, NOW(), NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (35, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:29.082716-05, null, null, {}, null, null, 2025-12-26 04:58:29.085348-05, 2025-12-26 04:58:29.085348-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	at com.anthem.pagw.core.service.EventTrackerService.getCurrentAttempt(EventTrackerService.java:311) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:170) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
-	at jdk.internal.reflect.GeneratedMethodAccessor56.invoke(Unknown Source) ~[na:na]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:180) ~[pagwcore-1.0.0-SNAPSHOT.jar!/:1.0.0-SNAPSHOT]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354) ~[spring-aop-6.1.8.jar!/:6.1.8]
@@ -983,17 +983,17 @@ WHERE pagw_id = ?
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[na:na]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
-Caused by: org.postgresql.util.PSQLException: ERROR: type "pagw.event_type_enum" does not exist
-  Position: 99
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (35, PAGW-20251226-00001-10B4C072, null, OUTBOX_PUBLISHER, PUBLISH_FAIL, FAILURE, SUCCESS, null, null, PUBLISH_EXCEPTION, PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (..., 4, 1, t, 2025-12-26 05:03:29.082716-05, null, null, {}, null, null, 2025-12-26 04:58:29.085348-05, 2025-12-26 04:58:29.085348-05).
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar!/:42.7.3]
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137) ~[postgresql-42.7.3.jar!/:42.7.3]
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52) ~[HikariCP-5.1.0.jar!/:na]
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155) ~[postgresql-42.7.3.jar!/:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-5.1.0.jar!/:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-5.1.0.jar!/:na]
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658) ~[spring-jdbc-6.1.8.jar!/:6.1.8]
-	... 49 common frames omitted
+	... 47 common frames omitted
