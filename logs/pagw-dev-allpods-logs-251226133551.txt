@@ -1,0 +1,320 @@
+====================================================================
+POD: pasapiconnector-app-577d65dc68-dc4hx
+TIMESTAMP: 2025-12-26T13:35:57Z
+====================================================================
+I1226 08:35:57.812145   57572 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:35:57.812427   57572 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:35:57.812439   57572 get_token.go:59] finding a token cache
+I1226 08:35:57.812447   57572 get_token.go:68] acquiring the lock of token cache
+I1226 08:35:57.812810   57572 get_token.go:88] checking expiration of the existing token
+I1226 08:35:57.812853   57572 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:35:57.812931   57572 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:59:21.181376520Z   .   ____          _            __ _ _
+2025-12-26T10:59:21.181404963Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:59:21.181407745Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:59:21.181409366Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:59:21.181410900Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:59:21.181412943Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:59:21.181414631Z 
+2025-12-26T10:59:21.267099526Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:59:21.267129914Z 
+2025-12-26T10:59:21.525124267Z 2025-12-26T05:59:21.481-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Starting ApiConnectorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:59:21.575892307Z 2025-12-26T05:59:21.575-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:59:29.328500962Z 2025-12-26T05:59:29.328-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2025-12-26T10:59:29.378691553Z 2025-12-26T05:59:29.378-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:59:29.378813288Z 2025-12-26T05:59:29.378-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:59:29.882039732Z 2025-12-26T05:59:29.881-05:00  INFO 1 --- [pasapiconnector] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:59:29.883016782Z 2025-12-26T05:59:29.882-05:00  INFO 1 --- [pasapiconnector] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8108 ms
+2025-12-26T10:59:35.169503948Z 2025-12-26T05:59:35.167-05:00  INFO 1 --- [pasapiconnector] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:59:35.683141445Z 2025-12-26T05:59:35.682-05:00  INFO 1 --- [pasapiconnector] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:59:35.686301500Z 2025-12-26T05:59:35.685-05:00  INFO 1 --- [pasapiconnector] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:59:40.980929743Z 2025-12-26T05:59:40.980-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:59:41.276790864Z 2025-12-26T05:59:41.276-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path '/'
+2025-12-26T10:59:41.381339495Z 2025-12-26T05:59:41.380-05:00  INFO 1 --- [pasapiconnector] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:59:41.472839102Z 2025-12-26T05:59:41.472-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Started ApiConnectorApplication in 22.144 seconds (process running for 24.159)
+2025-12-26T10:59:49.932802167Z 2025-12-26T05:59:49.932-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:59:49.932838552Z 2025-12-26T05:59:49.932-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:59:49.934020587Z 2025-12-26T05:59:49.933-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-26T13:35:46.715183051Z 2025-12-26T08:35:46.714-05:00  INFO 1 --- [pasapiconnector] [io-8086-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-26T13:35:47.366981460Z 2025-12-26T08:35:47.366-05:00  INFO 1 --- [pasapiconnector] [io-8086-exec-10] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6423965a
+2025-12-26T13:35:47.371660649Z 2025-12-26T08:35:47.371-05:00  INFO 1 --- [pasapiconnector] [io-8086-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+
+====================================================================
+POD: pasattachmenthandler-app-9cf94c7-6kzcl
+TIMESTAMP: 2025-12-26T13:35:58Z
+====================================================================
+I1226 08:35:58.472522   57588 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:35:58.472817   57588 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:35:58.472829   57588 get_token.go:59] finding a token cache
+I1226 08:35:58.472838   57588 get_token.go:68] acquiring the lock of token cache
+I1226 08:35:58.473159   57588 get_token.go:88] checking expiration of the existing token
+I1226 08:35:58.473192   57588 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:35:58.473269   57588 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:59:21.745671276Z   .   ____          _            __ _ _
+2025-12-26T10:59:21.745690719Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:59:21.745692719Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:59:21.745694173Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:59:21.745695382Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:59:21.745696493Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:59:21.745697581Z 
+2025-12-26T10:59:21.745915149Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:59:21.745922086Z 
+2025-12-26T10:59:21.972018132Z 2025-12-26T05:59:21.969-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Starting AttachmentHandlerApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:59:21.973685045Z 2025-12-26T05:59:21.973-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:59:28.066606891Z 2025-12-26T05:59:28.066-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-26T10:59:28.145130570Z 2025-12-26T05:59:28.144-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:59:28.145250390Z 2025-12-26T05:59:28.145-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:59:28.475964187Z 2025-12-26T05:59:28.475-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:59:28.537812180Z 2025-12-26T05:59:28.537-05:00  INFO 1 --- [pasattachmenthandler] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6297 ms
+2025-12-26T10:59:32.165439380Z 2025-12-26T05:59:32.164-05:00  INFO 1 --- [pasattachmenthandler] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:59:32.674246262Z 2025-12-26T05:59:32.673-05:00  INFO 1 --- [pasattachmenthandler] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:59:32.737580456Z 2025-12-26T05:59:32.737-05:00  INFO 1 --- [pasattachmenthandler] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:59:37.562814047Z 2025-12-26T05:59:37.562-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:59:37.866187261Z 2025-12-26T05:59:37.865-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path '/'
+2025-12-26T10:59:37.969214518Z 2025-12-26T05:59:37.968-05:00  INFO 1 --- [pasattachmenthandler] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:59:38.062873766Z 2025-12-26T05:59:38.062-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Started AttachmentHandlerApplication in 17.823 seconds (process running for 19.584)
+2025-12-26T10:59:51.351958807Z 2025-12-26T05:59:51.351-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:59:51.352120155Z 2025-12-26T05:59:51.352-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:59:51.362970360Z 2025-12-26T05:59:51.362-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 10 ms
+2025-12-26T13:35:45.789911432Z 2025-12-26T08:35:45.789-05:00  INFO 1 --- [pasattachmenthandler] [io-8084-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-26T13:35:46.175070056Z 2025-12-26T08:35:46.174-05:00  INFO 1 --- [pasattachmenthandler] [io-8084-exec-10] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2f115200
+2025-12-26T13:35:46.177820963Z 2025-12-26T08:35:46.177-05:00  INFO 1 --- [pasattachmenthandler] [io-8084-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+
+====================================================================
+POD: pasbusinessvalidator-app-84579b4fd4-pqfhr
+TIMESTAMP: 2025-12-26T13:35:59Z
+====================================================================
+I1226 08:35:59.297539   57645 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:35:59.298735   57645 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:35:59.298743   57645 get_token.go:59] finding a token cache
+I1226 08:35:59.298747   57645 get_token.go:68] acquiring the lock of token cache
+I1226 08:35:59.299675   57645 get_token.go:88] checking expiration of the existing token
+I1226 08:35:59.299727   57645 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:35:59.299809   57645 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:59:20.600071571Z   .   ____          _            __ _ _
+2025-12-26T10:59:20.600112571Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:59:20.600115524Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:59:20.600117178Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:59:20.600118656Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:59:20.600120186Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:59:20.600121764Z 
+2025-12-26T10:59:20.600562485Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:59:20.600574472Z 
+2025-12-26T10:59:20.810852748Z 2025-12-26T05:59:20.808-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Starting BusinessValidatorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:59:20.812299158Z 2025-12-26T05:59:20.812-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:59:28.205110894Z 2025-12-26T05:59:28.204-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-12-26T10:59:28.280986793Z 2025-12-26T05:59:28.280-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:59:28.281128570Z 2025-12-26T05:59:28.281-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:59:28.603525354Z 2025-12-26T05:59:28.603-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:59:28.604606543Z 2025-12-26T05:59:28.604-05:00  INFO 1 --- [pasbusinessvalidator] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7496 ms
+2025-12-26T10:59:33.501732777Z 2025-12-26T05:59:33.500-05:00  INFO 1 --- [pasbusinessvalidator] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:59:34.086337273Z 2025-12-26T05:59:34.086-05:00  INFO 1 --- [pasbusinessvalidator] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:59:34.101321157Z 2025-12-26T05:59:34.100-05:00  INFO 1 --- [pasbusinessvalidator] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:59:39.012910492Z 2025-12-26T05:59:39.012-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:59:39.386953129Z 2025-12-26T05:59:39.386-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2025-12-26T10:59:39.581144890Z 2025-12-26T05:59:39.580-05:00  INFO 1 --- [pasbusinessvalidator] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:59:39.606416194Z 2025-12-26T05:59:39.605-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Started BusinessValidatorApplication in 20.801 seconds (process running for 22.824)
+2025-12-26T11:00:08.003828406Z 2025-12-26T06:00:08.003-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T11:00:08.003928871Z 2025-12-26T06:00:08.003-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T11:00:08.005676251Z 2025-12-26T06:00:08.005-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-12-26T13:35:42.764308177Z 2025-12-26T08:35:42.763-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-26T13:35:43.280148493Z 2025-12-26T08:35:43.279-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-5] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@aa0b6f
+2025-12-26T13:35:43.282785845Z 2025-12-26T08:35:43.282-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+
+====================================================================
+POD: pasorchestrator-app-75dd598799-mqrkf
+TIMESTAMP: 2025-12-26T13:35:59Z
+====================================================================
+I1226 08:35:59.966795   57667 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:35:59.967917   57667 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:35:59.967935   57667 get_token.go:59] finding a token cache
+I1226 08:35:59.967944   57667 get_token.go:68] acquiring the lock of token cache
+I1226 08:35:59.969479   57667 get_token.go:88] checking expiration of the existing token
+I1226 08:35:59.969528   57667 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:35:59.969612   57667 get_token.go:74] releasing the lock of token cache
+2025-12-26T13:28:21.351868857Z   .   ____          _            __ _ _
+2025-12-26T13:28:21.351918737Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T13:28:21.351924030Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T13:28:21.351927605Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T13:28:21.351931153Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T13:28:21.351934748Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T13:28:21.351938475Z 
+2025-12-26T13:28:21.352321756Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T13:28:21.352324445Z 
+2025-12-26T13:28:21.554410750Z 2025-12-26 08:28:21.552 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T13:28:21.555894162Z 2025-12-26 08:28:21.555 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-26T13:28:28.844678445Z 2025-12-26 08:28:28.844 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-26T13:28:28.937692562Z 2025-12-26 08:28:28.937 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-26T13:28:28.937954505Z 2025-12-26 08:28:28.937 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T13:28:29.331594322Z 2025-12-26 08:28:29.331 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-26T13:28:29.333121729Z 2025-12-26 08:28:29.332 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7587 ms
+2025-12-26T13:28:33.732507224Z 2025-12-26 08:28:33.731 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T13:28:34.551557845Z 2025-12-26 08:28:34.551 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
+2025-12-26T13:28:34.638425350Z 2025-12-26 08:28:34.638 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-26T13:28:35.734284638Z 2025-12-26 08:28:35.733 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
+2025-12-26T13:28:35.735583500Z 2025-12-26 08:28:35.735 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-26T13:28:35.836450982Z 2025-12-26 08:28:35.836 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-26T13:28:36.040819260Z 2025-12-26 08:28:36.040 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
+2025-12-26T13:28:36.142755849Z 2025-12-26 08:28:36.142 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.283s).
+2025-12-26T13:28:36.243007808Z 2025-12-26 08:28:36.242 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
+2025-12-26T13:28:36.338242306Z 2025-12-26 08:28:36.337 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.083s)
+2025-12-26T13:28:36.359860041Z 2025-12-26 08:28:36.359 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 001
+2025-12-26T13:28:36.432862601Z 2025-12-26 08:28:36.432 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
+2025-12-26T13:28:36.440072716Z 2025-12-26 08:28:36.439 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-26T13:28:37.540010867Z 2025-12-26 08:28:37.539 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T13:28:37.542775239Z 2025-12-26 08:28:37.542 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
+2025-12-26T13:28:43.737504995Z 2025-12-26 08:28:43.736 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T13:28:44.139528677Z 2025-12-26 08:28:44.139 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-26T13:28:44.248592691Z 2025-12-26 08:28:44.248 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T13:28:44.334153622Z 2025-12-26 08:28:44.333 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 24.576 seconds (process running for 26.266)
+2025-12-26T13:28:44.532529239Z === Application Context Status ===
+2025-12-26T13:28:44.532614173Z Context is active: true
+2025-12-26T13:28:44.532670469Z Context is running: true
+2025-12-26T13:28:44.532676436Z Application started on port 8080. Press Ctrl+C to stop.
+2025-12-26T13:28:49.749123319Z 2025-12-26 08:28:49.748 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T13:28:49.810837761Z 2025-12-26 08:28:49.810 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-26T13:28:49.812536813Z 2025-12-26 08:28:49.812 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-26T13:29:13.432786061Z 2025-12-26 08:29:13.432 [http-nio-8080-exec-4] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T13:29:53.493438863Z 2025-12-26 08:29:53.493 [http-nio-8080-exec-2] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T13:30:57.361891759Z 2025-12-26 08:30:57.361 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T13:34:54.520689093Z 2025-12-26 08:34:54.520 [http-nio-8080-exec-9] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+
+
+====================================================================
+POD: pasrequestconverter-app-674859f94b-q6gp5
+TIMESTAMP: 2025-12-26T13:36:00Z
+====================================================================
+I1226 08:36:00.629867   57685 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:36:00.630439   57685 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:36:00.630462   57685 get_token.go:59] finding a token cache
+I1226 08:36:00.630479   57685 get_token.go:68] acquiring the lock of token cache
+I1226 08:36:00.632399   57685 get_token.go:88] checking expiration of the existing token
+I1226 08:36:00.632447   57685 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:36:00.632534   57685 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:59:20.159101139Z   .   ____          _            __ _ _
+2025-12-26T10:59:20.159139369Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:59:20.159141557Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:59:20.159142949Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:59:20.159144062Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:59:20.159145199Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:59:20.159146382Z 
+2025-12-26T10:59:20.160161966Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:59:20.160166996Z 
+2025-12-26T10:59:20.466050661Z 2025-12-26T05:59:20.463-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Starting RequestConverterApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:59:20.504178168Z 2025-12-26T05:59:20.503-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:59:27.457646320Z 2025-12-26T05:59:27.456-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-26T10:59:27.466467488Z 2025-12-26T05:59:27.465-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:59:27.466494820Z 2025-12-26T05:59:27.466-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:59:27.765518779Z 2025-12-26T05:59:27.765-05:00  INFO 1 --- [pasrequestconverter] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:59:27.766389824Z 2025-12-26T05:59:27.766-05:00  INFO 1 --- [pasrequestconverter] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7105 ms
+2025-12-26T10:59:31.573904016Z 2025-12-26T05:59:31.572-05:00  INFO 1 --- [pasrequestconverter] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:59:32.266276699Z 2025-12-26T05:59:32.265-05:00  INFO 1 --- [pasrequestconverter] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:59:32.269240605Z 2025-12-26T05:59:32.268-05:00  INFO 1 --- [pasrequestconverter] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:59:37.663966138Z 2025-12-26T05:59:37.663-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:59:37.965854716Z 2025-12-26T05:59:37.965-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path '/'
+2025-12-26T10:59:38.063311712Z 2025-12-26T05:59:38.062-05:00  INFO 1 --- [pasrequestconverter] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:59:38.158268912Z 2025-12-26T05:59:38.157-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Started RequestConverterApplication in 19.697 seconds (process running for 21.773)
+2025-12-26T10:59:48.961741777Z 2025-12-26T05:59:48.961-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:59:48.961780148Z 2025-12-26T05:59:48.961-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:59:48.962924587Z 2025-12-26T05:59:48.962-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-26T13:35:44.751199132Z 2025-12-26T08:35:44.750-05:00  INFO 1 --- [pasrequestconverter] [io-8085-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-26T13:35:45.305482357Z 2025-12-26T08:35:45.304-05:00  INFO 1 --- [pasrequestconverter] [io-8085-exec-10] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@191cda73
+2025-12-26T13:35:45.354257699Z 2025-12-26T08:35:45.353-05:00  INFO 1 --- [pasrequestconverter] [io-8085-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+
+====================================================================
+POD: pasrequestenricher-app-5ff4d75cbb-spjch
+TIMESTAMP: 2025-12-26T13:36:01Z
+====================================================================
+I1226 08:36:01.276088   57706 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:36:01.276420   57706 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:36:01.276433   57706 get_token.go:59] finding a token cache
+I1226 08:36:01.276441   57706 get_token.go:68] acquiring the lock of token cache
+I1226 08:36:01.276752   57706 get_token.go:88] checking expiration of the existing token
+I1226 08:36:01.276790   57706 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:36:01.276863   57706 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:55:32.743451497Z   .   ____          _            __ _ _
+2025-12-26T10:55:32.743474990Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:55:32.743479029Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:55:32.743482188Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:55:32.743485147Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:55:32.743488489Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:55:32.743491428Z 
+2025-12-26T10:55:32.743894742Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:55:32.743917475Z 
+2025-12-26T10:55:33.041256442Z 2025-12-26T05:55:32.962-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Starting RequestEnricherApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:55:33.043155101Z 2025-12-26T05:55:33.042-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:55:38.953347233Z 2025-12-26T05:55:38.953-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-12-26T10:55:39.043749421Z 2025-12-26T05:55:39.043-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:55:39.043814160Z 2025-12-26T05:55:39.043-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:55:39.339809449Z 2025-12-26T05:55:39.263-05:00  INFO 1 --- [pasrequestenricher] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:55:39.341106646Z 2025-12-26T05:55:39.340-05:00  INFO 1 --- [pasrequestenricher] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6096 ms
+2025-12-26T10:55:43.154263861Z 2025-12-26T05:55:43.152-05:00  INFO 1 --- [pasrequestenricher] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:55:43.651717830Z 2025-12-26T05:55:43.651-05:00  INFO 1 --- [pasrequestenricher] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:55:43.742652980Z 2025-12-26T05:55:43.742-05:00  INFO 1 --- [pasrequestenricher] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:55:48.450824058Z 2025-12-26T05:55:48.450-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:55:48.843525902Z 2025-12-26T05:55:48.843-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2025-12-26T10:55:48.940292536Z 2025-12-26T05:55:48.939-05:00  INFO 1 --- [pasrequestenricher] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:55:48.951151808Z 2025-12-26T05:55:48.950-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Started RequestEnricherApplication in 17.698 seconds (process running for 19.218)
+2025-12-26T10:56:01.456764253Z 2025-12-26T05:56:01.456-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:56:01.456812813Z 2025-12-26T05:56:01.456-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:56:01.458057863Z 2025-12-26T05:56:01.457-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-26T13:35:43.729285252Z 2025-12-26T08:35:43.728-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-26T13:35:44.150541067Z 2025-12-26T08:35:44.150-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-6] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1afd7efa
+2025-12-26T13:35:44.153143835Z 2025-12-26T08:35:44.152-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-6] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+
+====================================================================
+POD: pasrequestparser-app-65b67c6dd8-l8mvr
+TIMESTAMP: 2025-12-26T13:36:01Z
+====================================================================
+I1226 08:36:02.055268   57759 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:36:02.055637   57759 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:36:02.055649   57759 get_token.go:59] finding a token cache
+I1226 08:36:02.055658   57759 get_token.go:68] acquiring the lock of token cache
+I1226 08:36:02.056179   57759 get_token.go:88] checking expiration of the existing token
+I1226 08:36:02.056222   57759 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:36:02.056301   57759 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:59:15.472402071Z   .   ____          _            __ _ _
+2025-12-26T10:59:15.472426110Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:59:15.472428427Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:59:15.472429806Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:59:15.472430834Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:59:15.472431794Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:59:15.472432747Z 
+2025-12-26T10:59:15.473161641Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:59:15.473171634Z 
+2025-12-26T10:59:15.777633454Z {"timestamp":"2025-12-26 05:59:15,775","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:59:15.831155646Z {"timestamp":"2025-12-26 05:59:15,830","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:59:21.078529094Z {"timestamp":"2025-12-26 05:59:21,075","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+2025-12-26T10:59:21.178504778Z {"timestamp":"2025-12-26 05:59:21,178","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 41 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+2025-12-26T10:59:24.278363174Z {"timestamp":"2025-12-26 05:59:24,278","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+2025-12-26T10:59:24.342407686Z {"timestamp":"2025-12-26 05:59:24,341","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
+2025-12-26T10:59:24.342452199Z {"timestamp":"2025-12-26 05:59:24,342","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
+2025-12-26T10:59:24.775688364Z {"timestamp":"2025-12-26 05:59:24,775","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
+2025-12-26T10:59:24.776929251Z {"timestamp":"2025-12-26 05:59:24,776","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 8697 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
+2025-12-26T10:59:27.132321546Z {"timestamp":"2025-12-26 05:59:27,078","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+2025-12-26T10:59:28.468724846Z {"timestamp":"2025-12-26 05:59:28,468","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@510e4d79","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
+2025-12-26T10:59:28.470510546Z {"timestamp":"2025-12-26 05:59:28,470","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+2025-12-26T10:59:28.671517304Z {"timestamp":"2025-12-26 05:59:28,671","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
+2025-12-26T10:59:28.976952614Z {"timestamp":"2025-12-26 05:59:28,976","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
+2025-12-26T10:59:29.130759357Z {"timestamp":"2025-12-26 05:59:29,130","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
+2025-12-26T10:59:30.429986849Z {"timestamp":"2025-12-26 05:59:30,378","level":"INFO","service":"pas-request-parser","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","logger":"org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo","thread":"main"}
+2025-12-26T10:59:32.375321943Z {"timestamp":"2025-12-26 05:59:32,374","level":"INFO","service":"pas-request-parser","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","logger":"org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator","thread":"main"}
+2025-12-26T10:59:32.430588348Z {"timestamp":"2025-12-26 05:59:32,430","level":"INFO","service":"pas-request-parser","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","logger":"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean","thread":"main"}
+2025-12-26T10:59:32.572887885Z {"timestamp":"2025-12-26 05:59:32,572","level":"INFO","service":"pas-request-parser","message":"HAPI FHIR version 6.8.0 - Rev f33627087f","logger":"ca.uhn.fhir.util.VersionUtil","thread":"main"}
+2025-12-26T10:59:32.576274646Z {"timestamp":"2025-12-26 05:59:32,575","level":"INFO","service":"pas-request-parser","message":"Creating new FHIR context for FHIR version [R4]","logger":"ca.uhn.fhir.context.FhirContext","thread":"main"}
+2025-12-26T10:59:34.945299977Z {"timestamp":"2025-12-26 05:59:34,945","level":"INFO","service":"pas-request-parser","message":"S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...","logger":"com.anthem.pagw.core.service.S3Service","thread":"main"}
+2025-12-26T10:59:37.831967586Z {"timestamp":"2025-12-26 05:59:37,831","level":"WARN","service":"pas-request-parser","message":"spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning","logger":"org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration","thread":"main"}
+2025-12-26T10:59:41.330658606Z {"timestamp":"2025-12-26 05:59:41,330","level":"INFO","service":"pas-request-parser","message":"Exposing 3 endpoints beneath base path '/actuator'","logger":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread":"main"}
+2025-12-26T10:59:41.641016838Z {"timestamp":"2025-12-26 05:59:41,640","level":"INFO","service":"pas-request-parser","message":"Tomcat started on port 8081 (http) with context path '/'","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+2025-12-26T10:59:41.870827814Z {"timestamp":"2025-12-26 05:59:41,870","level":"INFO","service":"pas-request-parser","message":"Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started","logger":"io.awspring.cloud.sqs.listener.AbstractMessageListenerContainer","thread":"lifecycle-thread-1"}
+2025-12-26T10:59:41.938636973Z {"timestamp":"2025-12-26 05:59:41,938","level":"INFO","service":"pas-request-parser","message":"Started RequestParserApplication in 28.358 seconds (process running for 30.223)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:59:43.238916687Z {"timestamp":"2025-12-26 05:59:43,238","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
+2025-12-26T10:59:43.238959132Z {"timestamp":"2025-12-26 05:59:43,238","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+2025-12-26T10:59:43.331771454Z {"timestamp":"2025-12-26 05:59:43,331","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 93 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+
+
