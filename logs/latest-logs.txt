@@ -1,68 +1,15 @@
-curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '@/Users/AG29266/pagw/pagw-ui/pagw-demos/pas/bundles/success/01-success-valid-bundle.json'
-{"resourceType":"ClaimResponse","pagwId":"PAGW-20251226-00001-10B4C072","status":"pended","message":"Request requires additional review. You will be notified when a decision is made. Use $inquiry operation with tracking ID: PAGW-20251226-00001-10B4C072","timestamp":"2025-12-26T09:25:48.754769558Z","disposition":"Pended","payerTrackingId":"PAGW-20251226-00001-10B4C072","processingTimeMs":428}$
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"RECEIVED","stage":"ORCHESTRATOR","message":"Request received and queued","timestamp":"2025-12-26T09:25:49.352951Z"}$
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"RECEIVED","stage":"ORCHESTRATOR","message":"Request received and queued","timestamp":"2025-12-26T09:25:49.352951Z"}$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"RECEIVED","stage":"ORCHESTRATOR","message":"Request received and queued
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"RECEIVED","stage":"ORCHESTRATOR","message":"Request received and queued","timestamp":"2025-12-26T09:25:49.352951Z"}$
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"RECEIVED","stage":"ORCHESTRATOR","message":"Request received and queued","timestamp":"2025-12-26T09:25:49.352951Z"}$
+select * from pagw.outbox where aggregate_id ='PAGW-20251226-00001-10B4C072';
+"id","tenant","aggregate_type","aggregate_id","event_type","destination_queue","destination","destination_type","payload","status","retry_count","max_retries","last_error","created_at","processed_at","published_at","next_retry_at"
+"8f62b973-04f0-4edf-a3b4-7afe791ba239",elevance,PagwMessage,PAGW-20251226-00001-10B4C072,REQUEST_PARSER,https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo,,SQS,"{""meta"": {""tenant"": ""ANTHEM"", ""receivedAt"": ""2025-12-26T09:25:49.806643522Z"", ""processedAt"": null, ""requestType"": null, ""correlationId"": ""demo-123"", ""customAttributes"": null, ""authenticatedProviderId"": null}, ""stage"": ""REQUEST_PARSER"", ""pagwId"": ""PAGW-20251226-00001-10B4C072"", ""source"": ""pasorchestrator"", ""tenant"": null, ""headers"": null, ""payload"": null, ""metadata"": null, ""createdAt"": null, ""errorCode"": null, ""eventType"": null, ""messageId"": ""81d6b1a5-bf5c-4266-adc9-b0e88d7ea8d1"", ""timestamp"": null, ""payloadKey"": ""202512/PAGW-20251226-00001-10B4C072/request/raw.json"", ""errorMessage"": null, ""targetSystem"": null, ""attemptNumber"": 0, ""correlationId"": null, ""payloadBucket"": ""crln-pagw-dev-dataz-gbd-phi-useast2"", ""schemaVersion"": ""v1"", ""sourceService"": null, ""targetService"": null, ""hasAttachments"": false, ""idempotencyKey"": null, ""payloadPointer"": null, ""attachmentCount"": 0, ""isAsyncResponse"": null, ""parsedDataS3Path"": null, ""apiResponseStatus"": null, ""enrichmentSources"": null, ""externalReferenceId"": null, ""attachmentMetadataKey"": null}",COMPLETED,0,5,,2025-12-26 04:25:49.352 -0500,2025-12-26 05:35:47.903 -0500,,
+b18bc3de-03e4-41ff-9397-476a35657187,elevance,PagwMessage,PAGW-20251226-00001-10B4C072,REQUEST_PARSER,dev-PAGW-pagw-request-parser-queue.fifo,,SQS,"{""meta"": {""tenant"": ""ANTHEM"", ""receivedAt"": ""2025-12-26T09:25:49.806643522Z"", ""processedAt"": null, ""requestType"": null, ""correlationId"": ""demo-123"", ""customAttributes"": null, ""authenticatedProviderId"": null}, ""stage"": ""REQUEST_PARSER"", ""pagwId"": ""PAGW-20251226-00001-10B4C072"", ""source"": ""pasorchestrator"", ""tenant"": null, ""headers"": null, ""payload"": null, ""metadata"": null, ""createdAt"": null, ""errorCode"": null, ""eventType"": null, ""messageId"": ""81d6b1a5-bf5c-4266-adc9-b0e88d7ea8d1"", ""timestamp"": null, ""payloadKey"": ""202512/PAGW-20251226-00001-10B4C072/request/raw.json"", ""errorMessage"": null, ""targetSystem"": null, ""attemptNumber"": 0, ""correlationId"": null, ""payloadBucket"": ""crln-pagw-dev-dataz-gbd-phi-useast2"", ""schemaVersion"": ""v1"", ""sourceService"": null, ""targetService"": null, ""hasAttachments"": false, ""idempotencyKey"": null, ""payloadPointer"": null, ""attachmentCount"": 0, ""isAsyncResponse"": null, ""parsedDataS3Path"": null, ""apiResponseStatus"": null, ""enrichmentSources"": null, ""externalReferenceId"": null, ""attachmentMetadataKey"": null}",COMPLETED,0,5,,2025-12-26 05:35:47.961 -0500,2025-12-26 05:35:58.054 -0500,,
 
 
-select * from pagw.event_tracker;
+select * from pagw.event_tracker where pagw_id  = 'PAGW-20251226-00001-10B4C072';
 "id","pagw_id","tenant","stage","event_type","status","execution_status","external_reference","duration_ms","error_code","error_message","sequence_no","attempt","retryable","next_retry_at","worker_id","pod_name","metadata","op_outcome_s3_key","started_at","completed_at","created_at"
 1,PAGW-20251226-00001-10B4C072,ANTHEM,ORCHESTRATION,REQUEST_RECEIVED,STARTED,SUCCESS,,,,,1,0,false,,,,"{""syncMode"": true, ""requestType"": ""SUBMIT""}",,2025-12-26 04:25:49.352 -0500,,2025-12-26 04:25:49.352 -0500
 2,PAGW-20251226-00001-10B4C072,ANTHEM,ORCHESTRATION,WORKFLOW_START,STARTED,SUCCESS,,,,,2,0,false,,,,"{""mode"": ""SYNC""}",,2025-12-26 04:25:49.352 -0500,,2025-12-26 04:25:49.352 -0500
 3,PAGW-20251226-00001-10B4C072,ANTHEM,ORCHESTRATION,WORKFLOW_COMPLETE,SUCCESS,SUCCESS,,1044,,,3,0,false,,,,"{""mode"": ""SYNC_PENDED_TO_ASYNC""}",,,2025-12-26 04:25:49.352 -0500,2025-12-26 04:25:49.352 -0500
-
-
-select * from pagw.outbox where aggregate_id ='PAGW-20251226-00001-10B4C072';
-"id","tenant","aggregate_type","aggregate_id","event_type","destination_queue","destination","destination_type","payload","status","retry_count","max_retries","last_error","created_at","processed_at","published_at","next_retry_at"
-"8f62b973-04f0-4edf-a3b4-7afe791ba239",elevance,PagwMessage,PAGW-20251226-00001-10B4C072,REQUEST_PARSER,https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo,,SQS,"{""meta"": {""tenant"": ""ANTHEM"", ""receivedAt"": ""2025-12-26T09:25:49.806643522Z"", ""processedAt"": null, ""requestType"": null, ""correlationId"": ""demo-123"", ""customAttributes"": null, ""authenticatedProviderId"": null}, ""stage"": ""REQUEST_PARSER"", ""pagwId"": ""PAGW-20251226-00001-10B4C072"", ""source"": ""pasorchestrator"", ""tenant"": null, ""headers"": null, ""payload"": null, ""metadata"": null, ""createdAt"": null, ""errorCode"": null, ""eventType"": null, ""messageId"": ""81d6b1a5-bf5c-4266-adc9-b0e88d7ea8d1"", ""timestamp"": null, ""payloadKey"": ""202512/PAGW-20251226-00001-10B4C072/request/raw.json"", ""errorMessage"": null, ""targetSystem"": null, ""attemptNumber"": 0, ""correlationId"": null, ""payloadBucket"": ""crln-pagw-dev-dataz-gbd-phi-useast2"", ""schemaVersion"": ""v1"", ""sourceService"": null, ""targetService"": null, ""hasAttachments"": false, ""idempotencyKey"": null, ""payloadPointer"": null, ""attachmentCount"": 0, ""isAsyncResponse"": null, ""parsedDataS3Path"": null, ""apiResponseStatus"": null, ""enrichmentSources"": null, ""externalReferenceId"": null, ""attachmentMetadataKey"": null}",PENDING,0,5,,2025-12-26 04:25:49.352 -0500,,,
-
-select * from pagw.request_tracker;
-"pagw_id","tenant","source_system","request_type","idempotency_key","correlation_id","status","last_stage","next_stage","workflow_id","workflow_version","scenario_id","ruleset_version","workflow_hash","last_error_code","last_error_msg","retry_count","raw_s3_bucket","raw_s3_key","enriched_s3_bucket","enriched_s3_key","final_s3_bucket","final_s3_key","external_request_id","external_reference_id","payer_id","provider_npi","patient_member_id","client_id","member_id","provider_id","contains_phi","phi_encrypted","sync_processed","sync_processed_at","async_queued","async_queued_at","diagnosis_codes","metadata","received_at","completed_at","callback_sent_at","expires_at","created_at","updated_at"
-PAGW-20251226-00001-10B4C072,ANTHEM,APIGEE,SUBMIT,PAGW-20251226-00001-10B4C072,,RECEIVED,ORCHESTRATOR,,,,,,,,,0,crln-pagw-dev-dataz-gbd-phi-useast2,"202512/PAGW-20251226-00001-10B4C072/request/raw.json",,,,,,,,,,,,,true,false,false,,true,2025-12-26 04:25:49.352 -0500,"","{}",2025-12-26 04:25:48.754 -0500,,,,2025-12-26 04:25:49.352 -0500,2025-12-26 04:25:49.352 -0500
-
-
-
-$ for service in pasorchestrator pasrequestparser pasbusinessvalidator pasrequestenricher pasrequestconverter pasattachmenthandler pasapiconnector pasmockpayer pasresponsebuilder pascallbackhandler; do   echo "Checking $service...";   curl -k -s https://$service.pagwdev.awsdns.internal.das/actuator/health | jq '.status'; done
-Checking pasorchestrator...
-"UP"
-Checking pasrequestparser...
-"UP"
-Checking pasbusinessvalidator...
-"UP"
-Checking pasrequestenricher...
-"UP"
-Checking pasrequestconverter...
-"UP"
-Checking pasattachmenthandler...
-"UP"
-Checking pasapiconnector...
-"UP"
-Checking pasmockpayer...
-"UP"
-Checking pasresponsebuilder...
-"UP"
-Checking pascallbackhandler...
-"UP"
-
-##################
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}$
-$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}$
-$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
-{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}
+482,PAGW-20251226-00001-10B4C072,ANTHEM,OUTBOX_PUBLISHER,PUBLISH_START,STARTED,SUCCESS,,,,,4,0,false,,,,"",,2025-12-26 05:35:46.015 -0500,,2025-12-26 05:35:46.015 -0500
+483,PAGW-20251226-00001-10B4C072,ANTHEM,OUTBOX_PUBLISHER,PUBLISH_OK,SUCCESS,SUCCESS,,2100,,,5,0,false,,,,"{""retryCount"": 0, ""destinationQueue"": ""https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-orchestrator-complete-queue.fifo""}",,,2025-12-26 05:35:47.909 -0500,2025-12-26 05:35:47.909 -0500
+486,PAGW-20251226-00001-10B4C072,ANTHEM,OUTBOX_PUBLISHER,PUBLISH_START,STARTED,SUCCESS,,,,,6,0,false,,,,"",,2025-12-26 05:35:57.998 -0500,,2025-12-26 05:35:57.998 -0500
+487,PAGW-20251226-00001-10B4C072,ANTHEM,OUTBOX_PUBLISHER,PUBLISH_OK,SUCCESS,SUCCESS,,97,,,7,0,false,,,,"{""retryCount"": 0, ""destinationQueue"": ""dev-PAGW-pagw-request-parser-queue.fifo""}",,,2025-12-26 05:35:58.094 -0500,2025-12-26 05:35:58.094 -0500
