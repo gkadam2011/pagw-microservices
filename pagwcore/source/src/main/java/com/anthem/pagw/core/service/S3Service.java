@@ -201,14 +201,10 @@ public class S3Service {
     
     /**
      * Store parsed FHIR data in S3 and return the path.
-     * Path format: parsed-data/{tenant}/{pagwId}-parsed.json
+     * Path format: {YYYYMM}/{pagwId}/request/fhir-extracted.json (follows standard lifecycle structure)
      */
     public String putParsedData(String bucket, String tenant, String pagwId, String parsedDataJson) {
-        String key = String.format("parsed-data/%s/%s-parsed.json", tenant, pagwId);
-        uploadString(bucket, key, parsedDataJson, "application/json");
-        return key;
-    }
-    
+        String key = PagwProperties.S3Paths.fhirExtracted(pagwId);
     /**
      * Retrieve parsed FHIR data from S3.
      */

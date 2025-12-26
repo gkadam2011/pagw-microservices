@@ -92,6 +92,11 @@ public class PagwProperties {
             return String.format("%s/%s/request/parsed.json", getMonthPartition(), pagwId);
         }
         
+        /** FHIR extracted structured data (Patient, Practitioner, Claim) */
+        public static String fhirExtracted(String pagwId) {
+            return String.format("%s/%s/request/fhir-extracted.json", getMonthPartition(), pagwId);
+        }
+        
         /** Business validated data with validation results */
         public static String validated(String pagwId) {
             return String.format("%s/%s/request/validated.json", getMonthPartition(), pagwId);

@@ -108,6 +108,7 @@ crln-pagw-{env}-dataz-gbd-phi-useast2/
 │   │   ├── request/
 │   │   │   ├── raw.json                       # Original FHIR Bundle (from API)
 │   │   │   ├── parsed.json                    # Parsed claim data (RequestParserService)
+│   │   │   ├── fhir-extracted.json            # ⭐ FHIR extracted data (Patient, Practitioner, Claim)
 │   │   │   ├── validated.json                 # Business validated data
 │   │   │   ├── enriched.json                  # Enriched with provider/eligibility
 │   │   │   └── canonical.json                 # Converted to X12 278
@@ -128,16 +129,7 @@ crln-pagw-{env}-dataz-gbd-phi-useast2/
 │   └── PAGW-20251225-123457/
 │       └── ...
 │
-├── 202601/                                    # Next month
-│   └── ...
-│
-└── parsed-data/                               # ⭐ FHIR Extracted Data Storage
-    ├── anthem/                                # Tenant name
-    │   ├── PAGW-20251225-123456-parsed.json  # Extracted FHIR data (JSON)
-    │   ├── PAGW-20251225-123457-parsed.json
-    │   └── ...
-    │
-    └── elevance/                              # Another tenant
+└── 202601/                                    # Next month
         └── ...
 ```
 
@@ -147,7 +139,7 @@ crln-pagw-{env}-dataz-gbd-phi-useast2/
 |---|---|---|
 | Raw FHIR Bundle | `{YYYYMM}/{pagwId}/request/raw.json` | Original submission |
 | Parsed Claim | `{YYYYMM}/{pagwId}/request/parsed.json` | Parser output |
-| **Extracted FHIR** | `parsed-data/{tenant}/{pagwId}-parsed.json` | ⭐ Complete extraction |
+| **Extracted FHIR** | `{YYYYMM}/{pagwId}/request/fhir-extracted.json` | ⭐ Complete extraction |
 | Validated Data | `{YYYYMM}/{pagwId}/request/validated.json` | Post-validation |
 | Enriched Data | `{YYYYMM}/{pagwId}/request/enriched.json` | With lookups |
 | Canonical Format | `{YYYYMM}/{pagwId}/request/canonical.json` | X12 278 ready |
@@ -163,9 +155,9 @@ crln-pagw-{env}-dataz-gbd-phi-useast2/
 
 | **Data Field** | **DB Column** | **S3 File** | **Use Case** |
 |---|---|---|---|
-| **Patient Member ID** | `patient_member_id` | `parsed-data/{tenant}/{pagwId}-parsed.json` | Fast member lookup |
-| **Provider NPI** | `provider_npi` | `parsed-data/{tenant}/{pagwId}-parsed.json` | Fast provider lookup |
-| **Diagnosis Codes** | `diagnosis_codes` (JSONB) | `parsed-data/{tenant}/{pagwId}-parsed.json` | Diagnosis queries |
+| **Patient Member ID** | `patient_member_id` | `{YYYYMM}/{pagwId}/request/fhir-extracted.json` | Fast member lookup |
+| **Provider NPI** | `provider_npi` | `{YYYYMM}/{pagwId}/request/fhir-extracted.json` | Fast provider lookup |
+| **Diagnosis Codes** | `diagnosis_codes` (JSONB) | `{YYYYMM}/{pagwId}/request/fhir-extracted.json` | Diagnosis queries |
 | Patient Full Name | ❌ | ✅ | Display/reports only |
 | Patient Address | ❌ | ✅ | Display/reports only |
 | Patient Contact | ❌ | ✅ | Display/reports only |
