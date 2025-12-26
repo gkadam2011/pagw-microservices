@@ -3,6 +3,7 @@ package com.anthem.pagw.connector.listener;
 import com.anthem.pagw.connector.client.ExternalApiClient;
 import com.anthem.pagw.connector.model.ApiResponse;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.RequestTrackerService;
 import com.anthem.pagw.core.service.S3Service;
@@ -37,6 +38,9 @@ class ApiConnectorListenerTest {
     private RequestTrackerService trackerService;
 
     @Mock
+    private EventTrackerService eventTrackerService;
+
+    @Mock
     private OutboxService outboxService;
 
     private ApiConnectorListener listener;
@@ -49,6 +53,7 @@ class ApiConnectorListenerTest {
                 externalApiClient,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 CALLBACK_QUEUE
         );
@@ -276,6 +281,7 @@ class ApiConnectorListenerTest {
                 externalApiClient,
                 s3Service,
                 trackerService,
+                eventTrackerService,
                 outboxService,
                 customQueue
         );

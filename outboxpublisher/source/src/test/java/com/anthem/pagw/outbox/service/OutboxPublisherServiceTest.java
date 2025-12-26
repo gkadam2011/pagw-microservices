@@ -3,6 +3,7 @@ package com.anthem.pagw.outbox.service;
 import com.anthem.pagw.core.PagwProperties;
 import com.anthem.pagw.core.model.OutboxEntry;
 import com.anthem.pagw.core.model.PagwMessage;
+import com.anthem.pagw.core.service.EventTrackerService;
 import com.anthem.pagw.core.service.OutboxService;
 import com.anthem.pagw.core.service.SqsService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,9 @@ class OutboxPublisherServiceTest {
     private SqsService sqsService;
 
     @Mock
+    private EventTrackerService eventTrackerService;
+
+    @Mock
     private PagwProperties properties;
 
     private OutboxPublisherService publisherService;
@@ -40,7 +44,7 @@ class OutboxPublisherServiceTest {
     @BeforeEach
     void setUp() {
         // Setup basic mocking structure
-        publisherService = new OutboxPublisherService(outboxService, sqsService, properties);
+        publisherService = new OutboxPublisherService(outboxService, sqsService, eventTrackerService, properties);
     }
 
     @Test
