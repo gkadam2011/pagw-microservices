@@ -81,25 +81,30 @@ public class NpiValidationRule implements ValidationRule {
             return false;
         }
         
-        // Luhn algorithm check for NPI
-        // NPI uses modified Luhn with prefix 80840
+        // NPI Luhn check algorithm:
+        // 1. Prefix with 80840 (constant for healthcare NPIs)
+        // 2. Double every second digit from RIGHT, starting from the SECOND digit
+        // 3. Sum all digits (split doubled values >9 into individual digits)
+        // 4. Valid if sum mod 10 == 0
+        
         String checkString = "80840" + npi;
-        
         int sum = 0;
-        boolean alternate = true; // Start with doubling for rightmost digit position
         
-        for (int i = checkString.length() - 1; i >= 0; i--) {
+        for (int i = 0; i < checkString.length(); i++) {
             int digit = Character.getNumericValue(checkString.charAt(i));
             
-            if (alternate) {
+            // Double every second digit from the right (odd positions from left, 0-indexed)
+            // Position 0 from right = position 14 from left (length-1) -> don't double
+            // Position 1 from right = position 13 from left -> double
+            // etc.
+            int positionFromRight = checkString.length() - 1 - i;
+            if (positionFromRight % 2 == 1) {
                 digit *= 2;
                 if (digit > 9) {
                     digit -= 9;
                 }
             }
-            
             sum += digit;
-            alternate = !alternate;
         }
         
         return sum % 10 == 0;
