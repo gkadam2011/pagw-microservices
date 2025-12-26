@@ -47,6 +47,11 @@ public class FlywayResetConfig {
                 // This includes the flyway_schema_history table
                 flyway.clean();
                 log.info("Flyway clean completed - all schema objects dropped");
+            } else {
+                // Always run repair in dev to handle checksum mismatches from migration file changes
+                log.info("Running Flyway repair to sync checksums...");
+                flyway.repair();
+                log.info("Flyway repair completed");
             }
             
             // Run migrations (baseline will be applied if needed)
