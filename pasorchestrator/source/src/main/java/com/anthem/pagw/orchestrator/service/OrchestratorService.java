@@ -96,12 +96,6 @@ public class OrchestratorService {
         log.info("Processing request: pagwId={}, type={}, tenant={}, syncMode={}", 
                 pagwId, request.getRequestType(), tenant, request.isSyncProcessing());
         
-        // Log request received event
-        eventTrackerService.logStageStart(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION, 
-                EventTracker.EVENT_REQUEST_RECEIVED,
-                String.format("{\"requestType\":\"%s\",\"syncMode\":%b}", 
-                        request.getRequestType(), request.isSyncProcessing()));
-        
         // Check idempotency (Da Vinci PAS requires unique Bundle.identifier)
         String idempotencyKey = request.getIdempotencyKey() != null ? 
                 request.getIdempotencyKey() : pagwId;
@@ -153,6 +147,12 @@ public class OrchestratorService {
                     .build();
             
             requestTrackerService.create(tracker);
+            
+            // Log request received event (after tracker is created to satisfy FK constraint)
+            eventTrackerService.logStageStart(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION, 
+                    EventTracker.EVENT_REQUEST_RECEIVED,
+                    String.format("{\"requestType\":\"%s\",\"syncMode\":%b}", 
+                            request.getRequestType(), request.isSyncProcessing()));
             
             // Extract provider context from Lambda Authorizer headers (Round 1)
             // API Gateway maps Lambda context to X-* headers
