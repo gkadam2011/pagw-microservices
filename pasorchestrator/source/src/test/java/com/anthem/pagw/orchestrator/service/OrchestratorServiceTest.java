@@ -257,4 +257,48 @@ class OrchestratorServiceTest {
             tracker.getStatus().equals(RequestTracker.STATUS_RECEIVED)
         ));
     }
+
+    @Test
+    void shouldSetTenantInOutboxMessage_WhenTenantProvided() {
+        // Given: Request with explicit tenant
+        PasRequest request = PasRequest.builder()
+                .fhirBundle("{}")
+                .tenant("ANTHEM")
+                .requestType("SUBMIT")
+                .syncProcessing(false)
+                .build();
+
+        // When: Process the request
+        orchestratorService.processRequest(request);
+
+        // Then: Outbox message should have tenant set (not null)
+        verify(outboxService).writeOutbox(anyString(), argThat(message -> {
+            assertNotNull(message.getTenant(), "Tenant should not be null in PagwMessage");
+            assertEquals("ANTHEM", message.getTenant(), "Tenant should be ANTHEM");
+            assertNotNull(message.getMeta().getTenant(), "Meta tenant should not be null");
+            assertEquals("ANTHEM", message.getMeta().getTenant(), "Meta tenant should be ANTHEM");
+            return true;
+        }));
+    }
+
+    @Test
+    void shouldSetDefaultTenantInOutboxMessage_WhenTenantNull() {
+        // Given: Request with null tenant
+        PasRequest request = PasRequest.builder()
+                .fhirBundle("{}")
+                .tenant(null)  // Explicitly null
+                .requestType("SUBMIT")
+                .syncProcessing(false)
+                .build();
+
+        // When: Process the request
+        orchestratorService.processRequest(request);
+
+        // Then: Outbox message should have UNKNOWN tenant (not null)
+        verify(outboxService).writeOutbox(anyString(), argThat(message -> {
+            assertNotNull(message.getTenant(), "Tenant should not be null even when request has null tenant");
+            assertEquals("UNKNOWN", message.getTenant(), "Tenant should fallback to UNKNOWN");
+            return true;
+        }));
+    }
 }

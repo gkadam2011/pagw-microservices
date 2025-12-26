@@ -274,6 +274,9 @@ public class OrchestratorService {
             String rawKey,
             String messageId) {
         
+        // Ensure tenant has a value (never null)
+        String tenant = request.getTenant() != null ? request.getTenant() : "UNKNOWN";
+        
         // Atomic check-and-set: Only queue if not already sync_processed or async_queued
         boolean canQueue = requestTrackerService.tryMarkAsyncQueued(pagwId);
         
@@ -289,11 +292,11 @@ public class OrchestratorService {
                 .schemaVersion("v1")
                 .source("pasorchestrator")
                 .stage(RequestTracker.STAGE_REQUEST_PARSER)
-                .tenant(request.getTenant())  // Top-level tenant for OutboxPublisher
+                .tenant(tenant)  // Use local tenant variable (never null)
                 .payloadBucket(requestBucket)
                 .payloadKey(rawKey)
                 .meta(PagwMessage.MessageMeta.builder()
-                        .tenant(request.getTenant())
+                        .tenant(tenant)
                         .receivedAt(Instant.now())
                         .correlationId(request.getCorrelationId())
                         .build())
@@ -316,6 +319,9 @@ public class OrchestratorService {
             String rawKey,
             String messageId) {
         
+        // Ensure tenant has a value (never null)
+        String tenant = request.getTenant() != null ? request.getTenant() : "UNKNOWN";
+        
         PagwMessage message = PagwMessage.builder()
                 .messageId(messageId)
                 .pagwId(pagwId)
@@ -323,11 +329,11 @@ public class OrchestratorService {
                 .schemaVersion("v1")
                 .source("pasorchestrator")
                 .stage(RequestTracker.STAGE_REQUEST_PARSER)
-                .tenant(request.getTenant())  // Top-level tenant for OutboxPublisher
+                .tenant(tenant)  // Use local tenant variable (never null)
                 .payloadBucket(requestBucket)
                 .payloadKey(rawKey)
                 .meta(PagwMessage.MessageMeta.builder()
-                        .tenant(request.getTenant())
+                        .tenant(tenant)
                         .receivedAt(Instant.now())
                         .correlationId(request.getCorrelationId())
                         .build())
