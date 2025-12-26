@@ -54,3 +54,15 @@ Checking pasresponsebuilder...
 "UP"
 Checking pascallbackhandler...
 "UP"
+
+##################
+$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
+{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing
+$
+$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
+{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}$
+$
+$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
+{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}$
+$ curl -k https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/PAGW-20251226-00001-10B4C072
+{"pagwId":"PAGW-20251226-00001-10B4C072","status":"ROUTING_TO_REQUEST_PARSER","stage":"orchestrator","message":"Processing in progress","timestamp":"2025-12-26T10:35:47.961182Z"}
