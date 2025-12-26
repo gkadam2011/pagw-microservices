@@ -391,7 +391,7 @@ def _determine_routing_strategy(self, context: ProviderContext) -> Dict:
 **File**: `pasorchestrator/source/src/main/java/com/anthem/pagw/orchestrator/controller/OrchestratorController.java`
 
 ```java
-@PostMapping("/pas/v1/submit")
+@PostMapping("/pas/api/v1/submit")
 public ResponseEntity<ClaimResponse> submit(
         @RequestBody String requestBody,
         @RequestHeader(value = "X-Provider-Id", required = false) String providerId,
@@ -508,7 +508,7 @@ TOKEN=$(curl -X POST 'https://perf.totalview.healthos.carelon.com/client.oauth2/
   --data-urlencode 'grant_type=client_credentials' | jq -r '.access_token')
 
 # Call PAGW API with token
-curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit' \
+curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit' \
   -H "Authorization: Bearer ${TOKEN}" \
   -H 'Content-Type: application/json' \
   -d '@test-bundle.json'
@@ -522,7 +522,7 @@ curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit'
 #### Test 2: Expired Token
 ```bash
 # Use expired token
-curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit' \
+curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit' \
   -H "Authorization: Bearer ${EXPIRED_TOKEN}" \
   -H 'Content-Type: application/json' \
   -d '@test-bundle.json'
@@ -532,7 +532,7 @@ curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit'
 
 #### Test 3: Invalid Token
 ```bash
-curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit' \
+curl -X POST 'https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit' \
   -H "Authorization: Bearer invalid-token" \
   -H 'Content-Type: application/json' \
   -d '@test-bundle.json'

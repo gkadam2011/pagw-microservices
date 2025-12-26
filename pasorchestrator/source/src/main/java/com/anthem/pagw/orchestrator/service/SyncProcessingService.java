@@ -297,7 +297,7 @@ public class SyncProcessingService {
             HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             
             ResponseEntity<String> response = restTemplate.exchange(
-                    requestParserUrl + "/pas/v1/parse",
+                    requestParserUrl + "/pas/api/v1/parse",
                     HttpMethod.POST,
                     request,
                     String.class);
@@ -362,7 +362,7 @@ public class SyncProcessingService {
             HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
             
             ResponseEntity<String> response = restTemplate.exchange(
-                    businessValidatorUrl + "/pas/v1/validate",
+                    businessValidatorUrl + "/pas/api/v1/validate",
                     HttpMethod.POST,
                     request,
                     String.class);

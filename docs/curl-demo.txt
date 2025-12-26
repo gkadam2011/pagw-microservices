@@ -1,4 +1,4 @@
-curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '@/Users/AG29266/pagw/pagw-ui/pagw-demos/pas/bundles/success/01-success-valid-bundle.json'
+curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '@/Users/AG29266/pagw/pagw-ui/pagw-demos/pas/bundles/success/01-success-valid-bundle.json'
 
 {
 	"resourceType": "ClaimResponse",

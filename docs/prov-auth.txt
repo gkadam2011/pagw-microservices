@@ -80,7 +80,7 @@ Step B — Provider authorization & enrichment (where NPI/TIN comes from)
 	1.	Redis cache lookup:
 	•	key: reg:client:<clientId>
 	2.	If cache miss → call Registration Service and store result in Redis
-	3.	Validate provider allowed to call /pas/v1/submit
+	3.	Validate provider allowed to call /pas/api/v1/submit
 	•	either: allowedApis contains PAS_SUBMIT
 	•	or: allowedScopes contains pas.submit
 	4.	Set tenant from registration record

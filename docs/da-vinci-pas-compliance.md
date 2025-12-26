@@ -237,7 +237,7 @@ The following Da Vinci PAS features are planned but not yet implemented:
 
 ### Submit ($submit)
 ```
-POST /pas/v1/submit
+POST /pas/api/v1/submit
 Headers:
   - X-Tenant-Id: tenant identifier
   - X-Provider-Id: authenticated provider (from OAuth)
@@ -248,7 +248,7 @@ Body: FHIR Bundle with Claim
 
 ### Inquiry ($inquiry)
 ```
-POST /pas/v1/inquiry
+POST /pas/api/v1/inquiry
 Query Params (any one):
   - pagwId: PAGW tracking ID
   - preAuthRef: Payer authorization reference
@@ -258,7 +258,7 @@ Query Params (any one):
 
 ### Update
 ```
-POST /pas/v1/update
+POST /pas/api/v1/update
 Headers:
   - X-Related-Claim-Id: Original authorization to update (required)
 Body: FHIR Bundle with updated Claim
@@ -266,26 +266,26 @@ Body: FHIR Bundle with updated Claim
 
 ### Cancel
 ```
-POST /pas/v1/cancel
+POST /pas/api/v1/cancel
 Headers:
   - X-Related-Claim-Id: Authorization to cancel (required)
 ```
 
 ### Status
 ```
-GET /pas/v1/status/{pagwId}
+GET /pas/api/v1/status/{pagwId}
 ```
 
 ### Subscriptions
 ```
-POST /pas/v1/subscriptions
+POST /pas/api/v1/subscriptions
   - pagwId: Authorization to subscribe to
   - endpoint: Webhook callback URL
   - secret: HMAC secret for signature verification
 
-GET /pas/v1/subscriptions/{subscriptionId}
+GET /pas/api/v1/subscriptions/{subscriptionId}
 
-DELETE /pas/v1/subscriptions/{subscriptionId}
+DELETE /pas/api/v1/subscriptions/{subscriptionId}
 ```
 
 ## References

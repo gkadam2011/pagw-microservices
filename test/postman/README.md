@@ -38,13 +38,13 @@ In Postman, set these variables:
 ```
 Provider                          PAGW
    │                               │
-   │──── POST /pas/v1/submit ─────►│
+   │──── POST /pas/api/v1/submit ─────►│
    │     (FHIR Bundle)             │
    │                               │
    │◄─── 200 OK ──────────────────│
    │     (ClaimResponse)           │
    │                               │
-   │──── GET /pas/v1/status/{id} ─►│
+   │──── GET /pas/api/v1/status/{id} ─►│
    │                               │
    │◄─── 200 OK ──────────────────│
    │     (Current status)          │
@@ -53,7 +53,7 @@ Provider                          PAGW
 ### Example: Submit a PA Request
 
 ```bash
-curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit?syncMode=true" \
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit?syncMode=true" \
   -H "Content-Type: application/json" \
   -H "X-Correlation-ID: DEMO-$(date +%s)" \
   -H "X-Tenant-ID: ANTHEM" \

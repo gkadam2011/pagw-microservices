@@ -677,8 +677,8 @@ return allow_policy(
 | `payer_name` | VARCHAR(255) | Display name | `Carelon Behavioral Health` |
 | `base_url` | VARCHAR(500) | API base URL | `https://api.carelon.com` |
 | `auth_endpoint` | VARCHAR(500) | OAuth token endpoint | `/oauth/token` |
-| `submit_endpoint` | VARCHAR(500) | Submit PA endpoint | `/pas/v1/submit` |
-| `inquiry_endpoint` | VARCHAR(500) | Status inquiry endpoint | `/pas/v1/inquiry` |
+| `submit_endpoint` | VARCHAR(500) | Submit PA endpoint | `/pas/api/v1/submit` |
+| `inquiry_endpoint` | VARCHAR(500) | Status inquiry endpoint | `/pas/api/v1/inquiry` |
 | `connection_timeout_ms` | INT | Connection timeout | 5000 (5 seconds) |
 | `read_timeout_ms` | INT | Read timeout | 30000 (30 seconds) |
 | `max_retries` | INT | Retry attempts | 3 |

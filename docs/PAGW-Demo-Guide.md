@@ -108,7 +108,7 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/api/v1/pas/Cla
 
 **Or using the simplified internal endpoint:**
 ```bash
-curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit?syncMode=true" \
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit?syncMode=true" \
   -H "Content-Type: application/json" \
   -H "X-Correlation-ID: demo-123" \
   -H "X-Tenant-ID: ANTHEM" \
@@ -117,7 +117,7 @@ curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit?
 
 
 ```bash
-curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '{
+curl -k -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/submit"   -H "Content-Type: application/json"   -H "X-Correlation-ID: demo-123"   -H "X-Tenant-ID: ANTHEM"   -d '{
   "resourceType": "Bundle",
   "type": "collection",
   "entry": [
@@ -226,11 +226,11 @@ LIMIT 1;
 #### Step 3: Check Request Status
 ```bash
 # Using the status endpoint
-curl -X GET "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/status/{pagwId}" \
+curl -X GET "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/status/{pagwId}" \
   -H "X-Correlation-ID: demo-123"
 
 # Or using the inquiry endpoint for DA Vinci PAS compliance
-curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/v1/inquiry" \
+curl -X POST "https://pasorchestrator.pagwdev.awsdns.internal.das/pas/api/v1/inquiry" \
   -H "Content-Type: application/json" \
   -H "X-Correlation-ID: demo-123" \
   -d @test/fixtures/pas-inquiry-bundle.json
@@ -283,8 +283,8 @@ ORDER BY created_at DESC;
 **Synchronous Flow (syncMode=true):**
 ```
 Orchestrator (port 443)
-  → Parser (port 443, /pas/v1/parse)
-  → Validator (port 443, /pas/v1/validate)
+  → Parser (port 443, /pas/api/v1/parse)
+  → Validator (port 443, /pas/api/v1/validate)
   → Returns response within 13 seconds
 ```
 
@@ -556,7 +556,7 @@ Submit a new PA request following FHIR PAS Operation
 
 ### Internal API (Simplified)
 
-#### POST /pas/v1/submit
+#### POST /pas/api/v1/submit
 Simplified PA submission endpoint
 
 **Headers:**
@@ -571,13 +571,13 @@ Simplified PA submission endpoint
 |-------|---------|-------------|
 | syncMode | true | Wait for response or return immediately |
 
-### POST /pas/v1/inquiry
+### POST /pas/api/v1/inquiry
 Query status of existing PA
 
-### GET /pas/v1/status/{pagwId}
+### GET /pas/api/v1/status/{pagwId}
 Get current status of a request
 
-### GET /pas/v1/health
+### GET /pas/api/v1/health
 Service health check
 
 ### GET /actuator/health

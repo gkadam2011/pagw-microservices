@@ -212,12 +212,6 @@ public class OrchestratorService {
                     // The sync task may have completed between timeout and this check
                     log.info("Request pended, queueing for async: pagwId={}, lastStage={}", 
                             pagwId, syncResult.getLastStage());
-            
-            // Log error event
-            eventTrackerService.logStageError(pagwId, tenant, EventTracker.STAGE_ORCHESTRATION,
-                    EventTracker.EVENT_WORKFLOW_COMPLETE, "ORCHESTRATION_ERROR",
-                    e.getMessage(), false, null);
-            
                     
                     // Log workflow pended (switching to async)
                     long duration = System.currentTimeMillis() - startTime;
@@ -433,7 +427,7 @@ public class OrchestratorService {
                 .resourceType("ClaimResponse")
                 .pagwId(pagwId)
                 .status("queued")
-                .message("Request received and queued for processing. Use GET /pas/v1/status/" + pagwId + " to check status.")
+                .message("Request received and queued for processing. Use GET /pas/api/v1/status/" + pagwId + " to check status.")
                 .timestamp(receivedAt)
                 .build();
     }

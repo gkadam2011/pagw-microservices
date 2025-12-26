@@ -21,7 +21,7 @@ This document defines the **recommended, end-to-end provider onboarding + authen
 
 - **Provider**: external organization/system calling PAS APIs (EHR, clearinghouse, provider group, facility, etc.).
 - **ClientId**: stable identifier returned by token introspection (example: `bdda3ee5-df8f-4c86-8d89-4a160e90764d`).
-- **Orchestrator**: PAS ingress service that receives `/pas/v1/submit`, generates `trace_id`, stores raw payload, and drives workflow.
+- **Orchestrator**: PAS ingress service that receives `/pas/api/v1/submit`, generates `trace_id`, stores raw payload, and drives workflow.
 - **Registration Service**: system of record for onboarding and entitlements (NPI/TIN/name/tenant/allowed APIs/callback URLs).
 - **Introspection**: token verification endpoint returning `active`, `iss`, `clientId`, `scope`, etc.
 
@@ -64,7 +64,7 @@ Provider uses `client_credentials` grant (or equivalent backend-service pattern)
 
 Provider posts the PAS Request Bundle (FHIR R4) to Apigee, which forwards to Orchestrator:
 
-- Endpoint (example): `POST /pas/v1/submit`
+- Endpoint (example): `POST /pas/api/v1/submit`
 - Content-Type: `application/fhir+json`
 
 ---
@@ -85,7 +85,7 @@ Orchestrator performs:
 6. Validate authorization:
    - Provider is active/not suspended
    - Provider is entitled for operation:
-     - `/pas/v1/submit` requires capability `PAS_SUBMIT` (or scope `pas.submit`)
+     - `/pas/api/v1/submit` requires capability `PAS_SUBMIT` (or scope `pas.submit`)
 7. Create **ProviderContext** (used across pipeline):
    - `tenant`, `entityName`, `npis[]`, `tins[]`, `allowedApis[]`, callback URLs, etc.
 8. Generate `trace_id` (UUID) / `pagwId`
@@ -103,7 +103,7 @@ flowchart LR
   A[Provider System<br/>EHR / Clearinghouse] -->|1) Register (one-time)| R[HealthOS Registration Portal]
   R -->|clientId + credentials + entitlements| A
 
-  A -->|2) POST /pas/v1/submit<br/>Bearer access_token| G[Apigee API Gateway]
+  A -->|2) POST /pas/api/v1/submit<br/>Bearer access_token| G[Apigee API Gateway]
   G --> O[Pas Orchestrator]
 
   O -->|3a) Introspect token| I[Token Introspection API]
@@ -172,7 +172,7 @@ TTL:
 - Token valid (active, not expired)
 - Registration record exists for `clientId`
 - Registration status is ACTIVE
-- Registration entitles `PAS_SUBMIT` for `/pas/v1/submit`
+- Registration entitles `PAS_SUBMIT` for `/pas/api/v1/submit`
 - Tenant resolved (carelon vs elevance) from registration (source of truth)
 
 ### Status codes

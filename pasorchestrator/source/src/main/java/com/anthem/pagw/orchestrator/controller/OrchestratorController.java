@@ -35,7 +35,7 @@ import java.util.Optional;
  * @see <a href="http://hl7.org/fhir/us/davinci-pas/">Da Vinci PAS IG</a>
  */
 @RestController
-@RequestMapping("/pas/v1")
+@RequestMapping("/pas/api/v1")
 public class OrchestratorController {
     
     private static final Logger log = LoggerFactory.getLogger(OrchestratorController.class);

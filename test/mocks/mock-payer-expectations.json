@@ -2,7 +2,7 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/pas/v1/Claim/$submit"
+      "path": "/pas/api/v1/Claim/$submit"
     },
     "httpResponse": {
       "statusCode": 200,
@@ -74,7 +74,7 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/pas/v1/Claim/$submit",
+      "path": "/pas/api/v1/Claim/$submit",
       "headers": {
         "X-Mock-Response": ["PENDED"]
       }
@@ -117,7 +117,7 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/pas/v1/Claim/$submit",
+      "path": "/pas/api/v1/Claim/$submit",
       "headers": {
         "X-Mock-Response": ["DENIED"]
       }
@@ -164,7 +164,7 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/pas/v1/Claim/$inquiry"
+      "path": "/pas/api/v1/Claim/$inquiry"
     },
     "httpResponse": {
       "statusCode": 200,

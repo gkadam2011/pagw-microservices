@@ -201,7 +201,7 @@ TOKEN=$(curl -X POST https://dev.totalview.healthos.carelon.com/oauth/token \
   -d "client_secret=..." | jq -r '.access_token')
 
 # Submit request via APIGEE
-curl -X POST https://apigee-dev.elevancehealth.com/pas/v1/Claim/\$submit \
+curl -X POST https://apigee-dev.elevancehealth.com/pas/api/v1/Claim/\$submit \
   -H "Authorization: Bearer $TOKEN" \
   -H "X-Correlation-Id: test-$(uuidgen)" \
   -d @test-bundle.json
@@ -342,7 +342,7 @@ helm upgrade outboxpublisher ...        # Last
 **Testing After Round 1**:
 ```bash
 # Submit test request
-curl -X POST https://apigee-dev/pas/v1/Claim/\$submit \
+curl -X POST https://apigee-dev/pas/api/v1/Claim/\$submit \
   -H "Authorization: Bearer $TOKEN" \
   -d @test-bundle.json
 
