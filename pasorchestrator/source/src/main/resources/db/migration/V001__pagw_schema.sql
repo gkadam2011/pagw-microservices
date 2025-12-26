@@ -376,7 +376,7 @@ CREATE TABLE IF NOT EXISTS pagw.event_tracker (
     next_retry_at           TIMESTAMP WITH TIME ZONE,
     worker_id               VARCHAR(100),
     pod_name                VARCHAR(100),
-    details                 JSONB DEFAULT '{}'::jsonb,
+    metadata                JSONB DEFAULT '{}'::jsonb,
     op_outcome_s3_key       VARCHAR(500),
     started_at              TIMESTAMP WITH TIME ZONE,
     completed_at            TIMESTAMP WITH TIME ZONE,
@@ -391,7 +391,7 @@ CREATE INDEX IF NOT EXISTS idx_event_tracker_tenant_stage ON pagw.event_tracker(
 CREATE INDEX IF NOT EXISTS idx_event_tracker_tenant_event_type ON pagw.event_tracker(tenant, event_type, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_event_tracker_retry ON pagw.event_tracker(next_retry_at) WHERE retryable = true AND next_retry_at IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_event_tracker_worker ON pagw.event_tracker(worker_id, created_at DESC) WHERE worker_id IS NOT NULL;
-CREATE INDEX IF NOT EXISTS idx_event_tracker_details ON pagw.event_tracker USING GIN (details);
+CREATE INDEX IF NOT EXISTS idx_event_tracker_metadata ON pagw.event_tracker USING GIN (metadata);
 
 -- ============================================================================
 -- SECTION 11: IDEMPOTENCY - Prevent duplicate request processing
@@ -550,9 +550,9 @@ $$ LANGUAGE plpgsql;
 
 -- Function: Get request timeline
 CREATE OR REPLACE FUNCTION pagw.get_request_timeline(p_pagw_id VARCHAR)
-RETURNS TABLE (sequence_no BIGINT, event_type TEXT, stage VARCHAR, attempt INT, execution_status TEXT, duration_ms BIGINT, worker_id VARCHAR, created_at TIMESTAMP WITH TIME ZONE, details JSONB) AS $$
+RETURNS TABLE (sequence_no BIGINT, event_type TEXT, stage VARCHAR, attempt INT, execution_status TEXT, duration_ms BIGINT, worker_id VARCHAR, created_at TIMESTAMP WITH TIME ZONE, metadata JSONB) AS $$
 BEGIN
-    RETURN QUERY SELECT et.sequence_no, et.event_type::TEXT, et.stage, et.attempt, et.execution_status::TEXT, et.duration_ms, et.worker_id, et.created_at, et.details
+    RETURN QUERY SELECT et.sequence_no, et.event_type::TEXT, et.stage, et.attempt, et.execution_status::TEXT, et.duration_ms, et.worker_id, et.created_at, et.metadata
     FROM pagw.event_tracker et WHERE et.pagw_id = p_pagw_id ORDER BY et.sequence_no;
 END;
 $$ LANGUAGE plpgsql;
