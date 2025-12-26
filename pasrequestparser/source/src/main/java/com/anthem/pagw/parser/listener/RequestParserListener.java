@@ -127,6 +127,14 @@ public class RequestParserListener {
                     parsedFhirData.getTotalDiagnosisCodes(),
                     parsedFhirData.getTotalProcedureCodes(),
                     parsedFhirData.isHasUrgentIndicator());
+                
+                // Update request_tracker with diagnosis codes for fast queries
+                if (parsedFhirData.getClaim() != null && 
+                    parsedFhirData.getClaim().getDiagnosisCodes() != null && 
+                    !parsedFhirData.getClaim().getDiagnosisCodes().isEmpty()) {
+                    trackerService.updateDiagnosisCodes(pagwId, 
+                        JsonUtils.toJson(parsedFhirData.getClaim().getDiagnosisCodes()));
+                }
             } catch (Exception e) {
                 log.warn("FHIR extraction failed (non-blocking): pagwId={}, error={}", pagwId, e.getMessage());
                 // Continue processing - extraction failure is not fatal
