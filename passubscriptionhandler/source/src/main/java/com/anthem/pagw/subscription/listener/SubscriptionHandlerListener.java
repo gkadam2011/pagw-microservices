@@ -64,7 +64,7 @@ public class SubscriptionHandlerListener {
         try {
             message = JsonUtils.fromJson(messageBody, PagwMessage.class);
             pagwId = message.getPagwId();
-            String tenant = message.getEffectiveTenant();
+            String tenant = message.getTenant();
             
             log.info("Received subscription notification request: pagwId={}, tenant={}", 
                     pagwId, tenant);
