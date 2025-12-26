@@ -7,67 +7,64 @@
 
  :: Spring Boot ::                (v3.3.0)
 
-2025-12-26 01:47:54.378 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-26 01:47:54.382 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
-2025-12-26 01:48:01.594 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-12-26 01:48:01.676 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-26 01:48:01.676 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-26 01:48:02.042 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-26 01:48:02.043 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7468 ms
-2025-12-26 01:48:05.887 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-26 01:48:06.690 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
-2025-12-26 01:48:06.778 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-26 01:48:07.685 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@299dd381
-2025-12-26 01:48:07.686 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-26 01:48:07.882 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
-2025-12-26 01:48:08.082 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
-2025-12-26 01:48:08.182 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repairing Schema History table for version 001 (Description: pagw schema, Type: SQL, Checksum: -1801245852)  ...
-2025-12-26 01:48:08.188 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.211s).
-2025-12-26 01:48:08.201 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
-2025-12-26 01:48:08.294 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 3 migrations (execution time 00:00.009s)
-2025-12-26 01:48:08.393 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 003
-2025-12-26 01:48:08.393 [main] [] [] WARN  o.f.core.internal.command.DbMigrate - Schema "pagw" has a version (003) that is newer than the latest available migration (001) !
-2025-12-26 01:48:08.396 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
-2025-12-26 01:48:08.474 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
-2025-12-26 01:48:09.592 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
-2025-12-26 01:48:09.596 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
-2025-12-26 01:48:16.675 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-12-26 01:48:17.078 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-12-26 01:48:17.277 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-26 01:48:17.475 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 24.788 seconds (process running for 26.573)
+2025-12-26 02:49:14.586 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26 02:49:14.677 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-26 02:49:23.481 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-26 02:49:23.490 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-26 02:49:23.491 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26 02:49:24.078 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-26 02:49:24.080 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 9201 ms
+2025-12-26 02:49:29.817 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26 02:49:30.819 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
+2025-12-26 02:49:30.920 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-26 02:49:32.120 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
+2025-12-26 02:49:32.121 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-26 02:49:32.277 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-26 02:49:32.523 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
+2025-12-26 02:49:32.624 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.240s).
+2025-12-26 02:49:32.684 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
+2025-12-26 02:49:32.781 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.055s)
+2025-12-26 02:49:32.826 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 001
+2025-12-26 02:49:32.829 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
+2025-12-26 02:49:32.879 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-26 02:49:34.093 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26 02:49:34.119 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
+2025-12-26 02:49:41.677 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26 02:49:42.126 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-26 02:49:42.289 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26 02:49:42.479 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 30.458 seconds (process running for 33.18)
 === Application Context Status ===
 Context is active: true
 Context is running: true
 Application started on port 8080. Press Ctrl+C to stop.
-2025-12-26 01:48:22.585 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-26 01:48:22.585 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-12-26 01:48:22.587 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-12-26 02:28:49.035 [http-nio-8080-exec-1] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, providerId=null, syncMode=true
-2025-12-26 02:28:49.043 [http-nio-8080-exec-1] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251226-00001-81F1B2DD, type=SUBMIT, tenant=ANTHEM, syncMode=true
-2025-12-26 02:28:49.059 [http-nio-8080-exec-1] [] [] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT COALESCE(MAX(sequence_no), 0) + 1
-FROM pagw.event_tracker
-WHERE pagw_id = ?
+2025-12-26 02:49:50.793 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26 02:49:50.793 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-26 02:49:50.794 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-26 02:50:30.267 [http-nio-8080-exec-7] [] [] INFO  c.a.p.o.c.OrchestratorController - Received PAS submit request: tenant=ANTHEM, correlationId=demo-123, providerId=null, syncMode=true
+2025-12-26 02:50:30.278 [http-nio-8080-exec-7] [] [] INFO  c.a.p.o.service.OrchestratorService - Processing request: pagwId=PAGW-20251226-00001-B37A9689, type=SUBMIT, tenant=ANTHEM, syncMode=true
+2025-12-26 02:50:30.330 [http-nio-8080-exec-7] [] [] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable,
+    started_at, metadata, created_at
+) VALUES (?, ?, ?::pagw.event_type_enum, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
 ]] with root cause
-org.postgresql.util.PSQLException: ERROR: column "sequence_no" does not exist
-  Position: 21
+org.postgresql.util.PSQLException: ERROR: column "metadata" of relation "event_tracker" does not exist
+  Position: 135
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767)
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889)
-	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916)
-	at com.anthem.pagw.core.service.EventTrackerService.getNextSequenceNo(EventTrackerService.java:290)
-	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:71)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
