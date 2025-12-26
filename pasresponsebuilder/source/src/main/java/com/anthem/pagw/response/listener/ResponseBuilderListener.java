@@ -103,8 +103,10 @@ public class ResponseBuilderListener {
                     JsonUtils.toJson(claimResponse)
             );
             
-            // Update tracker with final status
-            String finalStatus = claimResponse.getOutcome().equals("complete") ? "COMPLETED" : "COMPLETED_WITH_ERRORS";
+            // Update tracker with final status based on Da Vinci PAS outcome
+            String outcome = claimResponse.getOutcome();
+            String finalStatus = (outcome.equals("approved") || outcome.equals("partial") || outcome.equals("pended")) 
+                    ? "COMPLETED" : "COMPLETED_WITH_ERRORS";
             trackerService.updateFinalStatus(pagwId, finalStatus, "response-builder", 
                     message.getPayloadBucket(), finalKey);
             
