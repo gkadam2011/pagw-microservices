@@ -1,4 +1,11 @@
-# pasrequestparser-app-65b67c6dd8-l8mvr
+$ pagd logs pasrequestparser-app-65b67c6dd8-l8mvr
+I1226 08:53:38.972501   99247 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:53:38.972849   99247 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:53:38.972859   99247 get_token.go:59] finding a token cache
+I1226 08:53:38.972862   99247 get_token.go:68] acquiring the lock of token cache
+I1226 08:53:38.973925   99247 get_token.go:88] checking expiration of the existing token
+I1226 08:53:38.973952   99247 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:53:38.973997   99247 get_token.go:74] releasing the lock of token cache
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -37,55 +44,23 @@
 {"timestamp":"2025-12-26 05:59:43,238","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
 {"timestamp":"2025-12-26 05:59:43,238","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
 {"timestamp":"2025-12-26 05:59:43,331","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 93 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
-
-
-
-# pasorchestrator-app-75dd598799-mqrkf
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v3.3.0)
-
-2025-12-26 08:28:21.552 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-26 08:28:21.555 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
-2025-12-26 08:28:28.844 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-12-26 08:28:28.937 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-26 08:28:28.937 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-26 08:28:29.331 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-26 08:28:29.332 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7587 ms
-2025-12-26 08:28:33.731 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-26 08:28:34.551 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
-2025-12-26 08:28:34.638 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-26 08:28:35.733 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d7c05fa
-2025-12-26 08:28:35.735 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-26 08:28:35.836 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
-2025-12-26 08:28:36.040 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
-2025-12-26 08:28:36.142 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.283s).
-2025-12-26 08:28:36.242 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
-2025-12-26 08:28:36.337 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.083s)
-2025-12-26 08:28:36.359 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 001
-2025-12-26 08:28:36.432 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
-2025-12-26 08:28:36.439 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
-2025-12-26 08:28:37.539 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
-2025-12-26 08:28:37.542 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
-2025-12-26 08:28:43.736 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
-2025-12-26 08:28:44.139 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-12-26 08:28:44.248 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-26 08:28:44.333 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 24.576 seconds (process running for 26.266)
-=== Application Context Status ===
-Context is active: true
-Context is running: true
-Application started on port 8080. Press Ctrl+C to stop.
-2025-12-26 08:28:49.748 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-26 08:28:49.810 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-12-26 08:28:49.812 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-12-26 08:29:13.432 [http-nio-8080-exec-4] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
-2025-12-26 08:29:53.493 [http-nio-8080-exec-2] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
-2025-12-26 08:30:57.361 [http-nio-8080-exec-5] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
-2025-12-26 08:34:54.520 [http-nio-8080-exec-9] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
-2025-12-26 08:38:02.532 [http-nio-8080-exec-10] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+{"timestamp":"2025-12-26 08:49:13,946","level":"INFO","service":"pas-request-parser","message":"Synchronous parse request: pagwId=PAGW-20251226-00001-4C59EEBC, tenant=ANTHEM","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-3"}
+{"timestamp":"2025-12-26 08:49:13,949","level":"INFO","service":"pas-request-parser","message":"Parsed bundle: pagwId=PAGW-20251226-00001-4C59EEBC, claimType=professional, attachments=0","logger":"com.anthem.pagw.parser.service.RequestParserService","thread":"http-nio-8081-exec-3"}
+{"timestamp":"2025-12-26 08:49:13,957","level":"INFO","service":"pas-request-parser","message":"Parse successful: pagwId=PAGW-20251226-00001-4C59EEBC, attachments=0","logger":"com.anthem.pagw.parser.controller.ParserController","thread":"http-nio-8081-exec-3"}
+LF7HJF7GMKG:pagw AG29266$
+LF7HJF7GMKG:pagw AG29266$ pagd logs -it pasrequestparser-app-65b67c6dd8-l8mvr -- printenv
+error: unknown shorthand flag: 'i' in -it
+See 'kubectl logs --help' for usage.
+LF7HJF7GMKG:pagw AG29266$ pagd -it pasrequestparser-app-65b67c6dd8-l8mvr -- printenv | grep -i sqs
+Error: flags cannot be placed before plugin name: -n
+LF7HJF7GMKG:pagw AG29266$ pagd exec -it pasrequestparser-app-65b67c6dd8-l8mvr -- printenv | grep -i sqs
+I1226 08:54:57.924413    2628 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 08:54:57.924724    2628 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 08:54:57.924732    2628 get_token.go:59] finding a token cache
+I1226 08:54:57.924735    2628 get_token.go:68] acquiring the lock of token cache
+I1226 08:54:57.925354    2628 get_token.go:88] checking expiration of the existing token
+I1226 08:54:57.925379    2628 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
+I1226 08:54:57.925426    2628 get_token.go:74] releasing the lock of token cache
+PAGW_SQS_DLQ=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-dlq.fifo
+PAGW_SQS_REQUEST_PARSER_QUEUE=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-request-parser-queue.fifo
+PAGW_SQS_RESPONSE_QUEUE=https://sqs.us-east-2.amazonaws.com/482754295601/dev-PAGW-pagw-business-validator-queue.fifo
