@@ -128,6 +128,15 @@ public class RequestParserListener {
                     parsedFhirData.getTotalProcedureCodes(),
                     parsedFhirData.isHasUrgentIndicator());
                 
+                // Update request_tracker with FHIR metadata (patient_member_id, provider_npi)
+                String patientMemberId = parsedFhirData.getPatient() != null ? 
+                    parsedFhirData.getPatient().getMemberId() : null;
+                String providerNpi = parsedFhirData.getPractitioner() != null ? 
+                    parsedFhirData.getPractitioner().getNpi() : null;
+                if (patientMemberId != null || providerNpi != null) {
+                    trackerService.updateFhirMetadata(pagwId, patientMemberId, providerNpi);
+                }
+                
                 // Update request_tracker with diagnosis codes for fast queries
                 if (parsedFhirData.getClaim() != null && 
                     parsedFhirData.getClaim().getDiagnosisCodes() != null && 
