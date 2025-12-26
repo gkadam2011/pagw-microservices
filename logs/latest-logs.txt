@@ -7,388 +7,125 @@
 
  :: Spring Boot ::                (v3.3.0)
 
-2025-12-26 01:16:03.911 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-26 01:16:03.914 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
-2025-12-26 01:16:10.839 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-12-26 01:16:10.917 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-26 01:16:10.917 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-26 01:16:11.327 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-12-26 01:16:11.328 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7218 ms
-2025-12-26 01:16:15.415 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-26 01:16:16.335 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
-2025-12-26 01:16:16.349 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-12-26 01:16:17.242 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7dbbf730
-2025-12-26 01:16:17.243 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-12-26 01:16:17.348 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
-2025-12-26 01:16:17.709 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
-2025-12-26 01:16:17.810 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.275s).
-2025-12-26 01:16:17.829 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
-2025-12-26 01:16:17.930 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 8 migrations (execution time 00:00.017s)
-2025-12-26 01:16:18.015 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 003
-2025-12-26 01:16:18.127 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "pagw" to version "004 - populate request tracker gaps"
-2025-12-26 01:16:18.234 [main] [] [] ERROR o.f.core.internal.command.DbMigrate - Migration of schema "pagw" to version "004 - populate request tracker gaps" failed! Changes successfully rolled back.
-2025-12-26 01:16:18.243 [main] [] [] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'orchestratorController' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/com/anthem/pagw/orchestrator/controller/OrchestratorController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'orchestratorService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/com/anthem/pagw/orchestrator/service/OrchestratorService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'requestTrackerService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/lib/pagwcore-1.0.0-SNAPSHOT.jar!/com/anthem/pagw/core/service/RequestTrackerService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-2025-12-26 01:16:18.243 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-12-26 01:16:18.315 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-12-26 01:16:18.735 [main] [] [] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
-2025-12-26 01:16:18.833 [main] [] [] INFO  o.s.b.a.l.ConditionEvaluationReportLogger -
-
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2025-12-26 01:16:18.909 [main] [] [] ERROR o.s.boot.SpringApplication - Application run failed
-org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'orchestratorController' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/com/anthem/pagw/orchestrator/controller/OrchestratorController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'orchestratorService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/com/anthem/pagw/orchestrator/service/OrchestratorService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'requestTrackerService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/lib/pagwcore-1.0.0-SNAPSHOT.jar!/com/anthem/pagw/core/service/RequestTrackerService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
-	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1357)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
-	at com.anthem.pagw.orchestrator.OrchestratorApplication.main(OrchestratorApplication.java:23)
+2025-12-26 02:02:12.463 [main] [] [] INFO  c.a.p.c.CallbackHandlerApplication - Starting CallbackHandlerApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26 02:02:12.500 [main] [] [] INFO  c.a.p.c.CallbackHandlerApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-26 02:02:18.719 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8088 (http)
+2025-12-26 02:02:18.801 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-26 02:02:18.801 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26 02:02:19.069 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-26 02:02:19.100 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6368 ms
+2025-12-26 02:02:23.008 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26 02:02:23.203 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26 02:02:23.206 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
+2025-12-26 02:02:28.268 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26 02:02:28.601 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8088 (http) with context path '/'
+2025-12-26 02:02:28.700 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26 02:02:28.800 [main] [] [] INFO  c.a.p.c.CallbackHandlerApplication - Started CallbackHandlerApplication in 18.082 seconds (process running for 19.662)
+2025-12-26 02:02:40.265 [http-nio-8088-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26 02:02:40.265 [http-nio-8088-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-26 02:02:40.266 [http-nio-8088-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-26 02:03:17.254 [http-nio-8088-exec-5] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-26 02:03:18.465 [http-nio-8088-exec-5] [] [] WARN  o.s.b.a.j.DataSourceHealthIndicator - DataSource health check failed
+org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:342)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.getProduct(DataSourceHealthIndicator.java:122)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doDataSourceHealthCheck(DataSourceHealthIndicator.java:105)
+	at org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator.doHealthCheck(DataSourceHealthIndicator.java:100)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpointWebExtension.getHealth(HealthEndpointWebExtension.java:94)
+	at org.springframework.boot.actuate.health.HealthEndpointWebExtension.getHealth(HealthEndpointWebExtension.java:47)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpointWebExtension.health(HealthEndpointWebExtension.java:80)
+	at org.springframework.boot.actuate.health.HealthEndpointWebExtension.health(HealthEndpointWebExtension.java:69)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91)
-	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53)
-	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58)
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'orchestratorService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/com/anthem/pagw/orchestrator/service/OrchestratorService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'requestTrackerService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/lib/pagwcore-1.0.0-SNAPSHOT.jar!/com/anthem/pagw/core/service/RequestTrackerService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
-	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1357)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
-	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
-	... 26 common frames omitted
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'requestTrackerService' defined in URL [jar:nested:/app/app.jar/!BOOT-INF/lib/pagwcore-1.0.0-SNAPSHOT.jar!/com/anthem/pagw/core/service/RequestTrackerService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
-	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1357)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1194)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
-	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
-	... 40 common frames omitted
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1788)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
-	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
-	... 54 common frames omitted
-Caused by: org.flywaydb.core.internal.command.DbMigrate$FlywayMigrateException: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:382)
-	at org.flywaydb.core.internal.command.DbMigrate.lambda$applyMigrations$1(DbMigrate.java:272)
-	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55)
-	at org.flywaydb.core.internal.command.DbMigrate.applyMigrations(DbMigrate.java:271)
-	at org.flywaydb.core.internal.command.DbMigrate.migrateGroup(DbMigrate.java:244)
-	at org.flywaydb.core.internal.command.DbMigrate.lambda$migrateAll$0(DbMigrate.java:139)
-	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:73)
-	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.lambda$execute$0(PostgreSQLAdvisoryLockTemplate.java:56)
-	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55)
-	at org.flywaydb.database.postgresql.PostgreSQLAdvisoryLockTemplate.execute(PostgreSQLAdvisoryLockTemplate.java:56)
-	at org.flywaydb.database.postgresql.PostgreSQLConnection.lock(PostgreSQLConnection.java:96)
-	at org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory.lock(JdbcTableSchemaHistory.java:145)
-	at org.flywaydb.core.internal.command.DbMigrate.migrateAll(DbMigrate.java:139)
-	at org.flywaydb.core.internal.command.DbMigrate.migrate(DbMigrate.java:97)
-	at org.flywaydb.core.Flyway.lambda$migrate$0(Flyway.java:202)
-	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:205)
-	at org.flywaydb.core.Flyway.migrate(Flyway.java:147)
-	at com.anthem.pagw.orchestrator.config.FlywayResetConfig.lambda$flywayMigrationStrategy$0(FlywayResetConfig.java:58)
-	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:62)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1835)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1784)
-	... 67 common frames omitted
-Caused by: org.flywaydb.core.internal.sqlscript.FlywaySqlScriptException: Migration V004__populate_request_tracker_gaps.sql failed
---------------------------------------------------------
-SQL State  : 42P01
-Error Code : 0
-Message    : ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-Location   : db/migration/V004__populate_request_tracker_gaps.sql (/app/nested:/app/app.jar/!BOOT-INF/classes/!/db/migration/V004__populate_request_tracker_gaps.sql)
-Line       : 40
-Statement  : -- ============================================================================
--- 2. Create foreign key relationship to oauth_provider_registry
--- ============================================================================
--- Note: Using ON DELETE SET NULL because we don't want to cascade delete requests
---       if a provider registration is removed
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints
-        WHERE constraint_name = 'fk_request_tracker_oauth_provider'
-        AND table_schema = 'pagw'
-    ) THEN
-        ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL;
-    END IF;
-END $$
-
-	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.handleException(DefaultSqlScriptExecutor.java:252)
-	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:214)
-	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.execute(DefaultSqlScriptExecutor.java:133)
-	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.executeOnce(SqlMigrationExecutor.java:65)
-	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.lambda$execute$0(SqlMigrationExecutor.java:57)
-	at org.flywaydb.core.internal.database.DefaultExecutionStrategy.execute(DefaultExecutionStrategy.java:27)
-	at org.flywaydb.core.internal.resolver.sql.SqlMigrationExecutor.execute(SqlMigrationExecutor.java:56)
-	at org.flywaydb.core.internal.command.DbMigrate.doMigrateGroup(DbMigrate.java:374)
-	... 87 common frames omitted
-Caused by: org.postgresql.util.PSQLException: ERROR: relation "pagw.oauth_provider_registry" does not exist
-  Where: SQL statement "ALTER TABLE pagw.request_tracker
-            ADD CONSTRAINT fk_request_tracker_oauth_provider
-            FOREIGN KEY (client_id)
-            REFERENCES pagw.oauth_provider_registry(client_id)
-            ON DELETE SET NULL"
-PL/pgSQL function inline_code_block line 8 at SQL statement
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
-	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:341)
-	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:326)
-	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:302)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:297)
-	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
-	at org.flywaydb.core.internal.jdbc.JdbcTemplate.executeStatement(JdbcTemplate.java:210)
-	at org.flywaydb.core.internal.sqlscript.ParsedSqlStatement.execute(ParsedSqlStatement.java:89)
-	at org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor.executeStatement(DefaultSqlScriptExecutor.java:206)
-	... 93 common frames omitted
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$ServletWebOperationAdapter.handle(AbstractWebMvcEndpointHandlerMapping.java:327)
+	at org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$OperationHandler.handle(AbstractWebMvcEndpointHandlerMapping.java:434)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:731)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.postgresql.util.PSQLException: The server requested SCRAM-based authentication, but no password was provided.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.lambda$doAuthentication$4(ConnectionFactoryImpl.java:843)
+	at org.postgresql.core.v3.AuthenticationPluginManager.withPassword(AuthenticationPluginManager.java:82)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:840)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:207)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:262)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273)
+	at org.postgresql.Driver.makeConnection(Driver.java:446)
+	at org.postgresql.Driver.connect(Driver.java:298)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:550)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:98)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	... 80 common frames omitted
