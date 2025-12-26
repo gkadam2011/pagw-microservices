@@ -1,0 +1,260 @@
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+{"timestamp":"2025-12-26 05:35:31,305","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-26 05:35:31,309","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-26 05:35:35,402","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-26 05:35:35,504","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 95 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+{"timestamp":"2025-12-26 05:35:38,015","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+{"timestamp":"2025-12-26 05:35:38,097","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
+{"timestamp":"2025-12-26 05:35:38,097","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
+{"timestamp":"2025-12-26 05:35:38,476","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
+{"timestamp":"2025-12-26 05:35:38,477","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 6969 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
+{"timestamp":"2025-12-26 05:35:40,104","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-26 05:35:41,273","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6dc9a56e","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
+{"timestamp":"2025-12-26 05:35:41,275","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+{"timestamp":"2025-12-26 05:35:41,411","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
+{"timestamp":"2025-12-26 05:35:41,702","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
+{"timestamp":"2025-12-26 05:35:41,802","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
+{"timestamp":"2025-12-26 05:35:42,878","level":"INFO","service":"pas-request-parser","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","logger":"org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo","thread":"main"}
+{"timestamp":"2025-12-26 05:35:44,596","level":"INFO","service":"pas-request-parser","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","logger":"org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator","thread":"main"}
+{"timestamp":"2025-12-26 05:35:44,600","level":"INFO","service":"pas-request-parser","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","logger":"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean","thread":"main"}
+{"timestamp":"2025-12-26 05:35:44,797","level":"INFO","service":"pas-request-parser","message":"HAPI FHIR version 6.8.0 - Rev f33627087f","logger":"ca.uhn.fhir.util.VersionUtil","thread":"main"}
+{"timestamp":"2025-12-26 05:35:44,811","level":"INFO","service":"pas-request-parser","message":"Creating new FHIR context for FHIR version [R4]","logger":"ca.uhn.fhir.context.FhirContext","thread":"main"}
+{"timestamp":"2025-12-26 05:35:46,706","level":"INFO","service":"pas-request-parser","message":"S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...","logger":"com.anthem.pagw.core.service.S3Service","thread":"main"}
+{"timestamp":"2025-12-26 05:35:49,203","level":"WARN","service":"pas-request-parser","message":"spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning","logger":"org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration","thread":"main"}
+{"timestamp":"2025-12-26 05:35:52,700","level":"INFO","service":"pas-request-parser","message":"Exposing 3 endpoints beneath base path '/actuator'","logger":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread":"main"}
+{"timestamp":"2025-12-26 05:35:53,008","level":"INFO","service":"pas-request-parser","message":"Tomcat started on port 8081 (http) with context path '/'","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+{"timestamp":"2025-12-26 05:35:53,108","level":"INFO","service":"pas-request-parser","message":"Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started","logger":"io.awspring.cloud.sqs.listener.AbstractMessageListenerContainer","thread":"lifecycle-thread-1"}
+{"timestamp":"2025-12-26 05:35:53,198","level":"INFO","service":"pas-request-parser","message":"Started RequestParserApplication in 23.598 seconds (process running for 25.246)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+{"timestamp":"2025-12-26 05:35:59,271","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-26 05:35:59,271","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-26 05:35:59,273","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 2 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+{"timestamp":"2025-12-26 05:40:58,379","level":"INFO","service":"pas-request-parser","message":"Received message for parsing: pagwId=PAGW-20251226-00001-10B4C072, stage=REQUEST_PARSER","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+{"timestamp":"2025-12-26 05:40:58,476","level":"ERROR","service":"pas-request-parser","message":"Error processing message: pagwId=PAGW-20251226-00001-10B4C072","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+    tenant, pagw_id, stage, event_type, status,
+    sequence_no, attempt, retryable,
+    started_at, metadata, created_at
+) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+	... 61 common frames omitted
+{"timestamp":"2025-12-26 05:40:58,487","level":"ERROR","service":"pas-request-parser","message":"Error processing message 425cd405-a65f-40fb-ae6f-168b99c5bc08.","logger":"io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+java.util.concurrent.CompletionException: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:332)
+	at java.base/java.util.concurrent.CompletableFuture.uniApplyNow(CompletableFuture.java:674)
+	at java.base/java.util.concurrent.CompletableFuture.uniApplyStage(CompletableFuture.java:662)
+	at java.base/java.util.concurrent.CompletableFuture.thenApply(CompletableFuture.java:2168)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.wrapWithBlockingException(AsyncComponentAdapters.java:162)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:124)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+	... 14 common frames omitted
+Caused by: io.awspring.cloud.sqs.listener.ListenerExecutionFailedException: Listener failed to process messages 425cd405-a65f-40fb-ae6f-168b99c5bc08
+	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:79)
+	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:83)
+	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:59)
+	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+	... 16 common frames omitted
+Caused by: org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COALESCE(MAX(sequence_no), 0) + 1
+FROM pagw.event_tracker
+WHERE pagw_id = ?
+]; SQL state [25P02]; error code [0]; ERROR: current transaction is aborted, commands ignored until end of transaction block
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916)
+	at com.anthem.pagw.core.service.EventTrackerService.getNextSequenceNo(EventTrackerService.java:290)
+	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:169)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>)
+	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:222)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+	... 19 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: current transaction is aborted, commands ignored until end of transaction block
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+	... 64 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+  Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+	... 41 common frames omitted

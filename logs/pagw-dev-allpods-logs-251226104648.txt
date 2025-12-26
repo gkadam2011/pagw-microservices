@@ -1,0 +1,751 @@
+====================================================================
+POD: pasapiconnector-app-577d65dc68-k9mpr
+TIMESTAMP: 2025-12-26T10:46:48Z
+====================================================================
+I1226 05:46:49.056315   24481 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:49.056614   24481 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:49.056630   24481 get_token.go:59] finding a token cache
+I1226 05:46:49.056652   24481 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:49.057368   24481 get_token.go:88] checking expiration of the existing token
+I1226 05:46:49.057415   24481 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:49.057510   24481 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:40:21.100169028Z   .   ____          _            __ _ _
+2025-12-26T10:40:21.100216852Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:40:21.100222075Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:40:21.100225764Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:40:21.100229801Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:40:21.100233566Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:40:21.100237442Z 
+2025-12-26T10:40:21.100247301Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:40:21.100249651Z 
+2025-12-26T10:40:21.393471027Z 2025-12-26T05:40:21.390-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Starting ApiConnectorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:40:21.396485048Z 2025-12-26T05:40:21.395-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:40:27.702019773Z 2025-12-26T05:40:27.701-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8086 (http)
+2025-12-26T10:40:27.790976238Z 2025-12-26T05:40:27.790-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:40:27.791028156Z 2025-12-26T05:40:27.790-05:00  INFO 1 --- [pasapiconnector] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:40:28.196076907Z 2025-12-26T05:40:28.195-05:00  INFO 1 --- [pasapiconnector] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:40:28.197306350Z 2025-12-26T05:40:28.196-05:00  INFO 1 --- [pasapiconnector] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6684 ms
+2025-12-26T10:40:33.303252374Z 2025-12-26T05:40:33.301-05:00  INFO 1 --- [pasapiconnector] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:40:33.912819836Z 2025-12-26T05:40:33.912-05:00  INFO 1 --- [pasapiconnector] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:40:33.996418562Z 2025-12-26T05:40:33.995-05:00  INFO 1 --- [pasapiconnector] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:40:39.590708673Z 2025-12-26T05:40:39.590-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:40:39.988682281Z 2025-12-26T05:40:39.988-05:00  INFO 1 --- [pasapiconnector] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8086 (http) with context path '/'
+2025-12-26T10:40:40.089166095Z 2025-12-26T05:40:40.088-05:00  INFO 1 --- [pasapiconnector] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:40:40.099878887Z 2025-12-26T05:40:40.099-05:00  INFO 1 --- [pasapiconnector] [           main] c.a.p.connector.ApiConnectorApplication  : Started ApiConnectorApplication in 20.295 seconds (process running for 22.026)
+2025-12-26T10:40:50.015901679Z 2025-12-26T05:40:50.015-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:40:50.015929504Z 2025-12-26T05:40:50.015-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:40:50.017078401Z 2025-12-26T05:40:50.016-05:00  INFO 1 --- [pasapiconnector] [nio-8086-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+
+====================================================================
+POD: pasattachmenthandler-app-9cf94c7-r9wwd
+TIMESTAMP: 2025-12-26T10:46:49Z
+====================================================================
+I1226 05:46:49.776878   24509 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:49.777239   24509 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:49.777253   24509 get_token.go:59] finding a token cache
+I1226 05:46:49.777262   24509 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:49.777789   24509 get_token.go:88] checking expiration of the existing token
+I1226 05:46:49.777828   24509 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:49.777907   24509 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:40:21.232132310Z   .   ____          _            __ _ _
+2025-12-26T10:40:21.232189630Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:40:21.232195876Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:40:21.232200129Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:40:21.232204118Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:40:21.232208308Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:40:21.232212173Z 
+2025-12-26T10:40:21.232333279Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:40:21.232338490Z 
+2025-12-26T10:40:21.474700988Z 2025-12-26T05:40:21.472-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Starting AttachmentHandlerApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:40:21.476267425Z 2025-12-26T05:40:21.476-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:40:27.632692402Z 2025-12-26T05:40:27.632-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8084 (http)
+2025-12-26T10:40:27.675744223Z 2025-12-26T05:40:27.675-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:40:27.675869228Z 2025-12-26T05:40:27.675-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:40:28.070796754Z 2025-12-26T05:40:28.070-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:40:28.072067613Z 2025-12-26T05:40:28.071-05:00  INFO 1 --- [pasattachmenthandler] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6398 ms
+2025-12-26T10:40:32.670269760Z 2025-12-26T05:40:32.668-05:00  INFO 1 --- [pasattachmenthandler] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:40:33.381169228Z 2025-12-26T05:40:33.380-05:00  INFO 1 --- [pasattachmenthandler] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:40:33.383708219Z 2025-12-26T05:40:33.383-05:00  INFO 1 --- [pasattachmenthandler] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:40:38.681284451Z 2025-12-26T05:40:38.680-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:40:38.984364315Z 2025-12-26T05:40:38.983-05:00  INFO 1 --- [pasattachmenthandler] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8084 (http) with context path '/'
+2025-12-26T10:40:39.083987162Z 2025-12-26T05:40:39.083-05:00  INFO 1 --- [pasattachmenthandler] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:40:39.173889091Z 2025-12-26T05:40:39.173-05:00  INFO 1 --- [pasattachmenthandler] [           main] c.a.p.a.AttachmentHandlerApplication     : Started AttachmentHandlerApplication in 19.403 seconds (process running for 21.082)
+2025-12-26T10:40:49.978316135Z 2025-12-26T05:40:49.978-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:40:49.978636497Z 2025-12-26T05:40:49.978-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:40:49.979823344Z 2025-12-26T05:40:49.979-05:00  INFO 1 --- [pasattachmenthandler] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+
+====================================================================
+POD: pasbusinessvalidator-app-78f5888bb9-lsdh5
+TIMESTAMP: 2025-12-26T10:46:50Z
+====================================================================
+I1226 05:46:50.427148   24561 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:50.427755   24561 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:50.427767   24561 get_token.go:59] finding a token cache
+I1226 05:46:50.427775   24561 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:50.428282   24561 get_token.go:88] checking expiration of the existing token
+I1226 05:46:50.428321   24561 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:50.428397   24561 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:35:29.055749005Z   .   ____          _            __ _ _
+2025-12-26T10:35:29.055789087Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:35:29.055793795Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:35:29.055796795Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:35:29.055800106Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:35:29.055803049Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:35:29.055807027Z 
+2025-12-26T10:35:29.055837233Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:35:29.055841902Z 
+2025-12-26T10:35:29.251892174Z 2025-12-26T05:35:29.249-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Starting BusinessValidatorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:35:29.330480990Z 2025-12-26T05:35:29.330-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:35:35.430215811Z 2025-12-26T05:35:35.429-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2025-12-26T10:35:35.438083763Z 2025-12-26T05:35:35.437-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:35:35.438103657Z 2025-12-26T05:35:35.437-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:35:35.738826687Z 2025-12-26T05:35:35.738-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:35:35.739767155Z 2025-12-26T05:35:35.739-05:00  INFO 1 --- [pasbusinessvalidator] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6285 ms
+2025-12-26T10:35:39.740681825Z 2025-12-26T05:35:39.739-05:00  INFO 1 --- [pasbusinessvalidator] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:35:40.250418637Z 2025-12-26T05:35:40.249-05:00  INFO 1 --- [pasbusinessvalidator] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:35:40.252938617Z 2025-12-26T05:35:40.252-05:00  INFO 1 --- [pasbusinessvalidator] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:35:45.133656146Z 2025-12-26T05:35:45.133-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:35:45.352581615Z 2025-12-26T05:35:45.352-05:00  INFO 1 --- [pasbusinessvalidator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8082 (http) with context path '/'
+2025-12-26T10:35:45.452113569Z 2025-12-26T05:35:45.451-05:00  INFO 1 --- [pasbusinessvalidator] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:35:45.540501116Z 2025-12-26T05:35:45.540-05:00  INFO 1 --- [pasbusinessvalidator] [           main] c.a.p.v.BusinessValidatorApplication     : Started BusinessValidatorApplication in 18.001 seconds (process running for 19.703)
+2025-12-26T10:36:17.141830106Z 2025-12-26T05:36:17.141-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:36:17.141867999Z 2025-12-26T05:36:17.141-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:36:17.142957037Z 2025-12-26T05:36:17.142-05:00  INFO 1 --- [pasbusinessvalidator] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+
+====================================================================
+POD: pasorchestrator-app-68695556d4-nqdnp
+TIMESTAMP: 2025-12-26T10:46:50Z
+====================================================================
+I1226 05:46:51.065348   24570 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:51.065685   24570 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:51.065700   24570 get_token.go:59] finding a token cache
+I1226 05:46:51.065708   24570 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:51.066063   24570 get_token.go:88] checking expiration of the existing token
+I1226 05:46:51.066097   24570 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:51.066173   24570 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:35:30.368655364Z   .   ____          _            __ _ _
+2025-12-26T10:35:30.368681529Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:35:30.368685005Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:35:30.368688165Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:35:30.368691033Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:35:30.368693909Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:35:30.368696282Z 
+2025-12-26T10:35:30.369159495Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:35:30.369161693Z 
+2025-12-26T10:35:30.578368209Z 2025-12-26 05:35:30.576 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Starting OrchestratorApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:35:30.580032958Z 2025-12-26 05:35:30.579 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:35:38.487359178Z 2025-12-26 05:35:38.486 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-26T10:35:38.568226172Z 2025-12-26 05:35:38.567 [main] [] [] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-26T10:35:38.568267623Z 2025-12-26 05:35:38.568 [main] [] [] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:35:38.975975926Z 2025-12-26 05:35:38.975 [main] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-26T10:35:38.976757276Z 2025-12-26 05:35:38.976 [main] [] [] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8206 ms
+2025-12-26T10:35:43.677987273Z 2025-12-26 05:35:43.676 [main] [] [] INFO  c.anthem.pagw.core.service.S3Service - S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:35:44.489164087Z 2025-12-26 05:35:44.488 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Running Flyway repair to sync checksums...
+2025-12-26T10:35:44.584099648Z 2025-12-26 05:35:44.583 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-26T10:35:45.489002335Z 2025-12-26 05:35:45.488 [main] [] [] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7dbbf730
+2025-12-26T10:35:45.490323346Z 2025-12-26 05:35:45.490 [main] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-26T10:35:45.678262346Z 2025-12-26 05:35:45.677 [main] [] [] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://aapsql-apm1082022-00dev01.czq1gklw7b57.us-east-2.rds.amazonaws.com:5432/pagwdb (PostgreSQL 16.3)
+2025-12-26T10:35:45.894184220Z 2025-12-26 05:35:45.893 [main] [] [] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "pagw"."flyway_schema_history" not necessary. No failed migration detected.
+2025-12-26T10:35:46.075961541Z 2025-12-26 05:35:46.075 [main] [] [] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "pagw"."flyway_schema_history" (execution time 00:00.288s).
+2025-12-26T10:35:46.089077942Z 2025-12-26 05:35:46.088 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway repair completed
+2025-12-26T10:35:46.188109570Z 2025-12-26 05:35:46.187 [main] [] [] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.009s)
+2025-12-26T10:35:46.283094563Z 2025-12-26 05:35:46.282 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "pagw": 001
+2025-12-26T10:35:46.286035393Z 2025-12-26 05:35:46.285 [main] [] [] INFO  o.f.core.internal.command.DbMigrate - Schema "pagw" is up to date. No migration necessary.
+2025-12-26T10:35:46.292868724Z 2025-12-26 05:35:46.292 [main] [] [] INFO  c.a.p.o.config.FlywayResetConfig - Flyway migration completed
+2025-12-26T10:35:47.290666586Z 2025-12-26 05:35:47.290 [main] [] [] INFO  ca.uhn.fhir.util.VersionUtil - HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:35:47.293184434Z 2025-12-26 05:35:47.293 [main] [] [] INFO  ca.uhn.fhir.context.FhirContext - Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:35:53.178476326Z 2025-12-26 05:35:53.178 [main] [] [] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:35:53.485740904Z 2025-12-26 05:35:53.485 [main] [] [] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-26T10:35:53.592521972Z 2025-12-26 05:35:53.592 [lifecycle-thread-1] [] [] INFO  i.a.c.s.l.AbstractMessageListenerContainer - Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:35:53.770109942Z 2025-12-26 05:35:53.769 [main] [] [] INFO  c.a.p.o.OrchestratorApplication - Started OrchestratorApplication in 24.993 seconds (process running for 26.708)
+2025-12-26T10:35:53.977541687Z === Application Context Status ===
+2025-12-26T10:35:53.977578461Z Context is active: true
+2025-12-26T10:35:53.977589422Z Context is running: true
+2025-12-26T10:35:53.977595030Z Application started on port 8080. Press Ctrl+C to stop.
+2025-12-26T10:35:59.132184980Z 2025-12-26 05:35:59.131 [http-nio-8080-exec-1] [] [] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:35:59.132218690Z 2025-12-26 05:35:59.131 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:35:59.133273086Z 2025-12-26 05:35:59.133 [http-nio-8080-exec-1] [] [] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-12-26T10:36:39.267855910Z 2025-12-26 05:36:39.267 [http-nio-8080-exec-8] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T10:37:01.942838486Z 2025-12-26 05:37:01.942 [http-nio-8080-exec-2] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T10:37:18.117573379Z 2025-12-26 05:37:18.117 [http-nio-8080-exec-7] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T10:38:05.583373095Z 2025-12-26 05:38:05.582 [http-nio-8080-exec-9] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T10:39:54.752458201Z 2025-12-26 05:39:54.752 [http-nio-8080-exec-4] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+2025-12-26T10:41:48.571547120Z 2025-12-26 05:41:48.571 [http-nio-8080-exec-6] [] [] INFO  c.a.p.o.c.OrchestratorController - Status request for pagwId=PAGW-20251226-00001-10B4C072
+
+
+====================================================================
+POD: pasrequestconverter-app-674859f94b-j9wjb
+TIMESTAMP: 2025-12-26T10:46:51Z
+====================================================================
+I1226 05:46:51.780957   24598 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:51.781631   24598 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:51.781646   24598 get_token.go:59] finding a token cache
+I1226 05:46:51.781654   24598 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:51.782820   24598 get_token.go:88] checking expiration of the existing token
+I1226 05:46:51.782876   24598 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:51.782970   24598 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:40:22.222255822Z   .   ____          _            __ _ _
+2025-12-26T10:40:22.222315878Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:40:22.222322596Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:40:22.222327475Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:40:22.222332278Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:40:22.222337169Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:40:22.222342213Z 
+2025-12-26T10:40:22.222517359Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:40:22.222523356Z 
+2025-12-26T10:40:22.435584803Z 2025-12-26T05:40:22.433-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Starting RequestConverterApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:40:22.437260824Z 2025-12-26T05:40:22.436-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:40:28.322482089Z 2025-12-26T05:40:28.321-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-26T10:40:28.338638538Z 2025-12-26T05:40:28.338-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:40:28.338665292Z 2025-12-26T05:40:28.338-05:00  INFO 1 --- [pasrequestconverter] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:40:28.722068475Z 2025-12-26T05:40:28.721-05:00  INFO 1 --- [pasrequestconverter] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:40:28.722851965Z 2025-12-26T05:40:28.722-05:00  INFO 1 --- [pasrequestconverter] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6076 ms
+2025-12-26T10:40:32.235385827Z 2025-12-26T05:40:32.233-05:00  INFO 1 --- [pasrequestconverter] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:40:32.842409684Z 2025-12-26T05:40:32.841-05:00  INFO 1 --- [pasrequestconverter] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:40:32.918782129Z 2025-12-26T05:40:32.918-05:00  INFO 1 --- [pasrequestconverter] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:40:38.432691470Z 2025-12-26T05:40:38.432-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:40:38.740181979Z 2025-12-26T05:40:38.739-05:00  INFO 1 --- [pasrequestconverter] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path '/'
+2025-12-26T10:40:38.835755666Z 2025-12-26T05:40:38.835-05:00  INFO 1 --- [pasrequestconverter] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:40:38.933352358Z 2025-12-26T05:40:38.932-05:00  INFO 1 --- [pasrequestconverter] [           main] c.a.p.c.RequestConverterApplication      : Started RequestConverterApplication in 18.113 seconds (process running for 19.72)
+2025-12-26T10:40:51.940364696Z 2025-12-26T05:40:51.939-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:40:51.940744252Z 2025-12-26T05:40:51.940-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:40:51.942230599Z 2025-12-26T05:40:51.941-05:00  INFO 1 --- [pasrequestconverter] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+
+====================================================================
+POD: pasrequestenricher-app-57cb94ff96-5j7d6
+TIMESTAMP: 2025-12-26T10:46:52Z
+====================================================================
+I1226 05:46:52.534084   24650 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:52.534374   24650 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:52.534388   24650 get_token.go:59] finding a token cache
+I1226 05:46:52.534396   24650 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:52.534796   24650 get_token.go:88] checking expiration of the existing token
+I1226 05:46:52.534854   24650 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:52.534928   24650 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:40:21.593133133Z   .   ____          _            __ _ _
+2025-12-26T10:40:21.593185166Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:40:21.593192904Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:40:21.593196360Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:40:21.593202261Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:40:21.593205879Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:40:21.593212081Z 
+2025-12-26T10:40:21.593400860Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:40:21.593433855Z 
+2025-12-26T10:40:21.868838300Z 2025-12-26T05:40:21.866-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Starting RequestEnricherApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
+2025-12-26T10:40:21.870613035Z 2025-12-26T05:40:21.870-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : The following 2 profiles are active: "pagw", "dev"
+2025-12-26T10:40:28.295566663Z 2025-12-26T05:40:28.295-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8083 (http)
+2025-12-26T10:40:28.303068796Z 2025-12-26T05:40:28.302-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-26T10:40:28.303090707Z 2025-12-26T05:40:28.302-05:00  INFO 1 --- [pasrequestenricher] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-12-26T10:40:28.697720217Z 2025-12-26T05:40:28.697-05:00  INFO 1 --- [pasrequestenricher] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-26T10:40:28.698559526Z 2025-12-26T05:40:28.698-05:00  INFO 1 --- [pasrequestenricher] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6696 ms
+2025-12-26T10:40:32.701062738Z 2025-12-26T05:40:32.699-05:00  INFO 1 --- [pasrequestenricher] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
+2025-12-26T10:40:33.299852362Z 2025-12-26T05:40:33.299-05:00  INFO 1 --- [pasrequestenricher] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
+2025-12-26T10:40:33.303265242Z 2025-12-26T05:40:33.302-05:00  INFO 1 --- [pasrequestenricher] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
+2025-12-26T10:40:38.465832119Z 2025-12-26T05:40:38.465-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-26T10:40:38.767293069Z 2025-12-26T05:40:38.766-05:00  INFO 1 --- [pasrequestenricher] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8083 (http) with context path '/'
+2025-12-26T10:40:38.797126356Z 2025-12-26T05:40:38.796-05:00  INFO 1 --- [pasrequestenricher] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
+2025-12-26T10:40:38.968996500Z 2025-12-26T05:40:38.968-05:00  INFO 1 --- [pasrequestenricher] [           main] c.a.p.e.RequestEnricherApplication       : Started RequestEnricherApplication in 19.003 seconds (process running for 20.901)
+2025-12-26T10:40:50.001988817Z 2025-12-26T05:40:50.001-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-26T10:40:50.002025262Z 2025-12-26T05:40:50.001-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-26T10:40:50.002986037Z 2025-12-26T05:40:50.002-05:00  INFO 1 --- [pasrequestenricher] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+
+====================================================================
+POD: pasrequestparser-app-74b45ffdd8-52cvz
+TIMESTAMP: 2025-12-26T10:46:53Z
+====================================================================
+I1226 05:46:53.200730   24661 get_token.go:51] WARNING: log may contain your secrets such as token or password
+I1226 05:46:53.201086   24661 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
+I1226 05:46:53.201101   24661 get_token.go:59] finding a token cache
+I1226 05:46:53.201111   24661 get_token.go:68] acquiring the lock of token cache
+I1226 05:46:53.201474   24661 get_token.go:88] checking expiration of the existing token
+I1226 05:46:53.201512   24661 get_token.go:97] you already have a valid token until 2025-12-26 06:32:32 -0500 EST
+I1226 05:46:53.201592   24661 get_token.go:74] releasing the lock of token cache
+2025-12-26T10:35:31.101403190Z   .   ____          _            __ _ _
+2025-12-26T10:35:31.101461909Z  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+2025-12-26T10:35:31.101468340Z ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+2025-12-26T10:35:31.101472971Z  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+2025-12-26T10:35:31.101477115Z   '  |____| .__|_| |_|_| |_\__, | / / / /
+2025-12-26T10:35:31.101481104Z  =========|_|==============|___/=/_/_/_/
+2025-12-26T10:35:31.101485253Z 
+2025-12-26T10:35:31.101765518Z  :: Spring Boot ::                (v3.3.0)
+2025-12-26T10:35:31.101784583Z 
+2025-12-26T10:35:31.307586113Z {"timestamp":"2025-12-26 05:35:31,305","level":"INFO","service":"pas-request-parser","message":"Starting RequestParserApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:35:31.309582619Z {"timestamp":"2025-12-26 05:35:31,309","level":"INFO","service":"pas-request-parser","message":"The following 2 profiles are active: "pagw", "dev"","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:35:35.402607169Z {"timestamp":"2025-12-26 05:35:35,402","level":"INFO","service":"pas-request-parser","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+2025-12-26T10:35:35.504324881Z {"timestamp":"2025-12-26 05:35:35,504","level":"INFO","service":"pas-request-parser","message":"Finished Spring Data repository scanning in 95 ms. Found 0 JPA repository interfaces.","logger":"org.springframework.data.repository.config.RepositoryConfigurationDelegate","thread":"main"}
+2025-12-26T10:35:38.016401661Z {"timestamp":"2025-12-26 05:35:38,015","level":"INFO","service":"pas-request-parser","message":"Tomcat initialized with port 8081 (http)","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+2025-12-26T10:35:38.097247715Z {"timestamp":"2025-12-26 05:35:38,097","level":"INFO","service":"pas-request-parser","message":"Starting service [Tomcat]","logger":"org.apache.catalina.core.StandardService","thread":"main"}
+2025-12-26T10:35:38.097320500Z {"timestamp":"2025-12-26 05:35:38,097","level":"INFO","service":"pas-request-parser","message":"Starting Servlet engine: [Apache Tomcat/10.1.24]","logger":"org.apache.catalina.core.StandardEngine","thread":"main"}
+2025-12-26T10:35:38.476927317Z {"timestamp":"2025-12-26 05:35:38,476","level":"INFO","service":"pas-request-parser","message":"Initializing Spring embedded WebApplicationContext","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"main"}
+2025-12-26T10:35:38.477778125Z {"timestamp":"2025-12-26 05:35:38,477","level":"INFO","service":"pas-request-parser","message":"Root WebApplicationContext: initialization completed in 6969 ms","logger":"org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext","thread":"main"}
+2025-12-26T10:35:40.105350645Z {"timestamp":"2025-12-26 05:35:40,104","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Starting...","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+2025-12-26T10:35:41.273844781Z {"timestamp":"2025-12-26 05:35:41,273","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6dc9a56e","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main"}
+2025-12-26T10:35:41.275252467Z {"timestamp":"2025-12-26 05:35:41,275","level":"INFO","service":"pas-request-parser","message":"HikariPool-1 - Start completed.","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main"}
+2025-12-26T10:35:41.411566448Z {"timestamp":"2025-12-26 05:35:41,411","level":"INFO","service":"pas-request-parser","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","logger":"org.hibernate.jpa.internal.util.LogHelper","thread":"main"}
+2025-12-26T10:35:41.703081021Z {"timestamp":"2025-12-26 05:35:41,702","level":"INFO","service":"pas-request-parser","message":"HHH000412: Hibernate ORM core version 6.5.2.Final","logger":"org.hibernate.Version","thread":"main"}
+2025-12-26T10:35:41.802641812Z {"timestamp":"2025-12-26 05:35:41,802","level":"INFO","service":"pas-request-parser","message":"HHH000026: Second-level cache disabled","logger":"org.hibernate.cache.internal.RegionFactoryInitiator","thread":"main"}
+2025-12-26T10:35:42.879350957Z {"timestamp":"2025-12-26 05:35:42,878","level":"INFO","service":"pas-request-parser","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","logger":"org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo","thread":"main"}
+2025-12-26T10:35:44.596784010Z {"timestamp":"2025-12-26 05:35:44,596","level":"INFO","service":"pas-request-parser","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","logger":"org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator","thread":"main"}
+2025-12-26T10:35:44.600380245Z {"timestamp":"2025-12-26 05:35:44,600","level":"INFO","service":"pas-request-parser","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","logger":"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean","thread":"main"}
+2025-12-26T10:35:44.798244339Z {"timestamp":"2025-12-26 05:35:44,797","level":"INFO","service":"pas-request-parser","message":"HAPI FHIR version 6.8.0 - Rev f33627087f","logger":"ca.uhn.fhir.util.VersionUtil","thread":"main"}
+2025-12-26T10:35:44.811333423Z {"timestamp":"2025-12-26 05:35:44,811","level":"INFO","service":"pas-request-parser","message":"Creating new FHIR context for FHIR version [R4]","logger":"ca.uhn.fhir.context.FhirContext","thread":"main"}
+2025-12-26T10:35:46.707104048Z {"timestamp":"2025-12-26 05:35:46,706","level":"INFO","service":"pas-request-parser","message":"S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...","logger":"com.anthem.pagw.core.service.S3Service","thread":"main"}
+2025-12-26T10:35:49.204067807Z {"timestamp":"2025-12-26 05:35:49,203","level":"WARN","service":"pas-request-parser","message":"spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning","logger":"org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration","thread":"main"}
+2025-12-26T10:35:52.701027413Z {"timestamp":"2025-12-26 05:35:52,700","level":"INFO","service":"pas-request-parser","message":"Exposing 3 endpoints beneath base path '/actuator'","logger":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread":"main"}
+2025-12-26T10:35:53.008668575Z {"timestamp":"2025-12-26 05:35:53,008","level":"INFO","service":"pas-request-parser","message":"Tomcat started on port 8081 (http) with context path '/'","logger":"org.springframework.boot.web.embedded.tomcat.TomcatWebServer","thread":"main"}
+2025-12-26T10:35:53.108430774Z {"timestamp":"2025-12-26 05:35:53,108","level":"INFO","service":"pas-request-parser","message":"Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started","logger":"io.awspring.cloud.sqs.listener.AbstractMessageListenerContainer","thread":"lifecycle-thread-1"}
+2025-12-26T10:35:53.198984857Z {"timestamp":"2025-12-26 05:35:53,198","level":"INFO","service":"pas-request-parser","message":"Started RequestParserApplication in 23.598 seconds (process running for 25.246)","logger":"com.anthem.pagw.parser.RequestParserApplication","thread":"main"}
+2025-12-26T10:35:59.271721167Z {"timestamp":"2025-12-26 05:35:59,271","level":"INFO","service":"pas-request-parser","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","logger":"org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]","thread":"http-nio-8081-exec-1"}
+2025-12-26T10:35:59.271777410Z {"timestamp":"2025-12-26 05:35:59,271","level":"INFO","service":"pas-request-parser","message":"Initializing Servlet 'dispatcherServlet'","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+2025-12-26T10:35:59.295501159Z {"timestamp":"2025-12-26 05:35:59,273","level":"INFO","service":"pas-request-parser","message":"Completed initialization in 2 ms","logger":"org.springframework.web.servlet.DispatcherServlet","thread":"http-nio-8081-exec-1"}
+2025-12-26T10:40:58.379467312Z {"timestamp":"2025-12-26 05:40:58,379","level":"INFO","service":"pas-request-parser","message":"Received message for parsing: pagwId=PAGW-20251226-00001-10B4C072, stage=REQUEST_PARSER","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+2025-12-26T10:40:58.478705996Z {"timestamp":"2025-12-26 05:40:58,476","level":"ERROR","service":"pas-request-parser","message":"Error processing message: pagwId=PAGW-20251226-00001-10B4C072","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+2025-12-26T10:40:58.478737559Z org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+2025-12-26T10:40:58.478742594Z     tenant, pagw_id, stage, event_type, status,
+2025-12-26T10:40:58.478746090Z     sequence_no, attempt, retryable,
+2025-12-26T10:40:58.478749493Z     started_at, metadata, created_at
+2025-12-26T10:40:58.478753523Z ) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+2025-12-26T10:40:58.478757352Z ]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:40:58.478761539Z   Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+2025-12-26T10:40:58.478764364Z 	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118)
+2025-12-26T10:40:58.478766922Z 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+2025-12-26T10:40:58.478769069Z 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116)
+2025-12-26T10:40:58.478771346Z 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548)
+2025-12-26T10:40:58.478773520Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+2025-12-26T10:40:58.478775750Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+2025-12-26T10:40:58.478777878Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+2025-12-26T10:40:58.478780011Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+2025-12-26T10:40:58.478782193Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+2025-12-26T10:40:58.478784286Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.478786793Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.478788908Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.478791536Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.478793705Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:40:58.478801929Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:40:58.478804552Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:40:58.478806635Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.478808723Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:40:58.478810803Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:40:58.478812948Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:40:58.478815026Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:40:58.478817112Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.478819164Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:40:58.478821292Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+2025-12-26T10:40:58.478823398Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+2025-12-26T10:40:58.478825461Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.478827532Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.478829610Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.478831786Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.478833886Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:40:58.478836020Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:40:58.478840340Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:40:58.478842562Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.478844764Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:40:58.478846996Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:40:58.478849112Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:40:58.478851499Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:40:58.478854065Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.478856551Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:40:58.478858692Z 	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+2025-12-26T10:40:58.478860782Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.478862903Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.478866987Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.478869217Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.478871265Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+2025-12-26T10:40:58.478873351Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+2025-12-26T10:40:58.478875442Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+2025-12-26T10:40:58.478877556Z 	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+2025-12-26T10:40:58.478879712Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+2025-12-26T10:40:58.478881771Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+2025-12-26T10:40:58.478884001Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+2025-12-26T10:40:58.478886238Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+2025-12-26T10:40:58.478888432Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+2025-12-26T10:40:58.478891331Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:40:58.478897164Z 	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+2025-12-26T10:40:58.478922998Z 	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+2025-12-26T10:40:58.478925941Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:40:58.478928206Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.478930350Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.478932530Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.478935465Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.478937912Z 	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+2025-12-26T10:40:58.478940285Z 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+2025-12-26T10:40:58.478945332Z 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+2025-12-26T10:40:58.478951698Z 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+2025-12-26T10:40:58.478953927Z 	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-12-26T10:40:58.478955984Z Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:40:58.478960377Z   Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+2025-12-26T10:40:58.478962671Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:40:58.478964829Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:40:58.478966945Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:40:58.478970883Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:40:58.478972998Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:40:58.478975142Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:40:58.478977215Z 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+2025-12-26T10:40:58.478979354Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+2025-12-26T10:40:58.478981496Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+2025-12-26T10:40:58.478983612Z 	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+2025-12-26T10:40:58.478985706Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:40:58.478988169Z 	... 61 common frames omitted
+2025-12-26T10:40:58.487862596Z {"timestamp":"2025-12-26 05:40:58,487","level":"ERROR","service":"pas-request-parser","message":"Error processing message 425cd405-a65f-40fb-ae6f-168b99c5bc08.","logger":"io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-1"}
+2025-12-26T10:40:58.487891137Z java.util.concurrent.CompletionException: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+2025-12-26T10:40:58.487898382Z 	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:332)
+2025-12-26T10:40:58.487902518Z 	at java.base/java.util.concurrent.CompletableFuture.uniApplyNow(CompletableFuture.java:674)
+2025-12-26T10:40:58.487906795Z 	at java.base/java.util.concurrent.CompletableFuture.uniApplyStage(CompletableFuture.java:662)
+2025-12-26T10:40:58.487910745Z 	at java.base/java.util.concurrent.CompletableFuture.thenApply(CompletableFuture.java:2168)
+2025-12-26T10:40:58.487915266Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+2025-12-26T10:40:58.487919009Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:40:58.487923511Z 	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+2025-12-26T10:40:58.487926705Z 	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+2025-12-26T10:40:58.487930367Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:40:58.487933560Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.487936727Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.487945879Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.487949392Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:40:58.487952919Z 	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+2025-12-26T10:40:58.487956104Z 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+2025-12-26T10:40:58.487959291Z 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+2025-12-26T10:40:58.487962636Z 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+2025-12-26T10:40:58.487966191Z 	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-12-26T10:40:58.487969571Z Caused by: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+2025-12-26T10:40:58.487972761Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.wrapWithBlockingException(AsyncComponentAdapters.java:162)
+2025-12-26T10:40:58.487975973Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:124)
+2025-12-26T10:40:58.487978872Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+2025-12-26T10:40:58.487982087Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+2025-12-26T10:40:58.487985811Z 	... 14 common frames omitted
+2025-12-26T10:40:58.487989175Z Caused by: io.awspring.cloud.sqs.listener.ListenerExecutionFailedException: Listener failed to process messages 425cd405-a65f-40fb-ae6f-168b99c5bc08
+2025-12-26T10:40:58.487992720Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:79)
+2025-12-26T10:40:58.487995635Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:83)
+2025-12-26T10:40:58.487998732Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:59)
+2025-12-26T10:40:58.488001919Z 	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+2025-12-26T10:40:58.488010293Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+2025-12-26T10:40:58.488013559Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+2025-12-26T10:40:58.488017027Z 	... 16 common frames omitted
+2025-12-26T10:40:58.488020268Z Caused by: org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COALESCE(MAX(sequence_no), 0) + 1
+2025-12-26T10:40:58.488023852Z FROM pagw.event_tracker
+2025-12-26T10:40:58.488030233Z WHERE pagw_id = ?
+2025-12-26T10:40:58.488033589Z ]; SQL state [25P02]; error code [0]; ERROR: current transaction is aborted, commands ignored until end of transaction block
+2025-12-26T10:40:58.488036903Z 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+2025-12-26T10:40:58.488043517Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+2025-12-26T10:40:58.488047236Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723)
+2025-12-26T10:40:58.488050627Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754)
+2025-12-26T10:40:58.488053924Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767)
+2025-12-26T10:40:58.488057227Z 	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889)
+2025-12-26T10:40:58.488062467Z 	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916)
+2025-12-26T10:40:58.488065739Z 	at com.anthem.pagw.core.service.EventTrackerService.getNextSequenceNo(EventTrackerService.java:290)
+2025-12-26T10:40:58.488069429Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:169)
+2025-12-26T10:40:58.488073145Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.488089938Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.488093491Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.488107976Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.488111717Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:40:58.488115120Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:40:58.488118382Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:40:58.488121592Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488124780Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:40:58.488128212Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:40:58.488131545Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:40:58.488134737Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:40:58.488138031Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488141512Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:40:58.488144740Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>)
+2025-12-26T10:40:58.488148102Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:222)
+2025-12-26T10:40:58.488151326Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.488154500Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.488158003Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.488161196Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.488164746Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:40:58.488168047Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:40:58.488173573Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:40:58.488176786Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488179956Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:40:58.488186985Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:40:58.488190390Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:40:58.488193955Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:40:58.488197085Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488200385Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:40:58.488203670Z 	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+2025-12-26T10:40:58.488207061Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.488209970Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.488213287Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.488216534Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.488219788Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+2025-12-26T10:40:58.488222988Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+2025-12-26T10:40:58.488226218Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+2025-12-26T10:40:58.488229270Z 	... 19 common frames omitted
+2025-12-26T10:40:58.488232395Z Caused by: org.postgresql.util.PSQLException: ERROR: current transaction is aborted, commands ignored until end of transaction block
+2025-12-26T10:40:58.488235579Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:40:58.488239014Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:40:58.488242259Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:40:58.488245648Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:40:58.488249459Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:40:58.488259381Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:40:58.488267754Z 	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+2025-12-26T10:40:58.488270628Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+2025-12-26T10:40:58.488273450Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+2025-12-26T10:40:58.488276421Z 	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732)
+2025-12-26T10:40:58.488279238Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:40:58.488283593Z 	... 64 common frames omitted
+2025-12-26T10:40:58.488286516Z Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:40:58.488289903Z   Detail: Failing row contains (488, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:40:58.402022-05, null, 2025-12-26 05:40:58.402022-05).
+2025-12-26T10:40:58.488292929Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:40:58.488295948Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:40:58.488298860Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:40:58.488302007Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:40:58.488306887Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:40:58.488310150Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:40:58.488313324Z 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+2025-12-26T10:40:58.488316514Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+2025-12-26T10:40:58.488319849Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+2025-12-26T10:40:58.488322929Z 	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+2025-12-26T10:40:58.488327900Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:40:58.488331290Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+2025-12-26T10:40:58.488334454Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+2025-12-26T10:40:58.488343903Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+2025-12-26T10:40:58.488349104Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+2025-12-26T10:40:58.488352352Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:40:58.488355543Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:40:58.488358808Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:40:58.488362130Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:40:58.488365515Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:40:58.488368623Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:40:58.488373023Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:40:58.488376337Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488379471Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:40:58.488382491Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:40:58.488385598Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:40:58.488388579Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:40:58.488393224Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:40:58.488396487Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:40:58.488399775Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+2025-12-26T10:40:58.488403017Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+2025-12-26T10:40:58.488406303Z 	... 41 common frames omitted
+2025-12-26T10:45:58.111132146Z {"timestamp":"2025-12-26 05:45:58,110","level":"INFO","service":"pas-request-parser","message":"Received message for parsing: pagwId=PAGW-20251226-00001-10B4C072, stage=REQUEST_PARSER","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-2"}
+2025-12-26T10:45:58.115375603Z {"timestamp":"2025-12-26 05:45:58,114","level":"ERROR","service":"pas-request-parser","message":"Error processing message: pagwId=PAGW-20251226-00001-10B4C072","logger":"com.anthem.pagw.parser.listener.RequestParserListener","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-2"}
+2025-12-26T10:45:58.115415275Z org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO pagw.event_tracker (
+2025-12-26T10:45:58.115423159Z     tenant, pagw_id, stage, event_type, status,
+2025-12-26T10:45:58.115429052Z     sequence_no, attempt, retryable,
+2025-12-26T10:45:58.115456229Z     started_at, metadata, created_at
+2025-12-26T10:45:58.115463453Z ) VALUES (?, ?, ?, ?, 'STARTED', ?, 0, FALSE, NOW(), ?::jsonb, NOW())
+2025-12-26T10:45:58.115468896Z ]; ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:45:58.115475095Z   Detail: Failing row contains (489, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:45:58.113472-05, null, 2025-12-26 05:45:58.113472-05).
+2025-12-26T10:45:58.115479916Z 	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:118)
+2025-12-26T10:45:58.115484043Z 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+2025-12-26T10:45:58.115487872Z 	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:116)
+2025-12-26T10:45:58.115491363Z 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1548)
+2025-12-26T10:45:58.115495213Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+2025-12-26T10:45:58.115498800Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+2025-12-26T10:45:58.115502093Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+2025-12-26T10:45:58.115505550Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+2025-12-26T10:45:58.115508996Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+2025-12-26T10:45:58.115512350Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.115518430Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.115521984Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.115526160Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.115537133Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:45:58.115541037Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:45:58.115544659Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:45:58.115548634Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.115552689Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:45:58.115556502Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:45:58.115560472Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:45:58.115564043Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:45:58.115567279Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.115570929Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:45:58.115574321Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+2025-12-26T10:45:58.115577549Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+2025-12-26T10:45:58.115580981Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.115586188Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.115589794Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.115593053Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.115596985Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:45:58.115600308Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:45:58.115610798Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:45:58.115614445Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.115618305Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:45:58.115623131Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:45:58.115627005Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:45:58.115630661Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:45:58.115635000Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.115639458Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:45:58.115643497Z 	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+2025-12-26T10:45:58.115647000Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.115653130Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.115657690Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.115660652Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.115663656Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+2025-12-26T10:45:58.115666497Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+2025-12-26T10:45:58.115669373Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+2025-12-26T10:45:58.115671972Z 	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+2025-12-26T10:45:58.115674714Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+2025-12-26T10:45:58.115677491Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+2025-12-26T10:45:58.115680232Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+2025-12-26T10:45:58.115682924Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+2025-12-26T10:45:58.115685729Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+2025-12-26T10:45:58.115688762Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:45:58.115691546Z 	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+2025-12-26T10:45:58.115694152Z 	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+2025-12-26T10:45:58.115697134Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:45:58.115699769Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.115702411Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.115705260Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.115708601Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.115711357Z 	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+2025-12-26T10:45:58.115714500Z 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+2025-12-26T10:45:58.115744865Z 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+2025-12-26T10:45:58.115756849Z 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+2025-12-26T10:45:58.115759954Z 	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-12-26T10:45:58.115764697Z Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:45:58.115767589Z   Detail: Failing row contains (489, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:45:58.113472-05, null, 2025-12-26 05:45:58.113472-05).
+2025-12-26T10:45:58.115770165Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:45:58.115772942Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:45:58.115775720Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:45:58.115778335Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:45:58.115780953Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:45:58.115783580Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:45:58.115786310Z 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+2025-12-26T10:45:58.115788904Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+2025-12-26T10:45:58.115791639Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+2025-12-26T10:45:58.115794455Z 	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+2025-12-26T10:45:58.115797108Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:45:58.115800154Z 	... 61 common frames omitted
+2025-12-26T10:45:58.118713890Z {"timestamp":"2025-12-26 05:45:58,118","level":"ERROR","service":"pas-request-parser","message":"Error processing message 425cd405-a65f-40fb-ae6f-168b99c5bc08.","logger":"io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink","thread":"io.awspring.cloud.sqs.sqsListenerEndpointContainer#0-2"}
+2025-12-26T10:45:58.118738550Z java.util.concurrent.CompletionException: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+2025-12-26T10:45:58.118746090Z 	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:332)
+2025-12-26T10:45:58.118752314Z 	at java.base/java.util.concurrent.CompletableFuture.uniApplyNow(CompletableFuture.java:674)
+2025-12-26T10:45:58.118757889Z 	at java.base/java.util.concurrent.CompletableFuture.uniApplyStage(CompletableFuture.java:662)
+2025-12-26T10:45:58.118762798Z 	at java.base/java.util.concurrent.CompletableFuture.thenApply(CompletableFuture.java:2168)
+2025-12-26T10:45:58.118768341Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageListenerExecutionStage.process(MessageListenerExecutionStage.java:49)
+2025-12-26T10:45:58.118773197Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.lambda$process$0(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:45:58.118779121Z 	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+2025-12-26T10:45:58.118783358Z 	at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+2025-12-26T10:45:58.118802795Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$ComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:80)
+2025-12-26T10:45:58.118807217Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.118811664Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.118821391Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.118825547Z 	at io.awspring.cloud.sqs.listener.pipeline.MessageProcessingPipelineBuilder$FutureComposingMessagePipelineStage.process(MessageProcessingPipelineBuilder.java:104)
+2025-12-26T10:45:58.118829983Z 	at io.awspring.cloud.sqs.listener.sink.AbstractMessageProcessingPipelineSink.lambda$execute$0(AbstractMessageProcessingPipelineSink.java:99)
+2025-12-26T10:45:58.118833811Z 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+2025-12-26T10:45:58.118837717Z 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+2025-12-26T10:45:58.118841573Z 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+2025-12-26T10:45:58.118845594Z 	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-12-26T10:45:58.118849447Z Caused by: io.awspring.cloud.sqs.listener.AsyncAdapterBlockingExecutionFailedException: Error executing action in BlockingMessageListenerAdapter
+2025-12-26T10:45:58.118853493Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.wrapWithBlockingException(AsyncComponentAdapters.java:162)
+2025-12-26T10:45:58.118857598Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:124)
+2025-12-26T10:45:58.118861584Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.execute(AsyncComponentAdapters.java:111)
+2025-12-26T10:45:58.118865634Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.onMessage(AsyncComponentAdapters.java:208)
+2025-12-26T10:45:58.118869618Z 	... 14 common frames omitted
+2025-12-26T10:45:58.118873507Z Caused by: io.awspring.cloud.sqs.listener.ListenerExecutionFailedException: Listener failed to process messages 425cd405-a65f-40fb-ae6f-168b99c5bc08
+2025-12-26T10:45:58.118877585Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:79)
+2025-12-26T10:45:58.118881774Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.createListenerException(AbstractMethodInvokingListenerAdapter.java:83)
+2025-12-26T10:45:58.118885512Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:59)
+2025-12-26T10:45:58.118889491Z 	at io.awspring.cloud.sqs.listener.adapter.MessagingMessageListenerAdapter.onMessage(MessagingMessageListenerAdapter.java:41)
+2025-12-26T10:45:58.118898884Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$BlockingMessageListenerAdapter.lambda$onMessage$0(AsyncComponentAdapters.java:208)
+2025-12-26T10:45:58.118903338Z 	at io.awspring.cloud.sqs.listener.AsyncComponentAdapters$AbstractThreadingComponentAdapter.runInSameThread(AsyncComponentAdapters.java:120)
+2025-12-26T10:45:58.118907396Z 	... 16 common frames omitted
+2025-12-26T10:45:58.118911375Z Caused by: org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [SELECT COALESCE(MAX(sequence_no), 0) + 1
+2025-12-26T10:45:58.118915449Z FROM pagw.event_tracker
+2025-12-26T10:45:58.118919839Z WHERE pagw_id = ?
+2025-12-26T10:45:58.118923827Z ]; SQL state [25P02]; error code [0]; ERROR: current transaction is aborted, commands ignored until end of transaction block
+2025-12-26T10:45:58.118927911Z 	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1549)
+2025-12-26T10:45:58.118934516Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:677)
+2025-12-26T10:45:58.118938586Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:723)
+2025-12-26T10:45:58.118942541Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:754)
+2025-12-26T10:45:58.118946495Z 	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:767)
+2025-12-26T10:45:58.118952465Z 	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:889)
+2025-12-26T10:45:58.118956430Z 	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:916)
+2025-12-26T10:45:58.118960370Z 	at com.anthem.pagw.core.service.EventTrackerService.getNextSequenceNo(EventTrackerService.java:290)
+2025-12-26T10:45:58.118964265Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageError(EventTrackerService.java:169)
+2025-12-26T10:45:58.118968135Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.118971940Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.118975855Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.118979826Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.118983883Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:45:58.118987957Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:45:58.118991548Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:45:58.118995504Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.118999361Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:45:58.119003394Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:45:58.119007544Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:45:58.119011341Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:45:58.119015435Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.119019313Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:45:58.119022960Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageError(<generated>)
+2025-12-26T10:45:58.119026972Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:222)
+2025-12-26T10:45:58.119030820Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.119034197Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.119039657Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.119043821Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.119047556Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:45:58.119051216Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:45:58.119060609Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:45:58.119064230Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.119068078Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:45:58.119076163Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:45:58.119080200Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:45:58.119084241Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:45:58.119087982Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.119091734Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:45:58.119095756Z 	at com.anthem.pagw.parser.listener.RequestParserListener$$SpringCGLIB$$0.handleMessage(<generated>)
+2025-12-26T10:45:58.119099132Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.119102878Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.119106693Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.119110725Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.119114787Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
+2025-12-26T10:45:58.119118838Z 	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
+2025-12-26T10:45:58.119122799Z 	at io.awspring.cloud.sqs.listener.adapter.AbstractMethodInvokingListenerAdapter.invokeHandler(AbstractMethodInvokingListenerAdapter.java:56)
+2025-12-26T10:45:58.119126830Z 	... 19 common frames omitted
+2025-12-26T10:45:58.119130892Z Caused by: org.postgresql.util.PSQLException: ERROR: current transaction is aborted, commands ignored until end of transaction block
+2025-12-26T10:45:58.119135218Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:45:58.119138850Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:45:58.119142337Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:45:58.119146001Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:45:58.119149796Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:45:58.119153729Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:45:58.119157754Z 	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:137)
+2025-12-26T10:45:58.119161288Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+2025-12-26T10:45:58.119165335Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+2025-12-26T10:45:58.119169520Z 	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:732)
+2025-12-26T10:45:58.119173938Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:45:58.119180096Z 	... 64 common frames omitted
+2025-12-26T10:45:58.119184288Z Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "tenant" of relation "event_tracker" violates not-null constraint
+2025-12-26T10:45:58.119188402Z   Detail: Failing row contains (489, PAGW-20251226-00001-10B4C072, null, PARSER, PARSE_START, STARTED, SUCCESS, null, null, null, null, 8, 0, f, null, null, null, null, null, 2025-12-26 05:45:58.113472-05, null, 2025-12-26 05:45:58.113472-05).
+2025-12-26T10:45:58.119192530Z 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+2025-12-26T10:45:58.119196456Z 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+2025-12-26T10:45:58.119200174Z 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+2025-12-26T10:45:58.119203987Z 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+2025-12-26T10:45:58.119207708Z 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+2025-12-26T10:45:58.119211742Z 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+2025-12-26T10:45:58.119215758Z 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+2025-12-26T10:45:58.119219970Z 	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+2025-12-26T10:45:58.119223860Z 	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+2025-12-26T10:45:58.119227825Z 	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:975)
+2025-12-26T10:45:58.119231717Z 	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:658)
+2025-12-26T10:45:58.119235978Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:970)
+2025-12-26T10:45:58.119240450Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1014)
+2025-12-26T10:45:58.119251539Z 	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1024)
+2025-12-26T10:45:58.119266626Z 	at com.anthem.pagw.core.service.EventTrackerService.logStageStart(EventTrackerService.java:81)
+2025-12-26T10:45:58.119271122Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-12-26T10:45:58.119275344Z 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+2025-12-26T10:45:58.119279269Z 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2025-12-26T10:45:58.119283256Z 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+2025-12-26T10:45:58.119287176Z 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
+2025-12-26T10:45:58.119294238Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+2025-12-26T10:45:58.119299838Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+2025-12-26T10:45:58.119303883Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.119308049Z 	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+2025-12-26T10:45:58.119312062Z 	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:392)
+2025-12-26T10:45:58.119316068Z 	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+2025-12-26T10:45:58.119320158Z 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+2025-12-26T10:45:58.119326018Z 	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:768)
+2025-12-26T10:45:58.119330121Z 	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:720)
+2025-12-26T10:45:58.119334161Z 	at com.anthem.pagw.core.service.EventTrackerService$$SpringCGLIB$$0.logStageStart(<generated>)
+2025-12-26T10:45:58.119338289Z 	at com.anthem.pagw.parser.listener.RequestParserListener.handleMessage(RequestParserListener.java:82)
+2025-12-26T10:45:58.119342499Z 	... 41 common frames omitted
+
+
