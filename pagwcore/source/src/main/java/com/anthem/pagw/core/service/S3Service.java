@@ -1,5 +1,6 @@
 package com.anthem.pagw.core.service;
 
+import com.anthem.pagw.core.PagwProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

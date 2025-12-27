@@ -1,43 +1,7 @@
-$ pagd logs pasresponsebuilder-app-5944ccd76c-bwnrc
-I1226 10:17:15.705657   61147 get_token.go:51] WARNING: log may contain your secrets such as token or password
-I1226 10:17:15.705994   61147 get_token.go:57] credential plugin is called with apiVersion: client.authentication.k8s.io/v1beta1
-I1226 10:17:15.706001   61147 get_token.go:59] finding a token cache
-I1226 10:17:15.706005   61147 get_token.go:68] acquiring the lock of token cache
-I1226 10:17:15.706981   61147 get_token.go:88] checking expiration of the existing token
-I1226 10:17:15.707004   61147 get_token.go:97] you already have a valid token until 2025-12-26 10:35:59 -0500 EST
-I1226 10:17:15.707048   61147 get_token.go:74] releasing the lock of token cache
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
-
- :: Spring Boot ::                (v3.3.0)
-
-2025-12-26T06:04:20.989-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Starting ResponseBuilderApplication v1.0.0-SNAPSHOT using Java 17.0.17 with PID 1 (/app/app.jar started by appuser in /app)
-2025-12-26T06:04:20.993-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : The following 2 profiles are active: "pagw", "dev"
-2025-12-26T06:04:26.445-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8087 (http)
-2025-12-26T06:04:26.453-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-12-26T06:04:26.453-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
-2025-12-26T06:04:26.788-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-12-26T06:04:26.789-05:00  INFO 1 --- [pasresponsebuilder] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5601 ms
-2025-12-26T06:04:29.888-05:00  INFO 1 --- [pasresponsebuilder] [           main] com.anthem.pagw.core.service.S3Service   : S3Service initialized: kmsEnabled=true, kmsKeyId=arn:aws:...
-2025-12-26T06:04:30.386-05:00  INFO 1 --- [pasresponsebuilder] [           main] ca.uhn.fhir.util.VersionUtil             : HAPI FHIR version 6.8.0 - Rev f33627087f
-2025-12-26T06:04:30.389-05:00  INFO 1 --- [pasresponsebuilder] [           main] ca.uhn.fhir.context.FhirContext          : Creating new FHIR context for FHIR version [R4]
-2025-12-26T06:04:35.192-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
-2025-12-26T06:04:35.502-05:00  INFO 1 --- [pasresponsebuilder] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8087 (http) with context path '/'
-2025-12-26T06:04:35.601-05:00  INFO 1 --- [pasresponsebuilder] [ecycle-thread-1] a.c.s.l.AbstractMessageListenerContainer : Container io.awspring.cloud.sqs.sqsListenerEndpointContainer#0 started
-2025-12-26T06:04:35.690-05:00  INFO 1 --- [pasresponsebuilder] [           main] c.a.p.r.ResponseBuilderApplication       : Started ResponseBuilderApplication in 16.297 seconds (process running for 17.895)
-2025-12-26T06:04:49.097-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-12-26T06:04:49.097-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-12-26T06:04:49.098-05:00  INFO 1 --- [pasresponsebuilder] [nio-8087-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-12-26T08:35:48.168-05:00  INFO 1 --- [pasresponsebuilder] [io-8087-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-12-26T08:35:48.554-05:00  INFO 1 --- [pasresponsebuilder] [io-8087-exec-10] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@f14eed1
-2025-12-26T08:35:48.588-05:00  INFO 1 --- [pasresponsebuilder] [io-8087-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-12-26T09:52:21.590-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.p.r.l.ResponseBuilderListener        : Received message for response building: pagwId=PAGW-20251226-00005-A7CEB2B3, stage=CALLBACK_HANDLER
-2025-12-26T09:52:21.624-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.p.c.service.RequestTrackerService    : Request status updated: pagwId=PAGW-20251226-00005-A7CEB2B3, status=BUILDING_RESPONSE, stage=response-builder
-2025-12-26T09:52:22.242-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.p.c.service.RequestTrackerService    : Request final status updated: pagwId=PAGW-20251226-00005-A7CEB2B3, status=COMPLETED
-2025-12-26T09:52:22.247-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.pagw.core.service.OutboxService      : Outbox entry created: id=47ac090a-db26-4ad4-aafb-a63ce14751d8, destinationQueue=dev-PAGW-pagw-subscription-handler-queue.fifo, pagwId=PAGW-20251226-00005-A7CEB2B3
-2025-12-26T09:52:22.250-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.p.core.service.EventTrackerService   : Stage completed: pagwId=PAGW-20251226-00005-A7CEB2B3, stage=RESPONSE_BUILDER, eventType=RESPONSE_OK, duration=758ms, sequenceNo=29
-2025-12-26T09:52:22.250-05:00  INFO 1 --- [pasresponsebuilder] [ntContainer#0-1] c.a.p.r.l.ResponseBuilderListener        : Response building complete: pagwId=PAGW-20251226-00005-A7CEB2B3, outcome=complete, disposition=Claim accepted for processing, routedTo=dev-PAGW-pagw-subscription-handler-queue.fifo
+2025-12-26 16:46:53,913 - INFO - [INFO] -------------------------------------------------------------
+2025-12-26 16:46:53,913 - INFO - [ERROR] COMPILATION ERROR :
+2025-12-26 16:46:53,913 - INFO - [INFO] -------------------------------------------------------------
+2025-12-26 16:46:53,913 - INFO - [ERROR] /build/src/main/java/com/anthem/pagw/parser/service/RequestParserService.java:[192,51] cannot find symbol
+2025-12-26 16:46:53,913 - INFO - symbol:   method getOriginalMessage()
+2025-12-26 16:46:53,913 - INFO - location: variable e of type java.lang.Exception
+2025-12-26 16:46:53,913 - INFO - [INFO] 1 error
