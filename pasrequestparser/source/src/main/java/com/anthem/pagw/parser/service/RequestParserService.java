@@ -5,7 +5,6 @@ import com.anthem.pagw.core.util.JsonUtils;
 import com.anthem.pagw.parser.model.ParseResult;
 import com.anthem.pagw.parser.model.ParsedClaim;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,21 +174,17 @@ public class RequestParserService {
             log.info("Parsed bundle: pagwId={}, claimType={}, attachments={}, warnings={}",
                     message.getPagwId(), parsedClaim.getClaimType(), attachments.size(), warnings.size());
 
-        // } catch (com.fasterxml.jackson.core.JsonParseException e) {
-        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-            log.error("JSON parse error: {}", e.getMessage(), e);
-            errors.add("Invalid JSON format: " + e.getOriginalMessage());
-            result.setValid(false);
-            result.setErrors(errors);
         } catch (IllegalArgumentException e) {
             // Many JsonUtils implementations throw IllegalArgumentException for invalid JSON
             log.error("JSON parse error: {}", e.getMessage(), e);
             errors.add("Invalid JSON format: " + e.getMessage());
             result.setValid(false);
             result.setErrors(errors);
-        } catch (Exception e) {
-            log.error("JSON parse error: {}", e.getMessage(), e);
-            errors.add("Invalid JSON format: " + e.getOriginalMessage());
+        } catch (RuntimeException e) {
+            // JsonUtils wraps JsonProcessingException in RuntimeException
+            log.error("Parse error: {}", e.getMessage(), e);
+            String errorMsg = e.getCause() != null ? e.getCause().getMessage() : e.getMessage();
+            errors.add("Parse exception: " + errorMsg);
             result.setValid(false);
             result.setErrors(errors);
         } catch (Exception e) {
